@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sintony:wght@400;700&display=swap');
+
+
+@import "tailwindcss";
+@plugin "daisyui";
+
+* {
+  scroll-behavior: smooth;
+}
+
+.LOGO {
+  font-family: "Rethink Sans";
+}
+
+h1 {
+  font-family: "Sintony";
+}
