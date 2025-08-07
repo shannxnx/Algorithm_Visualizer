@@ -11,7 +11,8 @@ export default function AlgoCard({ algoName }: { algoName: String }) {
 
 
 
-        <div className="border-1 w-[80%] h-[30px] rounded-[6px] flex justify-center items-center">
+        <div className="border-1 w-[80%] h-[30px] rounded-[6px] flex justify-center items-center
+        hover:scale-105 duration-150">
             {
                 algoName
             }

@@ -24,15 +24,22 @@ export default function AlgoContainer({ myRef }: Props) {
 
 
 
-    const handleCategory = (cat: string, array: Array<Object>) => { setAlgoCategory(cat); setCurrentArray(array); } // <option onClick={() => handleCategory('recursion_trees')}>Recursion Trees</option> // <option onClick={() => handleCategory('group_algorithms')}>Group Algorithms</option>
+    const handleCategory = (cat: string, array: Array<Object>) => {
+        setAlgoCategory(cat); setCurrentArray(array);
+    }
+
+    // <option onClick={() => handleCategory('recursion_trees')}>Recursion Trees</option> 
+    // <option onClick={() => handleCategory('group_algorithms')}>Group Algorithms</option>
+
+
     return <div className="w-screen overflow-x-hidden flex flex-col justify-center items-center"
         ref={myRef}>
 
         <select defaultValue="Algorithm Category"
-            className="select select-primary outline-none  active:outline-none ml-4 mt-3 ">
+            className="select select-primary outline-none  active:outline-none ml-4 mt-3 cursor-pointer ">
             <option disabled={true}>Algorithm Category </option>
 
-            <option onClick={() => handleCategory('sorting', sortingArray)}>Sorting</option>
+            <option onClick={() => handleCategory('sorting', sortingArray)} >Sorting</option>
 
             <option onClick={() => handleCategory('searching', searchingArray)}>Searching</option>
 
@@ -43,7 +50,10 @@ export default function AlgoContainer({ myRef }: Props) {
 
         </select>
 
-        <div className="w-screen   grid lg:grid-cols-3 lg:grid-rows-2 p-4 lg:mt-15
+
+        <h1 className="text-3xl mt-10 mb-10">ALGORITHMS</h1>
+
+        <div className="w-screen   grid lg:grid-cols-3 lg:grid-rows-2 p-4 
         place-items-center gap-y-5 grid-cols-1 grid-rows-4 overflow-x-hidden  border-black">
 
 

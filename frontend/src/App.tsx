@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import HomePage from './COMPONENTS/HomePage'
+import Konva1 from './TEST_SITE/konva1'
 
 function App() {
 
@@ -9,6 +10,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<HomePage />} />
+
+
+        <Route path='/test-konva' element={<Konva1 />} />
+
+
       </Routes>
     </BrowserRouter>
 
