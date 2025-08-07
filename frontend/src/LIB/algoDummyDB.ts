@@ -64,6 +64,21 @@ export const graphAlgoArray = [
             name: "A*"
         }
     }
+];
+
+
+export const backtrackingArray = [
+    {
+        algoInfo: {
+            name: "N Queens"
+        }
+    },
+    {
+        algoInfo: {
+            name: "Sudoku Solver"
+        }
+    }
+
 ]
 
 

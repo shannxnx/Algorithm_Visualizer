@@ -1,11 +1,12 @@
 import type React from "react";
 import AlgoCard from "../CARDS/AlgoCard";
 import { algoStore } from "../../STATE/algoStore";
-import { sortingArray, searchingArray, graphAlgoArray } from "../../LIB/algoDummyDB";
+import { sortingArray, searchingArray, graphAlgoArray, backtrackingArray } from "../../LIB/algoDummyDB";
 
-type Props = {
-    myRef: React.RefObject<HTMLDivElement | null>
-};
+
+
+
+type Props = { myRef: React.RefObject<HTMLDivElement | null> };
 
 
 
@@ -23,16 +24,7 @@ export default function AlgoContainer({ myRef }: Props) {
 
 
 
-    const handleCategory = (cat: string, array: Array<Object>) => {
-        setAlgoCategory(cat);
-        setCurrentArray(array);
-    }
-
-    // <option onClick={() => handleCategory('recursion_trees')}>Recursion Trees</option>
-
-    // <option onClick={() => handleCategory('group_algorithms')}>Group Algorithms</option>
-
-
+    const handleCategory = (cat: string, array: Array<Object>) => { setAlgoCategory(cat); setCurrentArray(array); } // <option onClick={() => handleCategory('recursion_trees')}>Recursion Trees</option> // <option onClick={() => handleCategory('group_algorithms')}>Group Algorithms</option>
     return <div className="w-screen overflow-x-hidden flex flex-col justify-center items-center"
         ref={myRef}>
 
@@ -45,6 +37,8 @@ export default function AlgoContainer({ myRef }: Props) {
             <option onClick={() => handleCategory('searching', searchingArray)}>Searching</option>
 
             <option onClick={() => handleCategory('path_finding', graphAlgoArray)}>Pathfinding</option>
+
+            <option onClick={() => handleCategory('back_traking', backtrackingArray)}>Backtracking</option>
 
 
         </select>
