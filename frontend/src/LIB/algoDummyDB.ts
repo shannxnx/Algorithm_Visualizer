@@ -176,8 +176,6 @@ for (let i = 0; i < 8; i++) {
     const y_pos = (window.innerHeight / 2) - (i * width);
 
 
-
-
     const rectInfo = {
         x_pos,
         y_pos,
