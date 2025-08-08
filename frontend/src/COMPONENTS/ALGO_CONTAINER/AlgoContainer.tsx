@@ -32,7 +32,8 @@ export default function AlgoContainer({ myRef }: Props) {
     // <option onClick={() => handleCategory('group_algorithms')}>Group Algorithms</option>
 
 
-    return <div className="w-screen overflow-x-hidden flex flex-col justify-center items-center"
+    return <div className="w-screen overflow-x-hidden flex flex-col justify-center items-center 
+    "
         ref={myRef}>
 
         <select defaultValue="Algorithm Category"

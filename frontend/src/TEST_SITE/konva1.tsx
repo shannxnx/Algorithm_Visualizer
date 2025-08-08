@@ -1,6 +1,7 @@
 
-import { Stage, Layer, Rect } from "react-konva"
+import { Stage, Layer, Rect, Text } from "react-konva"
 import { testArray } from "../LIB/algoDummyDB";
+import type React from "react";
 
 
 
@@ -20,23 +21,88 @@ height + 25
 <Rect x={middle_x + 30 + 30} y={middle_y - 25 - 25} width={25} height={25 + 25 + 25} fill="red" />
 */
 
-export default function Konva1() {
+
+
+
+type KonvaProps = {
+    x: number,
+    y: number
+}
+
+interface rectInfo {
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    number?: string
+};
+
+
+const width = 50;
+
+
+
+export const Konva1: React.FC<KonvaProps> = ({ x, y }) => {
 
     console.log("Test Array: ", testArray);
 
-    return (<Stage width={window.innerWidth} height={window.innerHeight}>
+
+
+    const boxCount = Math.floor(x / width);
+    console.log(boxCount);
+
+    const boxesInfo: Array<rectInfo> = [];
+
+
+    for (let i = 0; i < boxCount - 1; i++) {
+        const rect: rectInfo = {
+            width: width,
+            height: y,
+            x: i * (width + 5),
+            y: 0,
+            number: `${i}`
+
+        };
+
+        boxesInfo.push(rect);
+    }
+
+    console.log(boxesInfo);
+
+    return (<Stage width={x} height={y} className="border-2">
 
         <Layer>
 
             {
-                testArray && Array.isArray(testArray) && testArray.map((i) =>
-                    <Rect x={i.x_pos}
-                        y={i.y_pos}
-                        width={i.width}
-                        height={i.height}
-                        fill={i.color}
-                    />)
+                //testArray && Array.isArray(testArray) && testArray.map((i) =>
+                //    <Rect x={i.x_pos}
+                //        y={i.y_pos}
+                //        width={i.width}
+                //        height={i.height}
+                //        fill={i.color}
+                //    />)
+                //<Rect x={0} y={0} height={y} width={50} fill="red" draggable />
             }
+
+
+            {
+                boxesInfo.length > 0 ? boxesInfo.map((r) =>
+                    <Rect width={r.width} height={r.height}
+                        x={r.x} y={r.y} fill="red" />
+
+                )
+                    : null
+            }
+
+            {
+                boxesInfo.length > 0 ? boxesInfo.map((r) => <Text text={r.number}
+                    x={r.x} y={r.y} width={r.width} height={r.height} align="center" verticalAlign="middle" fill={"black"}
+                    fontSize={20} />
+                )
+                    : null
+            }
+
+
 
 
 
@@ -44,7 +110,8 @@ export default function Konva1() {
 
         </Layer>
 
-    </Stage>)
+    </Stage>
+    )
 
 
 }
