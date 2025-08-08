@@ -26,7 +26,9 @@ height + 25
 
 type KonvaProps = {
     x: number,
-    y: number
+    y: number,
+    boxesInfo: Array<rectInfo>,
+    rectCount: number
 }
 
 interface rectInfo {
@@ -38,37 +40,37 @@ interface rectInfo {
 };
 
 
-const width = 50;
 
 
 
-export const Konva1: React.FC<KonvaProps> = ({ x, y }) => {
 
-    console.log("Test Array: ", testArray);
+export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo, rectCount }) => {
 
-
-
-    const boxCount = Math.floor(x / width);
-    console.log(boxCount);
-
-    const boxesInfo: Array<rectInfo> = [];
-
-
-    for (let i = 0; i < boxCount - 1; i++) {
-        const rect: rectInfo = {
-            width: width,
-            height: y,
-            x: i * (width + 5),
-            y: 0,
-            number: `${i}`
-
-        };
-
-        boxesInfo.push(rect);
-    }
-
-    console.log(boxesInfo);
-
+    //    console.log("Test Array: ", testArray);
+    //
+    //
+    //
+    //    const boxCount = Math.floor(x / width);
+    //    console.log(boxCount);
+    //
+    //    //const boxesInfo: Array<rectInfo> = [];
+    //
+    //
+    //    for (let i = 0; i < boxCount - 1; i++) {
+    //        const rect: rectInfo = {
+    //            width: width,
+    //            height: y,
+    //            x: i * (width + 5),
+    //            y: 0,
+    //            number: `${i}`
+    //
+    //        };
+    //
+    //        boxesInfo.push(rect);
+    //    }
+    //
+    //    console.log(boxesInfo);
+    //
     return (<Stage width={x} height={y} className="border-2">
 
         <Layer>
@@ -87,7 +89,7 @@ export const Konva1: React.FC<KonvaProps> = ({ x, y }) => {
 
             {
                 boxesInfo.length > 0 ? boxesInfo.map((r) =>
-                    <Rect width={r.width} height={r.height}
+                    <Rect width={r.width} height={r.height} key={r.number}
                         x={r.x} y={r.y} fill="red" />
 
                 )
@@ -95,7 +97,7 @@ export const Konva1: React.FC<KonvaProps> = ({ x, y }) => {
             }
 
             {
-                boxesInfo.length > 0 ? boxesInfo.map((r) => <Text text={r.number}
+                boxesInfo.length > 0 ? boxesInfo.map((r) => <Text text={r.number} key={r.number}
                     x={r.x} y={r.y} width={r.width} height={r.height} align="center" verticalAlign="middle" fill={"black"}
                     fontSize={20} />
                 )
