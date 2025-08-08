@@ -46,6 +46,7 @@ export default function KonvaContainer() {
     const setRectCounts = algoStore((state: any) => state.setRectCounts);
 
     const [rects, setRects] = useState<number>(9);
+    const [rectsArray, setRectsArray] = useState<Array<rectInfo>>([]);
 
     const div_x = 400;
     const div_y = 50;
@@ -83,7 +84,11 @@ export default function KonvaContainer() {
 
 
 
+
+
+
     useEffect(() => {
+        setRectsArray(boxesInfo);
         if (mainRef.current) {
             const rect = mainRef.current.getBoundingClientRect();
             //console.log("Main element pos: ", rect);
@@ -91,13 +96,15 @@ export default function KonvaContainer() {
     }, []);
 
 
-    console.log("BOXES INFO: ", boxesInfo);
-    console.log("Total Width: ", totalWidth);
+    console.log("boxes info: ", boxesInfo);
     console.log("Rect Counts: ", rects);
 
     const handleAdd = () => {
         setRects(rects + 1);
+        //setRectsArray(boxesInfo);
     };
+
+    console.log("Rects Array: ", rectsArray)
 
     const handleRemove = () => {
         setRects(rects - 1)
