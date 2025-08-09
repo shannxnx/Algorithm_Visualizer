@@ -71,7 +71,7 @@ export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo, rectCount }) => 
     //
     //    console.log(boxesInfo);
     //
-    return (<Stage width={x} height={y} className="border-2">
+    return (<Stage width={x} height={y + 25} className="">
 
         <Layer>
 
@@ -103,6 +103,16 @@ export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo, rectCount }) => 
                 )
                     : null
             }
+
+            {
+                boxesInfo.length > 0 ? boxesInfo.map((r) => <Text text={r.number} key={r.number}
+                    x={r.x} y={r.y + 40} width={r.width} height={r.height} align="center" verticalAlign="middle" fill={"black"}
+                    fontSize={12} />
+                )
+                    : null
+            }
+
+
 
 
 

@@ -3,40 +3,11 @@ import { Konva1 } from "./konva1";
 import { algoStore } from "../STATE/algoStore";
 import { Rect } from "react-konva";
 
-//const div_x = 400;
-//const div_y = 50;
-//
-//const width = 50;
-//const height = 50;
-//const gap = 5;
-//
-//let rectCount = 8;
-//const totalWidth = (width + gap) * rectCount;
-//
-//interface rectInfo {
-//    x: number,
-//    y: number,
-//    width: number,
-//    height: number,
-//    number?: string
-//};
-//
-//const boxesInfo: Array<rectInfo> = [];
-//
-//for (let i = 0; i < rectCount; i++) {
-//    const rect: rectInfo = {
-//        width: width,
-//        height: height,
-//        x: i * (width + 5),
-//        y: 0,
-//        number: `${i}`
-//
-//    };
-//
-//    boxesInfo.push(rect);
-//}
-//
-//
+
+
+
+
+
 
 export default function KonvaContainer() {
 
@@ -73,9 +44,9 @@ export default function KonvaContainer() {
         const rect: rectInfo = {
             width: width,
             height: height,
-            x: i * (width + 5),
+            x: i * (width + 5) + 5,
             y: 0,
-            number: `${i}`,
+            number: `${Math.floor(Math.random() * 100)}`,
             id: i + 1
         };
 
@@ -95,14 +66,11 @@ export default function KonvaContainer() {
 
 
     console.log("boxes info: ", boxesInfo);
-    console.log("Rect Counts: ", rects);
 
     const handleAdd = () => {
         setRects(rects + 1);
 
     };
-
-    console.log("Rects Array: ", rectsArray)
 
     const handleRemove = () => {
         setRects(rects - 1);
@@ -111,7 +79,7 @@ export default function KonvaContainer() {
 
     return <main className={`w-screen h-screen flex`} ref={mainRef}>
 
-        <div className="border-1 w-[60%] h-full flex items-center justify-center rounded-[8px] duration-200">
+        <div className=" w-[60%] h-full flex items-center justify-center rounded-[8px] duration-200">
 
             {
 
@@ -129,6 +97,11 @@ export default function KonvaContainer() {
             <button className="border-1 p-3 rounded w-[100px] cursor-pointer hover:scale-105"
                 onClick={handleRemove}>
                 Remove
+            </button>
+
+            <button className="border-1 p-3 rounded w-[100px] cursor-pointer hover:scale-105"
+            >
+                Sort
             </button>
 
 
