@@ -86,12 +86,10 @@ export default function KonvaContainer() {
 
 
 
-
     useEffect(() => {
         setRectsArray(boxesInfo);
         if (mainRef.current) {
             const rect = mainRef.current.getBoundingClientRect();
-            //console.log("Main element pos: ", rect);
         }
     }, []);
 
@@ -101,13 +99,14 @@ export default function KonvaContainer() {
 
     const handleAdd = () => {
         setRects(rects + 1);
-        //setRectsArray(boxesInfo);
+
     };
 
     console.log("Rects Array: ", rectsArray)
 
     const handleRemove = () => {
-        setRects(rects - 1)
+        setRects(rects - 1);
+        setRectsArray(boxesInfo);
     }
 
     return <main className={`w-screen h-screen flex`} ref={mainRef}>
@@ -122,12 +121,13 @@ export default function KonvaContainer() {
 
         </div>
 
-        <div className="w-[40%] h-full flex flex-col justify-center items-center gap-10">
-            <button className="border-1 scale-150 p-3 rounded" onClick={handleAdd}>
+        <div className="w-[40%] h-full flex flex-col justify-center items-center gap-5">
+            <button className="border-1 p-3 rounded w-[100px] cursor-pointer hover:scale-105" onClick={handleAdd}>
                 Add
             </button>
 
-            <button className="border-1 scale-150 p-3 rounded">
+            <button className="border-1 p-3 rounded w-[100px] cursor-pointer hover:scale-105"
+                onClick={handleRemove}>
                 Remove
             </button>
 
