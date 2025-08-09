@@ -36,7 +36,8 @@ interface rectInfo {
     y: number,
     width: number,
     height: number,
-    number?: string
+    number?: number,
+    id: number
 };
 
 
@@ -81,6 +82,7 @@ export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo, rectCount }) => 
                 //        y={i.y_pos}
                 //        width={i.width}
                 //        height={i.height}
+
                 //        fill={i.color}
                 //    />)
                 //<Rect x={0} y={0} height={y} width={50} fill="red" draggable />
@@ -88,8 +90,8 @@ export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo, rectCount }) => 
 
 
             {
-                boxesInfo.length > 0 ? boxesInfo.map((r) =>
-                    <Rect width={r.width} height={r.height} key={r.number}
+                boxesInfo.length > 0 ? boxesInfo.map((r, id) =>
+                    <Rect width={r.width} height={r.height} key={id}
                         x={r.x} y={r.y} fill="red" />
 
                 )
@@ -97,7 +99,7 @@ export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo, rectCount }) => 
             }
 
             {
-                boxesInfo.length > 0 ? boxesInfo.map((r) => <Text text={r.number} key={r.number}
+                boxesInfo.length > 0 ? boxesInfo.map((r) => <Text text={`${r.number}`} key={`${r.x}-${r.y}`}
                     x={r.x} y={r.y} width={r.width} height={r.height} align="center" verticalAlign="middle" fill={"black"}
                     fontSize={20} />
                 )
@@ -105,12 +107,15 @@ export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo, rectCount }) => 
             }
 
             {
-                boxesInfo.length > 0 ? boxesInfo.map((r) => <Text text={r.number} key={r.number}
+                boxesInfo.length > 0 ? boxesInfo.map((r, i) => <Text key={`${r.x}-${r.y}`} text={`${i}`}
                     x={r.x} y={r.y + 40} width={r.width} height={r.height} align="center" verticalAlign="middle" fill={"black"}
                     fontSize={12} />
                 )
                     : null
             }
+
+
+
 
 
 
