@@ -149,8 +149,9 @@ export default function KonvaContainer() {
     const mainRef = useRef<HTMLElement>(null);
     const rectCounts = algoStore((state: any) => state.rectCounts);
     const setRectCounts = algoStore((state: any) => state.setRectCounts);
-    const [rects, setRects] = useState<number>(9);
+    const [rects, setRects] = useState<number>(5);
     const [rectsArray, setRectsArray] = useState<Array<rectInfo>>([]);
+    const [task, setTask] = useState<string>('');
 
     const div_x = 400;
     const div_y = 50;
@@ -199,21 +200,29 @@ export default function KonvaContainer() {
 
     useEffect(() => {
         if (rectsArray.length > 0) {
-            const newBoxes = generateBoxesInfo(rects);
-            //const rectArrLen = rectsArray.length - 1;
-            //const newRect: rectInfo = {
-            //    width: width,
-            //    height: height,
-            //    x: rectArrLen * (width + 5) + 5,
-            //    y: 0,
-            //    number: Math.floor(Math.random() * 10),
-            //    id: rectArrLen
-            //};
+            switch (task) {
+                case 'add':
+                    const updatedArray = [...rectsArray];
 
-            //const updatedsArray: Array<rectInfo> = [...rectsArray];
-            //updatedsArray.push(newRect);
-
-            setRectsArray(newBoxes);
+                    const rectArrayLen = updatedArray.length;
+                    console.log(rectArrayLen);
+                    const newRect: rectInfo = {
+                        width: width,
+                        height: height,
+                        x: rectArrayLen * (width + 5) + 5,
+                        y: 0,
+                        number: Math.floor(Math.random() * 10),
+                        id: rectArrayLen
+                    };
+                    updatedArray.push(newRect);
+                    setRectsArray(updatedArray);
+                    break;
+                case 'remove':
+                    const udpatedArray = [...rectsArray];
+                    udpatedArray.pop();
+                    setRectsArray(udpatedArray);
+                    break;
+            }
         }
     }, [rects]);
 
@@ -221,11 +230,13 @@ export default function KonvaContainer() {
 
     const handleAdd = () => {
         setRects(rects + 1);
+        setTask('add');
     };
 
     const handleRemove = () => {
         if (rects > 1) {
             setRects(rects - 1);
+            setTask('remove')
         }
     };
 
