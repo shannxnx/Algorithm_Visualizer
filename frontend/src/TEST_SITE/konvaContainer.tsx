@@ -11,6 +11,12 @@ export default function KonvaContainer() {
     const [rectsArray, setRectsArray] = useState<Array<rectInfo>>([]);
     const [task, setTask] = useState<string>('');
 
+
+
+    const [showInsert, setShowInsert] = useState<Boolean>(false);
+    const [insertVal, setInsertVal] = useState<number>(0);
+    const [insertIndex, setInsertIndex] = useState<number>(0);
+
     const div_x = 400;
     const div_y = 50;
     const width = 50;
@@ -75,6 +81,25 @@ export default function KonvaContainer() {
                     updatedArray.push(newRect);
                     setRectsArray(updatedArray);
                     break;
+
+                case 'insert':
+                    const insertArray = [...rectsArray];
+
+                    const insertArrayLen = insertArray.length;
+                    const insertRect: rectInfo = {
+                        width: width,
+                        height: height,
+                        x: insertArrayLen * (width + 5) + 5,
+                        y: 0,
+                        number: insertVal,
+                        id: insertArrayLen
+                    };
+                    insertArray.push(insertRect);
+                    setRectsArray(insertArray);
+
+
+                    break;
+
                 case 'remove':
                     const udpatedArray = [...rectsArray];
                     udpatedArray.pop();
@@ -85,6 +110,7 @@ export default function KonvaContainer() {
     }, [rects]);
 
     console.log("rects array: ", rectsArray);
+    console.log("Task Clicked: ", task);
 
     const handleAdd = () => {
         setRects(rects + 1);
@@ -97,6 +123,11 @@ export default function KonvaContainer() {
             setTask('remove')
         }
     };
+
+    const handleInsert = () => {
+        setRects(rects + 1);
+        setTask('insert');
+    }
 
     const handleSort = () => {
 
@@ -111,6 +142,11 @@ export default function KonvaContainer() {
 
         setRectsArray(updatedArray);
     };
+
+    const handleNewBoxes = () => {
+        const newBoxes = generateBoxesInfo(rectsArray.length);
+        setRectsArray(newBoxes);
+    }
 
     return (
         <main className={`w-screen h-screen flex`} ref={mainRef}>
@@ -127,24 +163,54 @@ export default function KonvaContainer() {
                 }
             </div>
             <div className="w-[40%] h-full flex flex-col justify-center items-center gap-5">
+
+
+                <div className="w-[300px]  p-3 flex gap-2">
+                    <button
+                        className={`border-1 p-3 rounded w-[100px] cursor-pointer hover:scale-105 `}
+                        onClick={handleInsert}
+                    >
+                        Insert
+                    </button>
+                    <input type="number" className="border-b-1 w-[50px] p-2 outline-none"
+                        value={insertVal} name="value" onChange={(e) => setInsertVal(Number(e.target.value))} />
+
+                    <input type="number" className="border-b-1 w-[50px] p-2 outline-none"
+                        value={insertIndex} name="index" onChange={(e) => setInsertIndex(Number(e.target.value))} />
+
+                </div>
+
+
+
+
                 <button
                     className="border-1 p-3 rounded w-[100px] cursor-pointer hover:scale-105"
                     onClick={handleAdd}
                 >
                     Add
                 </button>
+
                 <button
                     className="border-1 p-3 rounded w-[100px] cursor-pointer hover:scale-105"
                     onClick={handleRemove}
                 >
                     Remove
                 </button>
+
                 <button
                     className="border-1 p-3 rounded w-[100px] cursor-pointer hover:scale-105"
                     onClick={handleSort}
                 >
                     Sort
                 </button>
+
+                <button
+                    className="border-1 p-3 rounded w-[100px] cursor-pointer hover:scale-105"
+                    onClick={handleNewBoxes}
+                >
+                    New
+                </button>
+
             </div>
         </main>
     );
