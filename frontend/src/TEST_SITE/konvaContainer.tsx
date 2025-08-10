@@ -296,6 +296,8 @@ export default function KonvaContainer() {
     const [rects, setRects] = useState<number>(5);
     const [rectsArray, setRectsArray] = useState<Array<rectInfo>>([]);
     const [task, setTask] = useState<string>('');
+
+    //new add 
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
     const [insertVal, setInsertVal] = useState<number>(0);
@@ -348,117 +350,268 @@ export default function KonvaContainer() {
     // Animation function - bubble sort with steps and colors
     // Replace your animateBubbleSort function with this version
     // Replace your animateBubbleSort function with this version
+
+    //    const animateBubbleSort = async () => {
+    //        setIsAnimating(true);
+    //        const array = [...rectsArray];
+    //
+    //        // Add color property to each rectangle
+    //        array.forEach(rect => {
+    //            rect.color = '#3B82F6'; // Default blue
+    //        });
+    //
+    //        for (let i = 0; i < array.length; i++) {
+    //            for (let j = 0; j < array.length - i - 1; j++) {
+    //                // Highlight comparison - make them red
+    //                array[j].color = '#EF4444'; // Red
+    //                array[j + 1].color = '#EF4444'; // Red
+    //                setRectsArray([...array]);
+    //                await new Promise(resolve => setTimeout(resolve, 300));
+    //
+    //                // Compare adjacent elements
+    //                if (array[j].number > array[j + 1].number) {
+    //                    // Make them orange during swap
+    //                    array[j].color = '#F97316'; // Orange
+    //                    array[j + 1].color = '#F97316'; // Orange
+    //                    setRectsArray([...array]);
+    //                    await new Promise(resolve => setTimeout(resolve, 200));
+    //
+    //                    // ANIMATE THE MOVEMENT
+    //                    // Store original elements (including all their properties)
+    //                    const originalJ = { ...array[j] };
+    //                    const originalJPlus1 = { ...array[j + 1] };
+    //
+    //                    // Create animation frames for smooth movement
+    //                    const steps = 15; // Number of animation steps
+    //                    for (let step = 1; step <= steps; step++) {
+    //                        const progress = step / steps;
+    //
+    //                        // Create a complete copy of the array for this animation frame
+    //                        const tempArray = array.map(rect => ({ ...rect }));
+    //
+    //                        // Interpolate positions for both rectangles
+    //                        tempArray[j] = {
+    //                            ...originalJ,
+    //                            x: originalJ.x + (originalJPlus1.x - originalJ.x) * progress
+    //                        };
+    //                        tempArray[j + 1] = {
+    //                            ...originalJPlus1,
+    //                            x: originalJPlus1.x + (originalJ.x - originalJPlus1.x) * progress
+    //                        };
+    //
+    //                        setRectsArray([...tempArray]);
+    //                        await new Promise(resolve => setTimeout(resolve, 40));
+    //                    }
+    //
+    //                    // Now swap elements in the array
+    //                    [array[j], array[j + 1]] = [array[j + 1], array[j]];
+    //
+    //                    // Update final positions and IDs after swap
+    //                    array[j].x = j * (width + gap) + gap;
+    //                    array[j].id = j;
+    //                    array[j + 1].x = (j + 1) * (width + gap) + gap;
+    //                    array[j + 1].id = j + 1;
+    //
+    //                    // Make them green after successful swap
+    //                    array[j].color = '#10B981'; // Green
+    //                    array[j + 1].color = '#10B981'; // Green
+    //                    setRectsArray([...array]);
+    //                    await new Promise(resolve => setTimeout(resolve, 300));
+    //                } else {
+    //                    // No swap needed - make them yellow briefly
+    //                    array[j].color = '#EAB308'; // Yellow
+    //                    array[j + 1].color = '#EAB308'; // Yellow
+    //                    setRectsArray([...array]);
+    //                    await new Promise(resolve => setTimeout(resolve, 200));
+    //                }
+    //
+    //                // Reset to default colors
+    //                array[j].color = '#3B82F6'; // Blue
+    //                array[j + 1].color = '#3B82F6'; // Blue
+    //                setRectsArray([...array]);
+    //                await new Promise(resolve => setTimeout(resolve, 100));
+    //            }
+    //
+    //            // Mark the sorted element as purple (final position)
+    //            if (array[array.length - i - 1]) {
+    //                array[array.length - i - 1].color = '#8B5CF6'; // Purple
+    //                setRectsArray([...array]);
+    //            }
+    //        }
+    //
+    //        // Final celebration - make all rectangles rainbow colors briefly
+    //        const rainbowColors = ['#EF4444', '#F97316', '#EAB308', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899'];
+    //        array.forEach((rect, index) => {
+    //            rect.color = rainbowColors[index % rainbowColors.length];
+    //        });
+    //        setRectsArray([...array]);
+    //        await new Promise(resolve => setTimeout(resolve, 1000));
+    //
+    //        // Reset to final sorted colors (gradient from green to blue)
+    //        array.forEach((rect, index) => {
+    //            const ratio = index / (array.length - 1);
+    //            const colors = [
+    //                '#10B981', // Green
+    //                '#06B6D4', // Cyan  
+    //                '#3B82F6', // Blue
+    //                '#8B5CF6'  // Purple
+    //            ];
+    //            rect.color = colors[Math.floor(ratio * (colors.length - 1))];
+    //        });
+    //        setRectsArray([...array]);
+    //
+    //        setIsAnimating(false);
+    //    };
+    //
+
+
+
+
     const animateBubbleSort = async () => {
         setIsAnimating(true);
         const array = [...rectsArray];
+        const liftHeight = 50;
+        const steps = 20;
 
-        // Add color property to each rectangle
+        // Initialize all rectangles
         array.forEach(rect => {
-            rect.color = '#3B82F6'; // Default blue
+            rect.color = '#3B82F6';
+            rect.y = 0;
         });
 
         for (let i = 0; i < array.length; i++) {
             for (let j = 0; j < array.length - i - 1; j++) {
-                // Highlight comparison - make them red
-                array[j].color = '#EF4444'; // Red
-                array[j + 1].color = '#EF4444'; // Red
+                // Highlight comparison
+                array[j].color = '#EF4444';
+                array[j + 1].color = '#EF4444';
                 setRectsArray([...array]);
                 await new Promise(resolve => setTimeout(resolve, 300));
 
-                // Compare adjacent elements
                 if (array[j].number > array[j + 1].number) {
-                    // Make them orange during swap
-                    array[j].color = '#F97316'; // Orange
-                    array[j + 1].color = '#F97316'; // Orange
+                    // Indicate swap
+                    array[j].color = '#F97316';
+                    array[j + 1].color = '#F97316';
                     setRectsArray([...array]);
                     await new Promise(resolve => setTimeout(resolve, 200));
 
-                    // ANIMATE THE MOVEMENT
-                    // Store original elements (including all their properties)
-                    const originalJ = { ...array[j] };
-                    const originalJPlus1 = { ...array[j + 1] };
+                    const rectJ = { ...array[j] };
+                    const rectJPlus1 = { ...array[j + 1] };
 
-                    // Create animation frames for smooth movement
-                    const steps = 15; // Number of animation steps
+                    // LIFT PHASE
                     for (let step = 1; step <= steps; step++) {
                         const progress = step / steps;
-
-                        // Create a complete copy of the array for this animation frame
-                        const tempArray = array.map(rect => ({ ...rect }));
-
-                        // Interpolate positions for both rectangles
-                        tempArray[j] = {
-                            ...originalJ,
-                            x: originalJ.x + (originalJPlus1.x - originalJ.x) * progress
-                        };
-                        tempArray[j + 1] = {
-                            ...originalJPlus1,
-                            x: originalJPlus1.x + (originalJ.x - originalJPlus1.x) * progress
-                        };
-
-                        setRectsArray([...tempArray]);
-                        await new Promise(resolve => setTimeout(resolve, 40));
+                        setRectsArray(array.map((rect, idx) => {
+                            if (idx === j) return { ...rectJ, y: -progress * liftHeight };
+                            if (idx === j + 1) return { ...rectJPlus1, y: -progress * liftHeight };
+                            return { ...rect };
+                        }));
+                        await new Promise(resolve => setTimeout(resolve, 20));
                     }
 
-                    // Now swap elements in the array
-                    [array[j], array[j + 1]] = [array[j + 1], array[j]];
+                    // MOVE PHASE (while lifted)
+                    for (let step = 1; step <= steps; step++) {
+                        const progress = step / steps;
+                        setRectsArray(array.map((rect, idx) => {
+                            if (idx === j) {
+                                return {
+                                    ...rectJ,
+                                    x: rectJ.x + (rectJPlus1.x - rectJ.x) * progress,
+                                    y: -liftHeight
+                                };
+                            }
+                            if (idx === j + 1) {
+                                return {
+                                    ...rectJPlus1,
+                                    x: rectJPlus1.x + (rectJ.x - rectJPlus1.x) * progress,
+                                    y: -liftHeight
+                                };
+                            }
+                            return { ...rect };
+                        }));
+                        await new Promise(resolve => setTimeout(resolve, 20));
+                    }
 
-                    // Update final positions and IDs after swap
-                    array[j].x = j * (width + gap) + gap;
+                    // ACTUAL DATA SWAP (mid-air, with updated x)
+                    const swappedJ = { ...rectJPlus1, x: rectJ.x };
+                    const swappedJPlus1 = { ...rectJ, x: rectJPlus1.x };
+                    array[j] = swappedJ;
+                    array[j + 1] = swappedJPlus1;
+
+                    // LOWER PHASE (now they land with new numbers)
+                    for (let step = 1; step <= steps; step++) {
+                        const progress = step / steps;
+                        setRectsArray(array.map((rect, idx) => {
+                            if (idx === j) {
+                                return {
+                                    ...array[j],
+                                    y: -liftHeight + progress * liftHeight,
+                                    color: progress === 1 ? '#10B981' : '#F97316'
+                                };
+                            }
+                            if (idx === j + 1) {
+                                return {
+                                    ...array[j + 1],
+                                    y: -liftHeight + progress * liftHeight,
+                                    color: progress === 1 ? '#10B981' : '#F97316'
+                                };
+                            }
+                            return { ...rect };
+                        }));
+                        await new Promise(resolve => setTimeout(resolve, 20));
+                    }
+
+                    // Lock in positions
+                    array[j].y = 0;
                     array[j].id = j;
-                    array[j + 1].x = (j + 1) * (width + gap) + gap;
-                    array[j + 1].id = j + 1;
+                    array[j].color = '#10B981';
 
-                    // Make them green after successful swap
-                    array[j].color = '#10B981'; // Green
-                    array[j + 1].color = '#10B981'; // Green
+                    array[j + 1].y = 0;
+                    array[j + 1].id = j + 1;
+                    array[j + 1].color = '#10B981';
+
                     setRectsArray([...array]);
                     await new Promise(resolve => setTimeout(resolve, 300));
                 } else {
-                    // No swap needed - make them yellow briefly
-                    array[j].color = '#EAB308'; // Yellow
-                    array[j + 1].color = '#EAB308'; // Yellow
+                    // No swap
+                    array[j].color = '#EAB308';
+                    array[j + 1].color = '#EAB308';
                     setRectsArray([...array]);
                     await new Promise(resolve => setTimeout(resolve, 200));
+
+                    array[j].color = '#3B82F6';
+                    array[j + 1].color = '#3B82F6';
+                    setRectsArray([...array]);
                 }
-
-                // Reset to default colors
-                array[j].color = '#3B82F6'; // Blue
-                array[j + 1].color = '#3B82F6'; // Blue
-                setRectsArray([...array]);
-                await new Promise(resolve => setTimeout(resolve, 100));
             }
 
-            // Mark the sorted element as purple (final position)
-            if (array[array.length - i - 1]) {
-                array[array.length - i - 1].color = '#8B5CF6'; // Purple
-                setRectsArray([...array]);
-            }
+            // Mark sorted element
+            array[array.length - i - 1].color = '#8B5CF6';
+            setRectsArray([...array]);
         }
 
-        // Final celebration - make all rectangles rainbow colors briefly
+        // Celebration rainbow
         const rainbowColors = ['#EF4444', '#F97316', '#EAB308', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899'];
-        array.forEach((rect, index) => {
-            rect.color = rainbowColors[index % rainbowColors.length];
-        });
-        setRectsArray([...array]);
+        setRectsArray(array.map((rect, index) => ({
+            ...rect,
+            color: rainbowColors[index % rainbowColors.length]
+        })));
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // Reset to final sorted colors (gradient from green to blue)
-        array.forEach((rect, index) => {
+        // Final colors
+        setRectsArray(array.map((rect, index) => {
             const ratio = index / (array.length - 1);
-            const colors = [
-                '#10B981', // Green
-                '#06B6D4', // Cyan  
-                '#3B82F6', // Blue
-                '#8B5CF6'  // Purple
-            ];
-            rect.color = colors[Math.floor(ratio * (colors.length - 1))];
-        });
-        setRectsArray([...array]);
+            const colors = ['#10B981', '#06B6D4', '#3B82F6', '#8B5CF6'];
+            return {
+                ...rect,
+                color: colors[Math.floor(ratio * (colors.length - 1))]
+            };
+        }));
 
         setIsAnimating(false);
     };
+
+
+
 
     // Also update your Konva1 component to fix the key issue
     // Replace the Text rendering in your Konva1 component with better keys
@@ -576,7 +729,9 @@ export default function KonvaContainer() {
 
     return (
         <main className="w-screen h-screen flex bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100" ref={mainRef}>
-            <div className="w-[60%] h-full flex items-center justify-center rounded-[8px] duration-200 bg-white/70 backdrop-blur-sm shadow-xl m-4 border border-white/20">
+            <div className="w-[60%] h-full border-1
+             flex items-center justify-center rounded-[8px] duration-200 bg-white/70 backdrop-blur-sm shadow-xl m-4 
+             overflow-visible">
                 {
                     rectsArray.length > 0 ? (
                         <Konva1
@@ -620,6 +775,7 @@ export default function KonvaContainer() {
                         name="value"
                         onChange={(e) => setInsertVal(Number(e.target.value))}
                         disabled={isAnimating}
+
                     />
 
                     <label htmlFor="index" className="text-sm font-semibold text-green-700">Index</label>
@@ -630,7 +786,7 @@ export default function KonvaContainer() {
                         name="index"
                         onChange={(e) => setInsertIndex(Number(e.target.value))}
                         min={0}
-                        max={rects}
+                        max={rects - 1}
                         disabled={isAnimating}
                     />
 
@@ -696,3 +852,6 @@ export default function KonvaContainer() {
         </main>
     );
 }
+
+
+

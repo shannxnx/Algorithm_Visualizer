@@ -1,5 +1,5 @@
 
-import { Stage, Layer, Rect, Text } from "react-konva"
+import { Stage, Layer, Rect, Text, Group } from "react-konva"
 import { testArray } from "../LIB/algoDummyDB";
 import type React from "react";
 
@@ -46,163 +46,178 @@ interface rectInfo {
 
 
 
-export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo, rectCount }) => {
-
-    //    console.log("Test Array: ", testArray);
-    //
-    //
-    //
-    //    const boxCount = Math.floor(x / width);
-    //    console.log(boxCount);
-    //
-    //    //const boxesInfo: Array<rectInfo> = [];
-    //
-    //
-    //    for (let i = 0; i < boxCount - 1; i++) {
-    //        const rect: rectInfo = {
-    //            width: width,
-    //            height: y,
-    //            x: i * (width + 5),
-    //            y: 0,
-    //            number: `${i}`
-    //
-    //        };
-    //
-    //        boxesInfo.push(rect);
-    //    }
-    //
-    //    console.log(boxesInfo);
-    //
-    return (<Stage width={x} height={y + 25} className="">
-
-        <Layer>
-
-            {
-                //testArray && Array.isArray(testArray) && testArray.map((i) =>
-                //    <Rect x={i.x_pos}
-                //        y={i.y_pos}
-                //        width={i.width}
-                //        height={i.height}
-
-                //        fill={i.color}
-                //    />)
-                //<Rect x={0} y={0} height={y} width={50} fill="red" draggable />
-            }
-
-
-            {
-                boxesInfo.length > 0 ? boxesInfo.map((r, id) =>
-                    <Rect width={r.width} height={r.height} key={id}
-                        x={r.x} y={r.y} fill={r.color || "red"} />
-
-                )
-                    : null
-            }
-
-            {
-                boxesInfo.length > 0 ? boxesInfo.map((r) => <Text text={`${r.number}`} key={`${r.x}-${r.y}`}
-                    x={r.x} y={r.y} width={r.width} height={r.height} align="center" verticalAlign="middle" fill={"black"}
-                    fontSize={20} />
-                )
-                    : null
-            }
-
-            {
-                boxesInfo.length > 0 ? boxesInfo.map((r, i) => <Text key={`${r.x}-${r.y}`} text={`${i}`}
-                    x={r.x} y={r.y + 40} width={r.width} height={r.height} align="center" verticalAlign="middle" fill={"black"}
-                    fontSize={12} />
-                )
-                    : null
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-        </Layer>
-
-    </Stage>
-    )
-
-
-}
-
-
-
-
-
-
-
 //export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo, rectCount }) => {
-//    return (
-//        <Stage width={x + 100} height={y + 100} className="">
-//            <Layer>
-//                {/* Render rectangles */}
-//                {
-//                    boxesInfo.length > 0 ? boxesInfo.map((r, index) =>
-//                        <Rect
-//                            width={r.width}
-//                            height={r.height}
-//                            key={`rect-${index}`}
-//                            x={r.x}
-//                            y={r.y}
-//                            fill={r.color || "#3B82F6"}
-//                            stroke="#ffffff"
-//                            strokeWidth={2}
-//                            cornerRadius={4}
-//                        />
-//                    ) : null
-//                }
-//
-//                {/* Render number text (the values) */}
-//                {
-//                    boxesInfo.length > 0 ? boxesInfo.map((r, index) =>
-//                        <Text
-//                            text={`${r.number}`}
-//                            key={`number-${index}`}
-//                            x={r.x}
-//                            y={r.y}
-//                            width={r.width}
-//                            height={r.height}
-//                            align="center"
-//                            verticalAlign="middle"
-//                            fill="white"
-//                            fontSize={20}
-//                            fontStyle="bold"
-//                            fontFamily="Arial"
-//                        />
-//                    ) : null
-//                }
-//
-//                {/* Render index text (the position indices) */}
-//                {
-//                    boxesInfo.length > 0 ? boxesInfo.map((r, index) =>
-//                        <Text
-//                            key={`index-${index}`}
-//                            text={`${index}`}
-//                            x={r.x}
-//                            y={r.y + r.height + 5}
-//                            width={r.width}
-//                            height={20}
-//                            align="center"
-//                            verticalAlign="middle"
-//                            fill="#374151"
-//                            fontSize={12}
-//                            fontFamily="Arial"
-//                        />
-//                    ) : null
-//                }
-//            </Layer>
-//        </Stage>
-//    )
+
+////    console.log("Test Array: ", testArray);
+////
+////
+////
+////    const boxCount = Math.floor(x / width);
+////    console.log(boxCount);
+////
+////    //const boxesInfo: Array<rectInfo> = [];
+////
+////
+////    for (let i = 0; i < boxCount - 1; i++) {
+////        const rect: rectInfo = {
+////            width: width,
+////            height: y,
+////            x: i * (width + 5),
+////            y: 0,
+////            number: `${i}`
+////
+////        };
+////
+////        boxesInfo.push(rect);
+////    }
+////
+////    console.log(boxesInfo);
+////
+//return (<Stage width={x} height={y + 25 + 50} className="">
+
+//<Layer>
+
+//{
+////testArray && Array.isArray(testArray) && testArray.map((i) =>
+////    <Rect x={i.x_pos}
+////        y={i.y_pos}
+////        width={i.width}
+////        height={i.height}
+
+////        fill={i.color}
+////    />)
+////<Rect x={0} y={0} height={y} width={50} fill="red" draggable />
 //}
 
 
+//{
+//boxesInfo.length > 0 ? boxesInfo.map((r, id) =>
+//<Rect width={r.width} height={r.height} key={id}
+//x={r.x} y={r.y} fill={r.color || "red"} />
+
+//)
+//: null
+//}
+
+//{
+//boxesInfo.length > 0 ? boxesInfo.map((r) => <Text text={`${r.number}`} key={`${r.x}-${r.y}`}
+//x={r.x} y={r.y} width={r.width} height={r.height} align="center" verticalAlign="middle" fill={"black"}
+//fontSize={20} />
+//)
+//: null
+//}
+
+//{
+//boxesInfo.length > 0 ? boxesInfo.map((r, i) => <Text key={`${r.x}-${r.y}`} text={`${i}`}
+//x={r.x} y={r.y + 40} width={r.width} height={r.height} align="center" verticalAlign="middle" fill={"black"}
+//fontSize={12} />
+//)
+//: null
+//}
+
+
+
+//</Layer>
+
+//</Stage>
+//)
+
+
+//}
+
+
+//export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
+//// Calculate needed height based on maximum lift
+//const maxLift = 50; // Same as liftHeight in animation
+//const stageHeight = y + maxLift + 40; // Extra space for index numbers
+
+//return (
+//<Stage width={x + 100} height={stageHeight} className="">
+//<Layer >
+//{/* Render rectangles */}
+//{boxesInfo.map((r, id) => (
+//<Group
+//key={`group-${id}`}
+//x={r.x}
+//y={r.y}
+//>
+//<Rect
+//width={r.width}
+//height={r.height}
+//fill={r.color || "red"}
+///>
+//{/* Number inside rectangle */}
+//<Text
+//text={`${r.number}`}
+//width={r.width}
+//height={r.height}
+//align="center"
+//verticalAlign="middle"
+//fill="white"
+//fontSize={20}
+///>
+//{/* Index below rectangle */}
+//<Text
+//text={`${id}`}
+//y={r.height + 5}
+//width={r.width}
+//height={20}
+//align="center"
+//verticalAlign="top"
+//fill="black"
+//fontSize={12}
+///>
+//</Group>
+//))}
+//</Layer>
+//</Stage>
+//)
+//}
+
+
+
+
+export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
+    // Calculate needed height based on maximum lift (50px) plus rectangle height (50px) plus index space (25px)
+    const stageHeight = y + 50 + 50 + 25; // Original y + lift + rect height + index space
+
+    return (
+        <Stage width={x + 100} height={stageHeight} className="">
+            <Layer>
+                {boxesInfo.map((r, id) => (
+                    <Group
+                        key={`group-${id}`}
+                        x={r.x}
+                        y={r.y + 50} // Start 50px lower to accommodate lift
+                    >
+                        <Rect
+                            width={r.width}
+                            height={r.height}
+                            fill={r.color || "red"}
+                        />
+                        <Text
+                            text={`${r.number}`}
+                            width={r.width}
+                            height={r.height}
+                            align="center"
+                            verticalAlign="middle"
+                            fill="white"
+                            fontSize={20}
+                        />
+                        <Text
+                            text={`${id}`}
+                            y={r.height + 5}
+                            width={r.width}
+                            height={20}
+                            align="center"
+                            verticalAlign="top"
+                            fill="black"
+                            fontSize={12}
+                        />
+                    </Group>
+                ))}
+            </Layer>
+        </Stage>
+    )
+}
 
