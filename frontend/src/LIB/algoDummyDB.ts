@@ -26,6 +26,11 @@ export const sortingArray = [
             name: "Selection"
         }
     },
+    {
+        algoInfo: {
+            name: "Timsort"
+        }
+    }
 
 ];
 

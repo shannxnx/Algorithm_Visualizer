@@ -37,7 +37,8 @@ interface rectInfo {
     width: number,
     height: number,
     number?: number,
-    id: number
+    id: number,
+    color?: string,
 };
 
 
@@ -92,7 +93,7 @@ export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo, rectCount }) => 
             {
                 boxesInfo.length > 0 ? boxesInfo.map((r, id) =>
                     <Rect width={r.width} height={r.height} key={id}
-                        x={r.x} y={r.y} fill="red" />
+                        x={r.x} y={r.y} fill={r.color || "red"} />
 
                 )
                     : null
@@ -135,6 +136,73 @@ export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo, rectCount }) => 
 
 
 
+
+
+
+
+//export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo, rectCount }) => {
+//    return (
+//        <Stage width={x + 100} height={y + 100} className="">
+//            <Layer>
+//                {/* Render rectangles */}
+//                {
+//                    boxesInfo.length > 0 ? boxesInfo.map((r, index) =>
+//                        <Rect
+//                            width={r.width}
+//                            height={r.height}
+//                            key={`rect-${index}`}
+//                            x={r.x}
+//                            y={r.y}
+//                            fill={r.color || "#3B82F6"}
+//                            stroke="#ffffff"
+//                            strokeWidth={2}
+//                            cornerRadius={4}
+//                        />
+//                    ) : null
+//                }
+//
+//                {/* Render number text (the values) */}
+//                {
+//                    boxesInfo.length > 0 ? boxesInfo.map((r, index) =>
+//                        <Text
+//                            text={`${r.number}`}
+//                            key={`number-${index}`}
+//                            x={r.x}
+//                            y={r.y}
+//                            width={r.width}
+//                            height={r.height}
+//                            align="center"
+//                            verticalAlign="middle"
+//                            fill="white"
+//                            fontSize={20}
+//                            fontStyle="bold"
+//                            fontFamily="Arial"
+//                        />
+//                    ) : null
+//                }
+//
+//                {/* Render index text (the position indices) */}
+//                {
+//                    boxesInfo.length > 0 ? boxesInfo.map((r, index) =>
+//                        <Text
+//                            key={`index-${index}`}
+//                            text={`${index}`}
+//                            x={r.x}
+//                            y={r.y + r.height + 5}
+//                            width={r.width}
+//                            height={20}
+//                            align="center"
+//                            verticalAlign="middle"
+//                            fill="#374151"
+//                            fontSize={12}
+//                            fontFamily="Arial"
+//                        />
+//                    ) : null
+//                }
+//            </Layer>
+//        </Stage>
+//    )
+//}
 
 
 
