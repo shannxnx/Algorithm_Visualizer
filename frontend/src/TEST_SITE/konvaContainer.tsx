@@ -105,8 +105,8 @@ export default function KonvaContainer() {
                 case 'removeIndex':
                     const removeArray = [...rectsArray];
 
-                    if (removeIndex - 1 <= removeArray.length) {
-                        removeArray.splice(removeIndex - 1, 1);
+                    if (removeIndex <= removeArray.length) {
+                        removeArray.splice(removeIndex, 1);
                     }
                     else {
                         window.alert("Greater than index length!");
