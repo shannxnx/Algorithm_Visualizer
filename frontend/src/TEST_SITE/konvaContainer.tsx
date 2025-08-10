@@ -13,9 +13,10 @@ export default function KonvaContainer() {
 
 
 
-    const [showInsert, setShowInsert] = useState<Boolean>(false);
+
     const [insertVal, setInsertVal] = useState<number>(0);
     const [insertIndex, setInsertIndex] = useState<number>(0);
+    const [removeIndex, setRemoveIndex] = useState<number>(0);
 
     const div_x = 400;
     const div_y = 50;
@@ -84,7 +85,6 @@ export default function KonvaContainer() {
 
                 case 'insert':
                     const insertArray = [...rectsArray];
-
                     const insertArrayLen = insertArray.length;
                     const insertRect: rectInfo = {
                         width: width,
@@ -92,15 +92,34 @@ export default function KonvaContainer() {
                         x: insertArrayLen * (width + 5) + 5,
                         y: 0,
                         number: insertVal,
-                        id: insertArrayLen
+                        id: insertIndex
                     };
-                    insertArray.push(insertRect);
-                    setRectsArray(insertArray);
+                    insertArray.splice(insertIndex, 0, insertRect);
+                    const updatedIArr = insertArray.map((r, index) => ({
+                        ...r,
+                        x: index * (width + 5) + 5,
+                        id: index,
+                    }));
+                    setRectsArray(updatedIArr);
+                    break;
+                case 'removeIndex':
+                    const removeArray = [...rectsArray];
 
+                    if (removeIndex - 1 <= removeArray.length) {
+                        removeArray.splice(removeIndex - 1, 1);
+                    }
+                    else {
+                        window.alert("Greater than index length!");
+                    }
+                    const updatedRArr = removeArray.map((r, index) => ({
+                        ...r,
+                        x: index * (width + 5) + 5,
+                        id: index
+                    }));
+                    setRectsArray(updatedRArr);
 
                     break;
-
-                case 'remove':
+                case 'pop':
                     const udpatedArray = [...rectsArray];
                     udpatedArray.pop();
                     setRectsArray(udpatedArray);
@@ -111,22 +130,32 @@ export default function KonvaContainer() {
 
     console.log("rects array: ", rectsArray);
     console.log("Task Clicked: ", task);
+    console.log("removeIndex: ", removeIndex);
+    console.log("rects: ", rects);
 
     const handleAdd = () => {
         setRects(rects + 1);
         setTask('add');
     };
 
-    const handleRemove = () => {
+    const handlePop = () => {
         if (rects > 1) {
             setRects(rects - 1);
-            setTask('remove')
+            setTask('pop')
         }
     };
 
     const handleInsert = () => {
         setRects(rects + 1);
         setTask('insert');
+
+    };
+
+    const handleRemoveIndex = () => {
+        if (rects > 1 && removeIndex < rects) {
+            setRects(rects - 1);
+            setTask("removeIndex");
+        }
     }
 
     const handleSort = () => {
@@ -162,7 +191,15 @@ export default function KonvaContainer() {
                     ) : null
                 }
             </div>
+
             <div className="w-[40%] h-full flex flex-col justify-center items-center gap-5">
+
+                <button
+                    className="border-1 p-3 rounded w-[100px] cursor-pointer hover:scale-105"
+                    onClick={handleAdd}
+                >
+                    Add
+                </button>
 
 
                 <div className="w-[300px]  p-3 flex gap-2">
@@ -181,20 +218,23 @@ export default function KonvaContainer() {
                 </div>
 
 
+                <div className="w-[300px]  p-3 flex gap-2">
+                    <button
+                        className={`border-1 p-3 rounded w-[100px] cursor-pointer hover:scale-105 `}
+                        onClick={handleRemoveIndex}
+                    >
+                        Remove
+                    </button>
+                    <input type="number" className="border-b-1 w-[50px] p-2 outline-none"
+                        value={removeIndex} name="indexR" onChange={(e) => setRemoveIndex(Number(e.target.value))} />
 
+                </div>
 
                 <button
                     className="border-1 p-3 rounded w-[100px] cursor-pointer hover:scale-105"
-                    onClick={handleAdd}
+                    onClick={handlePop}
                 >
-                    Add
-                </button>
-
-                <button
-                    className="border-1 p-3 rounded w-[100px] cursor-pointer hover:scale-105"
-                    onClick={handleRemove}
-                >
-                    Remove
+                    Pop
                 </button>
 
                 <button
