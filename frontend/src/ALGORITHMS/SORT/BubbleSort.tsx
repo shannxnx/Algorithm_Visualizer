@@ -1,12 +1,11 @@
-import { ArrowLeft, ArrowRight } from "lucide-react"
-import { useEffect, useRef, useState } from "react";
-import { Konva1 } from "./konva1";
-import { algoStore } from "../STATE/algoStore";
-import AlgoInfo from "../COMPONENTS/INFO_CONTENT/AlgoInfo";
+import { useState, useRef, useEffect } from "react";
+import { algoStore } from "../../STATE/algoStore";
+import { Konva1 } from "../../TEST_SITE/konva1";
+import AlgoInfo from "../../COMPONENTS/INFO_CONTENT/AlgoInfo";
+import { ArrowLeft } from "lucide-react";
 
 
-export default function Layout() {
-
+export default function BubbleSort() {
 
     const mainRef = useRef<HTMLElement>(null);
     const rectCounts = algoStore((state: any) => state.rectCounts);

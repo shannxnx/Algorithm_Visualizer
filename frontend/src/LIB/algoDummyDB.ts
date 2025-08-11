@@ -3,7 +3,9 @@
 export const sortingArray = [
     {
         algoInfo: {
-            name: "Buble"
+            name: "Bubble",
+            algoInfo: "Bubble Sort is a simple comparison-based sorting algorithm that repeatedly steps through a list, compares adjacent elements, and swaps them if they are in the wrong order. The process is repeated until no swaps are needed in a pass, indicating that the list is sorted.",
+            algoLink: "sort/bubble"
         }
     },
     {

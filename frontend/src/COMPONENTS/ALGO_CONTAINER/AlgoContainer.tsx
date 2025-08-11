@@ -59,7 +59,8 @@ export default function AlgoContainer({ myRef }: Props) {
 
 
             {
-                currentArray && Array.isArray(currentArray) && currentArray?.map((a: any, id: any) => <AlgoCard key={id} algoName={a.algoInfo.name} />)
+                currentArray && Array.isArray(currentArray) && currentArray?.map((a: any, id: any) => <AlgoCard key={id} algoName={a.algoInfo.name} algoLink={a.algoInfo.algoLink} />)
+
             }
 
 
