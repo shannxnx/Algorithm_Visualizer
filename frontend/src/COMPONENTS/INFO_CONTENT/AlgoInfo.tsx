@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react"
-
+import { Editor } from "@monaco-editor/react"
 
 
 type props = {
@@ -17,9 +17,36 @@ export default function AlgoInfo({ algoName, algoInfo, algoCode }: props) {
         </button>
 
 
-        <div className="mt-4 border-1 w-[90%] h-[50%] overflow-scroll p-2">
-            {algoCode}
-        </div>
+
+
+        {
+            <div className="mt-4 border-1 w-[90%] h-[50%] overflow-scroll p-2">
+                {
+                    //        //algoCode*
+                }
+
+
+            </div>
+        }
+        {
+            //<div className="mt-4 border w-full h-[50%] overflow-auto">
+            //    <SyntaxHighlighter
+            //        language="javascript"
+            //        style={dracula}
+            //        showLineNumbers
+            //        customStyle={{
+            //            margin: 0,
+            //            height: "100%",
+            //            width: "100%",
+            //            overflow: "auto", // allow scrolling inside if needed
+            //        }}
+            //        wrapLongLines={true} // so long lines don’t break layout
+            //    >
+            //        {algoCode}
+            //    </SyntaxHighlighter>
+            //</div>
+        }
+
 
 
         <div className="w-[90%] h-[30%] mt-8 border-1 flex p-2 overflow-y-scroll

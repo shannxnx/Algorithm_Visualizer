@@ -12,10 +12,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+
         <Route path='/' element={<HomePage />} />
-
-
-        <Route path='/test-konva' element={<KonvaContainer />} />
         <Route path='/layout' element={<Layout />} />
         <Route path='/sort/bubble' element={<BubbleSort />} />
 
