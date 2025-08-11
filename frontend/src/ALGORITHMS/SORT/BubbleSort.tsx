@@ -5,6 +5,13 @@ import AlgoInfo from "../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { ArrowLeft } from "lucide-react";
 
 
+
+const BubbleSortInfo = {
+    info: "Bubble Sort - is the simplest sorting algorithm that works by repeatedly swapping the adjacent elements if they are in the wrong order. This algorithm is not suitable for large data sets as its average and worst-case time complexity are quite high.",
+    code: ""
+};
+
+
 export default function BubbleSort() {
 
     const mainRef = useRef<HTMLElement>(null);
@@ -169,7 +176,8 @@ export default function BubbleSort() {
 
                     setRectsArray([...array]);
                     await new Promise(resolve => setTimeout(resolve, 200));
-                } else {
+                }
+                else {
                     // No swap
                     array[j].color = '#EAB308';
                     array[j + 1].color = '#EAB308';
@@ -280,7 +288,7 @@ export default function BubbleSort() {
                     setRectsArray(poppedArray);
                     break;
             }
-            setTask(''); // Reset task after execution
+            setTask('');
         }
     }, [task, rectsArray, insertVal, insertIndex, removeIndex]);
 
@@ -399,7 +407,7 @@ export default function BubbleSort() {
                 <div className="w-[440px] h-full  
                         flex items-center justify-end cursor-pointer gap-2 bg-white">
 
-                    <div className="w-[90%] h-full border-2 flex flex-col items-center
+                    <div className="w-[90%] h-full border-1 flex flex-col items-center
                             justify-center gap-2">
 
                         <div className="w-[80%] h-[40%] flex items-center">
@@ -467,7 +475,7 @@ export default function BubbleSort() {
 
         </div>
 
-        <AlgoInfo algoName="Bubble Sort" />
+        <AlgoInfo algoName="Bubble Sort" algoInfo={BubbleSortInfo.info} />
 
 
     </main>

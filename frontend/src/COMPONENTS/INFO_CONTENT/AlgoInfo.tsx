@@ -22,8 +22,12 @@ export default function AlgoInfo({ algoName, algoInfo, algoCode }: props) {
         </div>
 
 
-        <div className="w-[90%] h-[30%] mt-8 border-1 flex items-center p-2 justify-around">
-            {algoInfo}
+        <div className="w-[90%] h-[30%] mt-8 border-1 flex p-2 overflow-y-scroll
+        text-justify" style={{ scrollbarWidth: "none" }}>
+            <h1 className="lg:text-[20px]">
+                {algoInfo}
+            </h1>
+
 
         </div>
 
