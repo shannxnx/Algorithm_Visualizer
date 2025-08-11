@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import HomePage from './COMPONENTS/HomePage'
 import { Konva1 } from './TEST_SITE/konva1'
 import KonvaContainer from './TEST_SITE/konvaContainer'
+import Layout from './TEST_SITE/layout'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
 
 
         <Route path='/test-konva' element={<KonvaContainer />} />
+        <Route path='/layout' element={<Layout />} />
 
 
       </Routes>
