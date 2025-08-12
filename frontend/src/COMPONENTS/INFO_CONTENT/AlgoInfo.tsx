@@ -1,17 +1,35 @@
 import { ArrowRight } from "lucide-react"
 import { Editor } from "@monaco-editor/react"
+import { useState } from "react";
 
 
 type props = {
-    readonly algoName?: string;
-    readonly algoInfo?: string;
-    readonly algoCode?: string
+    readonly algoName: string;
+    readonly algoInfo: string;
+    codes: {
+        [key: string]: string; // "javascript", "cpp", "python", etc.
+    };
 }
 
 
-export default function AlgoInfo({ algoName, algoInfo, algoCode }: props) {
-    return <div className="w-[40%] h-full border-1 rounded flex-col flex  items-center bg-white relative">
-        <h1 className="text-3xl mt-4">{algoName}</h1>
+export default function AlgoInfo({ algoInfo }: { algoInfo: props }) {
+
+
+    const [currLanguage, setCurrLanguage] = useState<string>('cpp');
+
+
+
+    console.log("Algo Data: ", algoInfo);
+    console.log("curr lang: ", currLanguage);
+
+
+    const handleChangeLang = (lang: string) => {
+        setCurrLanguage(lang);
+    }
+
+    return <div className="w-[40%] h-full border-1 rounded flex-col flex  items-center bg-white relative
+    dark:bg-white">
+        <h1 className="text-3xl mt-4 dark:text-black">{algoInfo.algoName}</h1>
         <button className="absolute right-0 mt-4 mr-4 cursor-pointer">
             <a href="/"> <ArrowRight size={32} /></a>
         </button>
@@ -20,39 +38,61 @@ export default function AlgoInfo({ algoName, algoInfo, algoCode }: props) {
 
 
         {
-            <div className="mt-4 border-1 w-[90%] h-[50%] overflow-scroll p-2">
-                {
-                    //        //algoCode*
-                }
+            <div className="mt-4 border-1 border-black w-[90%] h-[50%] overflow-scroll p-2 dark:bg-white" style={{ scrollbarWidth: "none" }}>
+
+
+                <Editor className="h-full" defaultLanguage="cpp"
+
+                    value={algoInfo.codes[currLanguage]}
+                    options=
+                    {{
+                        readOnly: true,
+                        minimap: { enabled: false },
+                        scrollbar: { vertical: "hidden", horizontal: "hidden", },
+
+                    }}
+                />
 
 
             </div>
         }
-        {
-            //<div className="mt-4 border w-full h-[50%] overflow-auto">
-            //    <SyntaxHighlighter
-            //        language="javascript"
-            //        style={dracula}
-            //        showLineNumbers
-            //        customStyle={{
-            //            margin: 0,
-            //            height: "100%",
-            //            width: "100%",
-            //            overflow: "auto", // allow scrolling inside if needed
-            //        }}
-            //        wrapLongLines={true} // so long lines don’t break layout
-            //    >
-            //        {algoCode}
-            //    </SyntaxHighlighter>
-            //</div>
-        }
+
+
+        <div className="w-[90%] h-[45px] flex items-center gap-[2px] border-black">
+
+            <button className={`border border-black px-1 p-2 w-[70px] cursor-pointer text-black `}
+                onClick={() => handleChangeLang('cpp')}>
+                C++
+            </button>
+
+            <button className={`border border-black px-1 p-2 w-[70px] cursor-pointer text-black`}
+                onClick={() => handleChangeLang('c')}>C</button>
+
+            <button className={`border border-black px-1 p-2 w-[70px] cursor-pointer text-black`}
+                onClick={() => handleChangeLang('java')}>Java</button>
+
+            <button className={`border border-black px-1 p-2 w-[80px] cursor-pointer text-black`}
+                onClick={() => handleChangeLang('javascript')}>JavaScript</button>
+
+            <button className={`border border-black px-1 p-2 w-[70px] cursor-pointer text-black`}
+                onClick={() => handleChangeLang('python')}>Python</button>
+
+            <button className={`border border-black px-1 p-2 w-[70px] cursor-pointer text-black`}
+                onClick={() => handleChangeLang('php')}>PHP</button>
+
+            <button className={`border border-black px-1 p-2 w-[70px] cursor-pointer text-black`}
+                onClick={() => handleChangeLang('csharp')}>C#</button>
+        </div>
 
 
 
-        <div className="w-[90%] h-[30%] mt-8 border-1 flex p-2 overflow-y-scroll
+
+
+
+        <div className="w-[90%] h-[25%] mt-2 border-1 flex p-2 overflow-y-scroll border-black
         text-justify" style={{ scrollbarWidth: "none" }}>
-            <h1 className="lg:text-[20px]">
-                {algoInfo}
+            <h1 className="lg:text-[20px] text-black">
+                {algoInfo.algoInfo}
             </h1>
 
 

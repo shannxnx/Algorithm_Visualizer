@@ -3,34 +3,9 @@ import { algoStore } from "../../STATE/algoStore";
 import { Konva1 } from "../../TEST_SITE/konva1";
 import AlgoInfo from "../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { ArrowLeft } from "lucide-react";
+import { BubbleSortInfo } from "../../LIB/algoCodesDB";
 
 
-
-const BubbleSortInfo = {
-    info: "Bubble Sort - is the simplest sorting algorithm that works by repeatedly swapping the adjacent elements if they are in the wrong order. This algorithm is not suitable for large data sets as its average and worst-case time complexity are quite high.",
-    code: `function bubbleSort(arr, n){
-        var i, j, temp;
-        var swapped;
-        for (i = 0; i < n - 1; i++){
-            swapped = false;
-            for (j = 0; j < n - i - 1; j++){
-                if (arr[j] > arr[j + 1]) 
-                {
-                    // Swap arr[j] and arr[j+1]
-                    temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                    swapped = true;
-                }
-            }
-
-            // IF no two elements were 
-            // swapped by inner loop, then break
-            if (swapped == false)
-            break;
-        }
-        }`
-};
 
 
 export default function BubbleSort() {
@@ -212,7 +187,7 @@ export default function BubbleSort() {
             }
 
             // Mark sorted element
-            array[array.length - i - 1].color = '#8B5CF6';
+            //array[array.length - i - 1].color = '#8B5CF6';
             setRectsArray([...array]);
         }
 
@@ -366,7 +341,7 @@ export default function BubbleSort() {
 
             <div className="w-[95%] h-[75%] border-1
              flex items-center justify-center rounded-[8px] duration-200 bg-white/70 backdrop-blur-sm shadow-xl m-4 
-             overflow-x-scroll">
+             overflow-x-scroll border-black">
                 {
                     rectsArray.length > 0 ? (
                         <Konva1
@@ -381,14 +356,14 @@ export default function BubbleSort() {
 
 
 
-            <div className="w-[95%] h-[120px] flex items-center justify-around mb-3">
+            <div className="w-[95%] h-[120px] flex items-center justify-around mb-3 border-black">
 
-                <div className="w-[35%] h-full border-1 flex flex-col">
+                <div className="w-[35%] h-full border-1 flex flex-col border-black">
 
-                    <div className="w-full h-1/2 flex justify-around items-center border-b-1">
+                    <div className="w-full h-1/2 flex justify-around items-center border-b-1 border-black">
 
                         <button className="text-2xl border-1 p-1 h-[42px] w-[64px] disabled:opacity-50 rounded
-                        cursor-pointer hover:scale-105 duration-150"
+                        cursor-pointer hover:scale-105 duration-150 text-black"
                             disabled={isAnimating}
                             onClick={handleAdd}
                         >
@@ -396,7 +371,7 @@ export default function BubbleSort() {
                         </button>
 
                         <button className="text-2xl border-1 p-1 h-[42px] w-[64px] disabled:opacity-50 rounded
-                        cursor-pointer hover:scale-105 duration-150"
+                        cursor-pointer hover:scale-105 duration-150 text-black"
                             disabled={isAnimating}
                             onClick={handlePop}
                         >
@@ -404,7 +379,7 @@ export default function BubbleSort() {
                         </button>
 
                         <button className="text-2xl border-1 p-1 h-[42px] w-[64px] disabled:opacity-50 rounded
-                        cursor-pointer hover:scale-105 duration-150"
+                        cursor-pointer hover:scale-105 duration-150 text-black"
                             disabled={isAnimating}
                             onClick={handleNewBoxes}
                         >
@@ -416,7 +391,7 @@ export default function BubbleSort() {
 
                     <div className="w-full h-[50%] flex items-center justify-center">
                         <button className="text-3xl border-1 w-[130px] rounded bg-green-400
-                        disabled:opacity-50 cursor-pointer hover:scale-105 duration-150"
+                        disabled:opacity-50 cursor-pointer hover:scale-105 duration-150 text-black"
                             onClick={animateBubbleSort}
                             disabled={isAnimating}>
                             Animate
@@ -425,35 +400,35 @@ export default function BubbleSort() {
                 </div>
 
 
-                <div className="w-[440px] h-full  
+                <div className="w-[440px] h-full  border-black
                         flex items-center justify-end cursor-pointer gap-2 bg-white">
 
                     <div className="w-[90%] h-full border-1 flex flex-col items-center
-                            justify-center gap-2">
+                            justify-center gap-2 border-black">
 
                         <div className="w-[80%] h-[40%] flex items-center">
 
                             <button className="text-2xl h-full border-1 p-1 rounded hover:scale-105 duration-100 cursor-pointer
-                            bg-green-400 disabled:opacity-50 "
+                            bg-green-400 disabled:opacity-50 text-black "
                                 disabled={isAnimating}
                                 onClick={handleInsert}
                             >
                                 Insert
                             </button>
-                            <label htmlFor="value" className="ml-1">Value</label>
+                            <label htmlFor="value" className="ml-1 text-black">Value</label>
 
                             <input type="number" name="value" className="border-1 w-[54px] ml-3 text-[16px] p-1
-                            outline-none"
+                            outline-none text-black"
                                 max={999}
                                 value={insertVal}
                                 onChange={(e) => setInsertVal(Number(e.target.value))}
                                 disabled={isAnimating} />
 
 
-                            <label htmlFor="index" className="ml-1">Index</label>
+                            <label htmlFor="index" className="ml-1 text-black">Index</label>
                             <input type="number" name="index"
                                 className="border-1 w-[54px] text-[16px] ml-2 p-1
-                            outline-none"
+                            outline-none text-black "
                                 min={0}
                                 disabled={isAnimating}
                                 value={insertIndex}
@@ -466,16 +441,16 @@ export default function BubbleSort() {
 
                         <div className="w-[80%] h-[40%]  items-center flex">
                             <button className="text-2xl h-full border-1 p-1 rounded hover:scale-105 duration-100 cursor-pointer
-                            bg-red-500 disabled:opacity-50 "
+                            bg-red-500 disabled:opacity-50 text-black"
                                 disabled={isAnimating}
                                 onClick={handleRemoveIndex}
                             >
                                 Remove
                             </button>
-                            <label htmlFor="indexR" className="ml-1">Index</label>
+                            <label htmlFor="indexR" className="ml-1 text-black">Index</label>
 
                             <input type="number" className="border-1 w-[54px] ml-3 text-[16px] p-1
-                                    outline-none"
+                                    outline-none text-black"
                                 min={0}
                                 max={rects - 1}
                                 value={removeIndex}
@@ -487,8 +462,8 @@ export default function BubbleSort() {
                         </div>
                     </div>
 
-                    <div className="w-[10%] h-full border-1 flex justify-center items-center">
-                        <ArrowLeft />
+                    <div className="w-[10%] h-full border-1 flex justify-center items-center border-black">
+                        <ArrowLeft color="black" />
                     </div>
                 </div>
 
@@ -496,7 +471,7 @@ export default function BubbleSort() {
 
         </div>
 
-        <AlgoInfo algoName="Bubble Sort" algoInfo={BubbleSortInfo.info} algoCode={BubbleSortInfo.code} />
+        <AlgoInfo algoInfo={BubbleSortInfo} />
 
 
     </main>

@@ -179,10 +179,10 @@ interface rectInfo {
 
 export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
     // Calculate needed height based on maximum lift (50px) plus rectangle height (50px) plus index space (25px)
-    const stageHeight = y + 50 + 50 + 25; // Original y + lift + rect height + index space
+    const stageHeight = y + 50 + 50; // Original y + lift + rect height + index space
 
     return (
-        <Stage width={x + 100} height={stageHeight} className="">
+        <Stage width={x} height={stageHeight} className="">
             <Layer>
                 {boxesInfo.map((r, id) => (
                     <Group
@@ -204,6 +204,8 @@ export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
                             fill="white"
                             fontSize={20}
                         />
+
+                        {/*Small bug in here fix this in the near future*/}
                         <Text
                             text={`${id}`}
                             y={r.height + 5}
@@ -215,7 +217,15 @@ export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
                             fontSize={12}
                         />
                     </Group>
+
+
                 ))}
+
+
+
+
+
+
             </Layer>
         </Stage>
     )
