@@ -10,27 +10,37 @@ export const sortingArray = [
     },
     {
         algoInfo: {
-            name: "Merge"
+            name: "Merge",
+            algoLink: "sort/merge",
+            algoInfo: ""
         }
     },
     {
         algoInfo: {
-            name: "Quick"
+            name: "Quick",
+            algoLink: "sort/quick",
+            algoInfo: "",
         }
     },
     {
         algoInfo: {
-            name: "Insertion"
+            name: "Insertion",
+            algoLink: "sort/insertion",
+            algoInfo: "",
         }
     },
     {
         algoInfo: {
-            name: "Selection"
+            name: "Selection",
+            algoLink: "sort/selection",
+            algoInfo: "",
         }
     },
     {
         algoInfo: {
-            name: "Timsort"
+            name: "Timsort",
+            algoLink: "sort/timsort",
+            algoInfo: "",
         }
     }
 

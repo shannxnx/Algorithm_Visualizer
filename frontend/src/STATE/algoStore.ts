@@ -17,11 +17,13 @@ interface StoreState {
     currentArray: object[];
     rectCounts: number;
     bubbleSortInfo: AlgoStructure;
+    mergeSortInfo: AlgoStructure;
 
     setRectCounts: (count: number) => void;
     setAlgoCategory: (cat: string) => void;
     setCurrentArray: (curr: object[]) => void;
     getBubbleSort: () => void;
+    getMergeSort: () => void;
 }
 
 export const algoStore = create<StoreState>((set, get) => ({
@@ -29,6 +31,11 @@ export const algoStore = create<StoreState>((set, get) => ({
     currentArray: [],
     rectCounts: 0,
     bubbleSortInfo: {
+        algoName: "",
+        algoInfo: "",
+        codes: {}
+    },
+    mergeSortInfo: {
         algoName: "",
         algoInfo: "",
         codes: {}
@@ -48,8 +55,8 @@ export const algoStore = create<StoreState>((set, get) => ({
 
     getBubbleSort: async () => {
         try {
-            const data = await AxiosInstance.get("/sort/bubble-sort");
-            set({ bubbleSortInfo: data.data })
+            const res = await AxiosInstance.get("/sort/bubble-sort");
+            set({ bubbleSortInfo: res.data })
 
 
         } catch (error: any) {
@@ -57,5 +64,15 @@ export const algoStore = create<StoreState>((set, get) => ({
         }
 
     },
+
+    getMergeSort: async () => {
+        try {
+            const res = await AxiosInstance.get("/sort/merge-sort");
+            set({ mergeSortInfo: res.data });
+        } catch (error: any) {
+            console.log("Error in Getting Merge Sort Info store: ", error.message);
+
+        }
+    }
 
 }));

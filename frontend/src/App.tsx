@@ -6,6 +6,7 @@ import KonvaContainer from './TEST_SITE/konvaContainer'
 import Layout from './TEST_SITE/layout'
 import BubbleSort from './ALGORITHMS/SORT/BubbleSort'
 import { ToastContainer } from 'react-toastify'
+import MergeSort from './ALGORITHMS/SORT/MergeSort'
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='/layout' element={<Layout />} />
         <Route path='/sort/bubble' element={<BubbleSort />} />
+        <Route path='/sort/merge' element={<MergeSort />} />
 
 
       </Routes>
