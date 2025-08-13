@@ -5,6 +5,7 @@ import AlgoInfo from "../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { ArrowLeft } from "lucide-react";
 import { BubbleSortInfo } from "../../LIB/algoCodesDB";
 import { toast } from "react-toastify";
+import { sortStore } from "../../STATE/sortingStore";
 
 const div_x = 400;
 const div_y = 50;
@@ -20,8 +21,8 @@ export default function BubbleSort() {
     const mainRef = useRef<HTMLElement>(null);
     const rectCounts = algoStore((state: any) => state.rectCounts);
     const setRectCounts = algoStore((state: any) => state.setRectCounts);
-    const getBubbleSort = algoStore((state: any) => state.getBubbleSort);
-    const bubbleSortInfo = algoStore((state: any) => state.bubbleSortInfo);
+    const getBubbleSort = sortStore((state: any) => state.getBubbleSort);
+    const bubbleSortInfo = sortStore((state: any) => state.bubbleSortInfo);
 
     const [rects, setRects] = useState<number>(5);
     const [rectsArray, setRectsArray] = useState<Array<rectInfo>>([]);
