@@ -4,6 +4,7 @@ import { Konva1 } from "../../TEST_SITE/konva1";
 import AlgoInfo from "../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { ArrowLeft } from "lucide-react";
 import { BubbleSortInfo } from "../../LIB/algoCodesDB";
+import { toast } from "react-toastify";
 
 
 
@@ -289,8 +290,10 @@ export default function BubbleSort() {
     }, [task, rectsArray, insertVal, insertIndex, removeIndex]);
 
     const handleAdd = () => {
-        setRects(rects + 1);
-        setTask('add');
+        if (rects <= 10) {
+            setRects(rects + 1);
+            setTask('add');
+        }
     };
 
     const handlePop = () => {
@@ -301,9 +304,13 @@ export default function BubbleSort() {
     };
 
     const handleInsert = () => {
-        if (insertIndex <= rects) {
+        if (insertIndex <= rects && rects <= 10) {
             setRects(rects + 1);
             setTask('insert');
+        }
+        else {
+            toast.error("Maximum array length!")
+
         }
     };
 
@@ -362,7 +369,7 @@ export default function BubbleSort() {
 
                     <div className="w-full h-1/2 flex justify-around items-center border-b-1 border-black">
 
-                        <button className="text-2xl border-1 p-1 h-[42px] w-[64px] disabled:opacity-50 rounded
+                        <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
                         cursor-pointer hover:scale-105 duration-150 text-black"
                             disabled={isAnimating}
                             onClick={handleAdd}
@@ -370,7 +377,7 @@ export default function BubbleSort() {
                             Add
                         </button>
 
-                        <button className="text-2xl border-1 p-1 h-[42px] w-[64px] disabled:opacity-50 rounded
+                        <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
                         cursor-pointer hover:scale-105 duration-150 text-black"
                             disabled={isAnimating}
                             onClick={handlePop}
@@ -378,7 +385,7 @@ export default function BubbleSort() {
                             Pop
                         </button>
 
-                        <button className="text-2xl border-1 p-1 h-[42px] w-[64px] disabled:opacity-50 rounded
+                        <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
                         cursor-pointer hover:scale-105 duration-150 text-black"
                             disabled={isAnimating}
                             onClick={handleNewBoxes}
