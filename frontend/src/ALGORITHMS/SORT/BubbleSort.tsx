@@ -6,6 +6,12 @@ import { ArrowLeft } from "lucide-react";
 import { BubbleSortInfo } from "../../LIB/algoCodesDB";
 import { toast } from "react-toastify";
 
+const div_x = 400;
+const div_y = 50;
+const width = 50;
+const height = 50;
+const gap = 5;
+let rectCount = 8;
 
 
 
@@ -15,6 +21,7 @@ export default function BubbleSort() {
     const rectCounts = algoStore((state: any) => state.rectCounts);
     const setRectCounts = algoStore((state: any) => state.setRectCounts);
     const getBubbleSort = algoStore((state: any) => state.getBubbleSort);
+    const bubbleSortInfo = algoStore((state: any) => state.bubbleSortInfo);
 
     const [rects, setRects] = useState<number>(5);
     const [rectsArray, setRectsArray] = useState<Array<rectInfo>>([]);
@@ -25,12 +32,6 @@ export default function BubbleSort() {
     const [insertIndex, setInsertIndex] = useState<number>(0);
     const [removeIndex, setRemoveIndex] = useState<number>(0);
 
-    const div_x = 400;
-    const div_y = 50;
-    const width = 50;
-    const height = 50;
-    const gap = 5;
-    let rectCount = 8;
     const totalWidth = (width + gap) * rects;
 
     interface rectInfo {
@@ -40,7 +41,7 @@ export default function BubbleSort() {
         height: number,
         number: number
         id: number
-        color?: string  // Add optional color property
+        color?: string
     };
 
     const generateBoxesInfo = (count: number): Array<rectInfo> => {
@@ -55,7 +56,7 @@ export default function BubbleSort() {
                 y: 0,
                 number: Math.floor(Math.random() * 10),
                 id: i,
-                color: colors[i % colors.length] // Assign cycling colors
+                color: colors[i % colors.length]
             };
             boxesInfo.push(rect);
         }
@@ -64,10 +65,11 @@ export default function BubbleSort() {
 
 
     useEffect(() => {
-        // Initialize with some boxes when component mounts
         setRectsArray(generateBoxesInfo(5));
         getBubbleSort();
     }, []);
+
+    console.log("Bubble Sort: ", bubbleSortInfo);
 
 
     const animateBubbleSort = async () => {
@@ -217,10 +219,7 @@ export default function BubbleSort() {
 
 
 
-    // Also update your Konva1 component to fix the key issue
-    // Replace the Text rendering in your Konva1 component with better keys
 
-    // Fixed: Added task to dependency array
     useEffect(() => {
         if (rectsArray.length > 0 && task) {
             switch (task) {
@@ -479,7 +478,7 @@ export default function BubbleSort() {
 
         </div>
 
-        <AlgoInfo algoInfo={BubbleSortInfo} />
+        <AlgoInfo algoInfo={bubbleSortInfo} />
 
 
     </main>

@@ -18,9 +18,8 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props }) {
     const [currLanguage, setCurrLanguage] = useState<string>('cpp');
 
 
-
     console.log("Algo Data: ", algoInfo);
-    console.log("curr lang: ", currLanguage);
+
 
 
     const handleChangeLang = (lang: string) => {

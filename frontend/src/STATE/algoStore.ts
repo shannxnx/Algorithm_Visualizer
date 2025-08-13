@@ -2,6 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 import BubbleSort from "../ALGORITHMS/SORT/BubbleSort";
 import { AxiosInstance } from "../LIB/axios";
+import { BubbleSortInfo } from "../LIB/algoCodesDB";
 
 interface AlgoStructure {
     readonly algoName: string;
@@ -15,7 +16,7 @@ interface StoreState {
     algoCategory: string;
     currentArray: object[];
     rectCounts: number;
-    BubbleSortInfo: AlgoStructure;
+    bubbleSortInfo: AlgoStructure;
 
     setRectCounts: (count: number) => void;
     setAlgoCategory: (cat: string) => void;
@@ -27,7 +28,7 @@ export const algoStore = create<StoreState>((set, get) => ({
     algoCategory: "",
     currentArray: [],
     rectCounts: 0,
-    BubbleSortInfo: {
+    bubbleSortInfo: {
         algoName: "",
         algoInfo: "",
         codes: {}
@@ -47,8 +48,9 @@ export const algoStore = create<StoreState>((set, get) => ({
 
     getBubbleSort: async () => {
         try {
-            const data = await AxiosInstance.get("sort/bubble-sort");
-            console.log("Bubble Sort Info: ", data.data);
+            const data = await AxiosInstance.get("/sort/bubble-sort");
+            set({ bubbleSortInfo: data.data })
+
 
         } catch (error: any) {
             console.log("Error in Getting bubble sort info store: ", error.message);
