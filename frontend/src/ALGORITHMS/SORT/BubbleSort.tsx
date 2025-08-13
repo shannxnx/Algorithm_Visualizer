@@ -14,11 +14,11 @@ export default function BubbleSort() {
     const mainRef = useRef<HTMLElement>(null);
     const rectCounts = algoStore((state: any) => state.rectCounts);
     const setRectCounts = algoStore((state: any) => state.setRectCounts);
+    const getBubbleSort = algoStore((state: any) => state.getBubbleSort);
+
     const [rects, setRects] = useState<number>(5);
     const [rectsArray, setRectsArray] = useState<Array<rectInfo>>([]);
     const [task, setTask] = useState<string>('');
-
-    //new add 
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
     const [insertVal, setInsertVal] = useState<number>(0);
@@ -66,6 +66,7 @@ export default function BubbleSort() {
     useEffect(() => {
         // Initialize with some boxes when component mounts
         setRectsArray(generateBoxesInfo(5));
+        getBubbleSort();
     }, []);
 
 

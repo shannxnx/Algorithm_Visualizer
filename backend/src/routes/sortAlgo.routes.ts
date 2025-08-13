@@ -1,11 +1,11 @@
 import express from "express";
-import { getBubbleSortInfo } from "../controllers/sortAlgo.controllers";
+import { getBubbleSortInfo, postBubbleSortInfo } from "../controllers/sortAlgo.controllers";
 
 
 const router = express.Router();
 
 
-//router.post("/sort", )
+router.post("/sort/bubble-sort/post", postBubbleSortInfo);
 router.get("/sort/bubble-sort", getBubbleSortInfo);
 
 

@@ -1,21 +1,16 @@
+import mongoose, { Document, Schema } from "mongoose"
 
-import mongoose from "mongoose"
+interface AlgoData extends Document {
+    algoName: String,
+    algoInfo: String,
+    codes: Record<string, string>
+}
 
-const AlgorithmInfoSchema = new mongoose.Schema({
+
+const AlgorithmInfoSchema: Schema = new Schema({
     algoName: { type: String, required: true },
     algoInfo: { type: String, required: true },
-    codes: {
-        javascript: { type: String, default: "" },
-        cpp: { type: String, default: "" },
-        c: { type: String, default: "" },
-        csharp: { type: String, default: "" },
-        python: { type: String, default: "" },
-        java: { type: String, default: "" },
-        php: { type: String, default: "" },
-    }
+    codes: { type: Map, of: String, required: true }
+}, { timestamps: true });
 
-})
-
-const AlgorithmInfo = mongoose.model("Algorithm", AlgorithmInfoSchema);
-
-export default AlgorithmInfo;
+export default mongoose.model<AlgoData>("Algorithm", AlgorithmInfoSchema)

@@ -7,7 +7,7 @@ type props = {
     readonly algoName: string;
     readonly algoInfo: string;
     codes: {
-        [key: string]: string; // "javascript", "cpp", "python", etc.
+        [key: string]: string;
     };
 }
 
