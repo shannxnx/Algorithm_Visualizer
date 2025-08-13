@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv"
 import { ConnectDB } from "./lib/db";
+import SortAlgoRoutes from "../src/routes/sortAlgo.routes";
 
 dotenv.config();
 
@@ -14,7 +15,10 @@ app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Hello Backend! (from typescript)");
-})
+});
+
+
+app.use("/algorithm/db/", SortAlgoRoutes);
 
 
 app.listen(PORT, () => {
