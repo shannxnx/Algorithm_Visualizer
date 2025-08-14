@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { authStore } from "../STATE/authStore";
 
 
@@ -25,13 +25,20 @@ export default function AdminLogin() {
         };
 
         LoginAdmin(data);
+        setEmail("");
+        setPasword("");
 
 
     };
 
     const handleLogout = () => {
         Logout();
-    }
+    };
+
+
+    useEffect(() => {
+        ChechAuth();
+    }, [])
 
 
 
@@ -42,6 +49,8 @@ export default function AdminLogin() {
         items-center">
             <h1 className="text-center text-white mt-8 text-4xl">Admin</h1>
             <div className="w-[90%] flex flex-col items-center mt-16 border ">
+                <input type="text" className="hidden" />
+                <input type="password" className="hidden" />
 
                 <input type="text" placeholder="Email" className="input input-neutral mt-6" autoComplete="off"
                     value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -49,13 +58,20 @@ export default function AdminLogin() {
                 <input type="password" placeholder="Password" className="input input-neutral mt-6 bg-white" autoComplete="off"
                     value={password} onChange={(e) => setPasword(e.target.value)} />
 
-                <button className="border-1 w-[120px] h-[40px] border-white mt-4 bg-white rounded-[8px]">
+                <button className="border-1 w-[120px] h-[40px] border-white mt-4 bg-white rounded-[8px]"
+                    onClick={handleLogin}>
                     Login
+                </button>
+                <button className="border-1 w-[120px] h-[40px] border-white mt-4 bg-white rounded-[8px]"
+                    onClick={handleLogout}>
+                    Logout
                 </button>
 
             </div>
 
         </div>
+
+
 
 
 

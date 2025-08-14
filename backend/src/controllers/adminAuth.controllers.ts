@@ -66,7 +66,7 @@ export const AdminLogin = async (req: Request, res: Response) => {
 
 
         generateToken(user._id, res);
-        res.status(200).json({ message: "Logged in as admin successfully!" });
+        res.status(200).json({ _id: user._id, email: user.email });
 
 
 

@@ -16,43 +16,44 @@ interface authState {
 
 export const authStore = create<authState>((set, get) => ({
 
-    LoginAdmin: (data: LoginData) => {
+    LoginAdmin: async (data: LoginData) => {
         try {
-            const res = AxiosInstanceAdmin.post("/login", data);
+            const res = await AxiosInstanceAdmin.post("/login", data);
             if (!res) return toast.error("Error in login admin!");
 
-            console.log("Login: ", res);
+            console.log("Login: ", res.data);
             toast.success("Login as Admin successfully!");
 
         } catch (error: any) {
             console.log("Error in login admin store: ", error.message);
-            toast.error("Error in login admin!!");
+            toast.error(error?.response?.data?.message);
         }
     },
 
-    CheckAuth: () => {
+    CheckAuth: async () => {
         try {
-            const res = AxiosInstanceAdmin.post("/check");
+            const res = await AxiosInstanceAdmin.get("/check");
             if (!res) return toast.error("Error in check auth!");
 
-            console.log("user: ", res);
+            console.log("user: ", res.data);
 
         } catch (error: any) {
             console.log("Error in CheckAuth store: ", error.message);
-            toast.error("Error in CheckAuth !!");
+            //toast.error(error?.response?.data?.message);
         }
     },
 
-    Logout: () => {
+    Logout: async () => {
         try {
-            const res = AxiosInstanceAdmin.post("/logout");
+            const res = await AxiosInstanceAdmin.post("/logout");
             if (!res) return toast.error("Error in login admin!");
 
-            console.log("Logout: ", res);
+            console.log("Logout: ", res.data);
+            toast.success("Logout successfully!");
 
         } catch (error: any) {
             console.log("Error in logout store: ", error.message);
-            toast.error("Error in logout !!");
+            toast.error(error?.response?.data?.message);
         }
     }
 }))
