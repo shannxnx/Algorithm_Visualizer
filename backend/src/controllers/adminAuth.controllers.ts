@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/genToken";
 
 
-export const signUp = async (req: Request, res: Response) => {
+export const Signup = async (req: Request, res: Response) => {
     const { email, password } = req.body
 
     try {
@@ -19,11 +19,11 @@ export const signUp = async (req: Request, res: Response) => {
         const salt = await bcrypt.genSalt(10);
 
 
-        const hashedPassword = bcrypt.hash(password, salt)
+        const hashedPassword = await bcrypt.hash(password, salt)
 
         const newUser = new AdminAuth({
             email,
-            password
+            password: hashedPassword
         });
 
 
@@ -43,8 +43,8 @@ export const signUp = async (req: Request, res: Response) => {
 
 
     } catch (error: any) {
-        console.log("Internal Server Error!", error.message);
-        res.status(500).json({ message: "Internal Server Eror!" });
+        console.log("Error in signup : ", error.message);
+        res.status(500).json({ message: "Internal Server Error!" });
     }
 }
 
@@ -71,7 +71,54 @@ export const AdminLogin = async (req: Request, res: Response) => {
 
 
 
-    } catch (error) {
+    } catch (error: any) {
+        console.log("Error in admin login: ", error.message);
+        res.status(500).json({ message: "Internal Server Error!" });
+    }
+};
+
+
+
+export const Logout = async (req: Request, res: Response) => {
+    const userId = req.user._id;
+    try {
+        res.cookie("jwt", "", { maxAge: 0 });
+
+        const user = await AdminAuth.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found!" });
+        }
+
+        if (user) {
+            res.status(200).json({ message: "Logged out successfully" });
+        };
+
+    } catch (error: any) {
+        console.log("Error in logout: ", error.message);
+        res.status(500).json({ message: "Internal Server Error!" });
+    }
+};
+
+
+
+export const checkAuth = async (req: Request, res: Response) => {
+    const userId = req.user._id;
+    try {
+
+        if (!userId) return res.status(404).json({ message: "No user Exist!" });
+
+
+        const user = await AdminAuth.findById(userId).select("-password");
+
+
+        if (!user) return res.status(404).json({ message: "No user Exist!" });
+
+        res.status(200).json(user);
+
+
+    } catch (error: any) {
+        console.log("Error in checking auth: ", error.message);
+        res.status(500).json({ message: "Internal Server Error!" })
 
     }
 }

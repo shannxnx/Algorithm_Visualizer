@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import adminAuth from "../models/auth.model";
+import AdminAuth from "../models/auth.model";
+import { ObjectId } from "mongoose";
 
 dotenv.config();
 
 interface JwtPayload {
-    userId: string;
+    userId: ObjectId;
 }
 
 export const protectRoute = async (req: Request, res: Response, next: NextFunction) => {
@@ -19,14 +20,15 @@ export const protectRoute = async (req: Request, res: Response, next: NextFuncti
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
 
-        const user = await adminAuth.findById(decoded.userId).select("-password");
+        const user = await AdminAuth.findById(decoded.userId).select("-password");
         if (!user) {
             return res.status(404).json({ message: "User not found!!" });
         }
 
         req.user = user;
         next();
-    } catch (error) {
+    } catch (error: any) {
+        console.log("Error in protectroute: ", error.message);
         res.status(401).json({ message: "Unauthorized - Invalid token" });
     }
 };

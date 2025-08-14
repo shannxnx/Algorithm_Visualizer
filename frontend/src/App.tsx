@@ -7,6 +7,7 @@ import Layout from './TEST_SITE/layout'
 import BubbleSort from './ALGORITHMS/SORT/BubbleSort'
 import { ToastContainer } from 'react-toastify'
 import MergeSort from './ALGORITHMS/SORT/MergeSort'
+import AdminLogin from './ADMIN/Login'
 
 function App() {
 
@@ -19,10 +20,11 @@ function App() {
         <Route path='/layout' element={<Layout />} />
         <Route path='/sort/bubble' element={<BubbleSort />} />
         <Route path='/sort/merge' element={<MergeSort />} />
+        <Route path='/secret/login' element={<AdminLogin />} />
 
 
       </Routes>
-
+      <ToastContainer />
     </BrowserRouter>
 
   )

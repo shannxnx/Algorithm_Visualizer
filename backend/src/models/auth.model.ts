@@ -12,6 +12,7 @@ interface AdminAuth extends Document {
 const AuthSchema: Schema = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true, },
+    userName: { type: String, default: "" },
 }, { timestamps: true });
 
 
