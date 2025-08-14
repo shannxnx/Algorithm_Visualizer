@@ -22,6 +22,7 @@ app.get("/", (req: Request, res: Response) => {
 
 
 app.use("/algorithm/db", SortAlgoRoutes);
+//app.use("/secret/admin", adminAuth);
 
 
 app.listen(PORT, () => {
