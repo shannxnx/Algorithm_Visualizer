@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import HomePage from './COMPONENTS/HomePage'
 import { Konva1 } from './TEST_SITE/konva1'
@@ -14,6 +14,15 @@ function App() {
 
   const clickCount = authStore((state) => state.clickCount);
 
+  const CheckAuth = authStore((state) => state.CheckAuth);
+  const Admin = authStore((state) => state.Admin);
+
+
+  console.log("Admin : ", Admin);
+
+  useEffect(() => {
+    CheckAuth();
+  }, []);
 
 
 

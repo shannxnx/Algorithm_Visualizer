@@ -9,7 +9,7 @@ interface LoginData {
 }
 
 interface authState {
-    Admin: Boolean;
+    Admin: Object | null;
     clickCount: number;
     clickIncrement: () => void;
     resetClickCount: () => void;
@@ -17,11 +17,12 @@ interface authState {
     Logout: () => void;
     CheckAuth: () => void;
 
+
 }
 
 export const authStore = create<authState>((set, get) => ({
 
-    Admin: false,
+    Admin: null,
     clickCount: 0,
 
 
@@ -40,7 +41,7 @@ export const authStore = create<authState>((set, get) => ({
 
             console.log("Login: ", res.data);
             toast.success("Login as Admin successfully!");
-            set({ Admin: true });
+            set({ Admin: res.data });
 
         } catch (error: any) {
             console.log("Error in login admin store: ", error.message);
@@ -54,6 +55,7 @@ export const authStore = create<authState>((set, get) => ({
             if (!res) return toast.error("Error in check auth!");
 
             console.log("user: ", res.data);
+            set({ Admin: res.data });
 
         } catch (error: any) {
             console.log("Error in CheckAuth store: ", error.message);
@@ -67,7 +69,7 @@ export const authStore = create<authState>((set, get) => ({
             if (!res) return toast.error("Error in login admin!");
 
 
-            set({ Admin: false });
+            set({ Admin: null });
             console.log("Logout: ", res.data);
             toast.success("Logout successfully!");
 

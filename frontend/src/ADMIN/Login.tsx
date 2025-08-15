@@ -17,6 +17,7 @@ export default function AdminLogin() {
     const LoginAdmin = authStore((state) => state.LoginAdmin);
     const ChechAuth = authStore((state) => state.CheckAuth);
     const Logout = authStore((state) => state.Logout);
+    const Admin = authStore((state) => state.Admin);
 
     const clickCount = authStore((state) => state.clickCount);
     const resetClickCount = authStore((state) => state.resetClickCount);
@@ -45,11 +46,16 @@ export default function AdminLogin() {
         ChechAuth();
     }, [])
 
+
     useEffect(() => {
+        ChechAuth();
         if (clickCount !== 13) {
-            navigate("/", { replace: true })
+            navigate("/", { replace: true });
         }
-    }, [clickCount, navigate]);
+    }, [clickCount, ChechAuth, navigate]);
+
+
+    console.log("Admin : ", Admin);
 
 
 

@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { authStore } from "../../STATE/authStore"
 import { useNavigate } from "react-router-dom";
 
@@ -15,19 +15,21 @@ export default function Navbar({ onScrollNext }: NavbarProps) {
 
     const clickCount = authStore((state) => state.clickCount);
     const clickIncrement = authStore((state) => state.clickIncrement);
+    const Admin = authStore((state) => state.Admin);
+
     const navigate = useNavigate();
 
 
 
 
+
     console.log("Click Count: ", clickCount);
+    useEffect(() => {
+        if (clickCount === 13) {
+            navigate("/secret/login");
+        };
+    }, [clickCount, navigate])
 
-    if (clickCount === 13) {
-
-        //window.location.href = "http://localhost:5173/secret/login"; //this refresh the app which is bad
-        navigate("/secret/login");   //this is exactly what i want
-
-    };
 
 
 
@@ -46,7 +48,10 @@ export default function Navbar({ onScrollNext }: NavbarProps) {
             <a onClick={onScrollNext}>
                 <h1 className="text-white text-2xl cursor-pointer hover:scale-110 duration-150 hover:text-green-400
             ">
-                    Visualize
+                    {/* Visualize*/}
+                    {
+                        Admin ? "Hello Admin" : "Visualize"
+                    }
                 </h1>
             </a>
 
