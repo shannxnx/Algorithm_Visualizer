@@ -1,5 +1,6 @@
 import { useRef } from "react"
 import { authStore } from "../../STATE/authStore"
+import { useNavigate } from "react-router-dom";
 
 
 type NavbarProps = {
@@ -14,6 +15,7 @@ export default function Navbar({ onScrollNext }: NavbarProps) {
 
     const clickCount = authStore((state) => state.clickCount);
     const clickIncrement = authStore((state) => state.clickIncrement);
+    const navigate = useNavigate();
 
 
 
@@ -22,9 +24,12 @@ export default function Navbar({ onScrollNext }: NavbarProps) {
 
     if (clickCount === 13) {
 
-        window.location.href = "http://localhost:5173/secret/login";
+        //window.location.href = "http://localhost:5173/secret/login"; //this refresh the app which is bad
+        navigate("/secret/login");   //this is exactly what i want
 
-    }
+    };
+
+
 
     return <nav className="lg:h-[65px] lg:w-full bg-black border-2  rounded flex p-3 justify-center">
 

@@ -12,6 +12,7 @@ interface authState {
     Admin: Boolean;
     clickCount: number;
     clickIncrement: () => void;
+    resetClickCount: () => void;
     LoginAdmin: (data: LoginData) => void;
     Logout: () => void;
     CheckAuth: () => void;
@@ -26,6 +27,10 @@ export const authStore = create<authState>((set, get) => ({
 
     clickIncrement: () => {
         set((state) => ({ clickCount: state.clickCount + 1 }))
+    },
+
+    resetClickCount: () => {
+        set({ clickCount: 0 });
     },
 
     LoginAdmin: async (data: LoginData) => {

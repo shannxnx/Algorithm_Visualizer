@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { authStore } from "../STATE/authStore";
+import { useNavigate } from "react-router-dom";
 
 
 interface LoginData {
@@ -16,6 +17,10 @@ export default function AdminLogin() {
     const LoginAdmin = authStore((state) => state.LoginAdmin);
     const ChechAuth = authStore((state) => state.CheckAuth);
     const Logout = authStore((state) => state.Logout);
+
+    const clickCount = authStore((state) => state.clickCount);
+    const resetClickCount = authStore((state) => state.resetClickCount);
+    const navigate = useNavigate();
 
 
     const handleLogin = () => {
@@ -39,6 +44,12 @@ export default function AdminLogin() {
     useEffect(() => {
         ChechAuth();
     }, [])
+
+    useEffect(() => {
+        if (clickCount !== 13) {
+            navigate("/", { replace: true })
+        }
+    }, [clickCount, navigate]);
 
 
 
