@@ -72,6 +72,7 @@ export const authStore = create<authState>((set, get) => ({
             set({ Admin: null });
             console.log("Logout: ", res.data);
             toast.success("Logout successfully!");
+            window.location.href = "/";
 
         } catch (error: any) {
             console.log("Error in logout store: ", error.message);

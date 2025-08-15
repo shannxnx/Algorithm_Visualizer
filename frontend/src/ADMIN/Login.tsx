@@ -18,9 +18,8 @@ export default function AdminLogin() {
     const ChechAuth = authStore((state) => state.CheckAuth);
     const Logout = authStore((state) => state.Logout);
     const Admin = authStore((state) => state.Admin);
-
     const clickCount = authStore((state) => state.clickCount);
-    const resetClickCount = authStore((state) => state.resetClickCount);
+
     const navigate = useNavigate();
 
 

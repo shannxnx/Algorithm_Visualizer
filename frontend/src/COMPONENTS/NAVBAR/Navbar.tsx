@@ -46,8 +46,8 @@ export default function Navbar({ onScrollNext }: NavbarProps) {
         <div className="lg:w-1/2 flex gap-8 border-red-400 justify-center items-center">
 
             <a onClick={onScrollNext}>
-                <h1 className="text-white text-2xl cursor-pointer hover:scale-110 duration-150 hover:text-green-400
-            ">
+                <h1 className={`${Admin ? "text-red-600" : "text-white"} text-2xl cursor-pointer hover:scale-110 duration-150 hover:text-green-400
+            `}>
                     {/* Visualize*/}
                     {
                         Admin ? "Hello Admin" : "Visualize"
