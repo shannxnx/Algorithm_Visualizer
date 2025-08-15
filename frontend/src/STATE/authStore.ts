@@ -9,7 +9,9 @@ interface LoginData {
 }
 
 interface authState {
-    Admin: Boolean
+    Admin: Boolean;
+    clickCount: number;
+    clickIncrement: () => void;
     LoginAdmin: (data: LoginData) => void;
     Logout: () => void;
     CheckAuth: () => void;
@@ -19,6 +21,12 @@ interface authState {
 export const authStore = create<authState>((set, get) => ({
 
     Admin: false,
+    clickCount: 0,
+
+
+    clickIncrement: () => {
+        set((state) => ({ clickCount: state.clickCount + 1 }))
+    },
 
     LoginAdmin: async (data: LoginData) => {
         try {

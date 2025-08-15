@@ -1,4 +1,5 @@
 import { useRef } from "react"
+import { authStore } from "../../STATE/authStore"
 
 
 type NavbarProps = {
@@ -11,16 +12,26 @@ export default function Navbar({ onScrollNext }: NavbarProps) {
 
 
 
+    const clickCount = authStore((state) => state.clickCount);
+    const clickIncrement = authStore((state) => state.clickIncrement);
 
 
 
 
+    console.log("Click Count: ", clickCount);
+
+    if (clickCount === 13) {
+
+        window.location.href = "http://localhost:5173/secret/login";
+
+    }
 
     return <nav className="lg:h-[65px] lg:w-full bg-black border-2  rounded flex p-3 justify-center">
 
         <div className="border-1 lg:w-[15%] flex items-center justify-center">
             <h1 className="lg:text-4xl text-white LOGO hover:scale-105 duration-100 cursor-pointer
-                hover:text-black   p-1 rounded-[8px] bg-[#26b06d]">
+                hover:text-black   p-1 rounded-[8px] bg-[#26b06d]"
+                onClick={() => clickIncrement()}>
                 AV
             </h1>
         </div>

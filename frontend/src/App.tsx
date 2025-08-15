@@ -8,8 +8,13 @@ import BubbleSort from './ALGORITHMS/SORT/BubbleSort'
 import { ToastContainer } from 'react-toastify'
 import MergeSort from './ALGORITHMS/SORT/MergeSort'
 import AdminLogin from './ADMIN/Login'
+import { authStore } from './STATE/authStore'
 
 function App() {
+
+  const clickCount = authStore((state) => state.clickCount);
+
+
 
 
   return (
@@ -20,7 +25,7 @@ function App() {
         <Route path='/layout' element={<Layout />} />
         <Route path='/sort/bubble' element={<BubbleSort />} />
         <Route path='/sort/merge' element={<MergeSort />} />
-        <Route path='/secret/login' element={<AdminLogin />} />
+        <Route path='/secret/login' element={clickCount != 13 ? <HomePage /> : <AdminLogin />} />
 
 
       </Routes>
