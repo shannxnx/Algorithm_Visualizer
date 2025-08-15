@@ -1,9 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { algoStore } from "../../STATE/algoStore";
-import { Konva1 } from "../../TEST_SITE/konva1";
 import AlgoInfo from "../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { ArrowLeft } from "lucide-react";
-import { BubbleSortInfo } from "../../LIB/algoCodesDB";
 import { toast } from "react-toastify";
 import { sortStore } from "../../STATE/sortingStore";
 
@@ -72,7 +70,7 @@ export default function MergeSort() {
 
 
 
-    console.log("Merge Sort: ", mergeSortInfo);
+    //console.log("Merge Sort: ", mergeSortInfo);
 
 
 

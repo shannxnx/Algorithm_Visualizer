@@ -1,6 +1,7 @@
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Check, Edit } from "lucide-react"
 import { Editor } from "@monaco-editor/react"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { authStore } from "../../STATE/authStore";
 
 
 type props = {
@@ -17,14 +18,42 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props }) {
 
     const [currLanguage, setCurrLanguage] = useState<string>('cpp');
 
+    const [code, setCode] = useState<string>(algoInfo.codes['cpp']);
+    const [editMode, setEditMode] = useState<boolean>(false);
+    const Admin = authStore((state) => state.Admin);
 
-    console.log("Algo Data: ", algoInfo);
+    useEffect(() => {
+        setCode(algoInfo.codes[currLanguage])
+    }, [currLanguage, algoInfo.codes]);
+
+
+
 
 
 
     const handleChangeLang = (lang: string) => {
         setCurrLanguage(lang);
+    };
+
+    const handleCodeChange = (newCode: string | undefined) => {
+        if (newCode !== undefined) {
+            setCode(newCode);
+        }
     }
+
+    const handleEdit = () => {
+        setEditMode(true);
+
+    };
+
+    const handleCheck = () => {
+        setEditMode(false);
+    }
+
+
+
+    //console.log("Current languages: ", code);
+    console.log("Edit mode:", editMode);
 
     return <div className="w-[40%] h-full border-1 rounded flex-col flex  items-center bg-white relative
     dark:bg-white">
@@ -37,20 +66,34 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props }) {
 
 
         {
-            <div className="mt-4 border-1 border-black w-[90%] h-[50%] overflow-scroll p-2 dark:bg-white" style={{ scrollbarWidth: "none" }}>
+            <div className="mt-4 border-1 border-black w-[90%] h-[50%] overflow-scroll p-2 dark:bg-white
+            flex flex-col" style={{ scrollbarWidth: "none" }}>
+                {
+                    Admin && <div className="w-[95%] h-[50px] flex items-center
+                    justify-end">
+                        {
+                            !editMode ? <Edit className="mr-2 hover:scale-105 cursor-pointer"
+                                onClick={handleEdit} />
+                                : <Check className="mr-2 hover:scale-105 cursor-pointer" onClick={handleCheck} />
+                        }
 
+                    </div>
+                }
 
                 <Editor className="h-full" defaultLanguage="cpp"
 
-                    value={algoInfo.codes[currLanguage]}
+                    value={code}
+                    onChange={handleCodeChange}
+
                     options=
                     {{
-                        readOnly: true,
+                        readOnly: Admin && editMode ? false : true,
                         minimap: { enabled: false },
                         scrollbar: { vertical: "hidden", horizontal: "hidden", },
 
-                    }}
-                />
+                    }} />
+
+
 
 
             </div>
