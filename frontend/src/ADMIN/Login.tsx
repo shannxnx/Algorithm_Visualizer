@@ -58,11 +58,13 @@ export default function AdminLogin() {
                 <input type="password" placeholder="Password" className="input input-neutral mt-6 bg-white" autoComplete="off"
                     value={password} onChange={(e) => setPasword(e.target.value)} />
 
-                <button className="border-1 w-[120px] h-[40px] border-white mt-4 bg-white rounded-[8px]"
+                <button className="border-1 w-[120px] h-[40px] border-white mt-4 bg-white rounded-[8px]
+                cursor-pointer hover:scale-105 duration-150"
                     onClick={handleLogin}>
                     Login
                 </button>
-                <button className="border-1 w-[120px] h-[40px] border-white mt-4 bg-white rounded-[8px]"
+                <button className="border-1 w-[120px] h-[40px] border-white mt-4 bg-white rounded-[8px]
+                cursor-pointer hover:scale-105 duration-150"
                     onClick={handleLogout}>
                     Logout
                 </button>

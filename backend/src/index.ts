@@ -8,7 +8,6 @@ import cookieParser from "cookie-parser";
 
 dotenv.config();
 
-//HZoOOl2KRzHADyMe moongoose password
 
 const app = express();
 const PORT = process.env.PORT || 5000;

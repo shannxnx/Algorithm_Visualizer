@@ -9,12 +9,16 @@ interface LoginData {
 }
 
 interface authState {
+    Admin: Boolean
     LoginAdmin: (data: LoginData) => void;
     Logout: () => void;
     CheckAuth: () => void;
+
 }
 
 export const authStore = create<authState>((set, get) => ({
+
+    Admin: false,
 
     LoginAdmin: async (data: LoginData) => {
         try {
@@ -23,6 +27,7 @@ export const authStore = create<authState>((set, get) => ({
 
             console.log("Login: ", res.data);
             toast.success("Login as Admin successfully!");
+            set({ Admin: true });
 
         } catch (error: any) {
             console.log("Error in login admin store: ", error.message);
@@ -48,6 +53,8 @@ export const authStore = create<authState>((set, get) => ({
             const res = await AxiosInstanceAdmin.post("/logout");
             if (!res) return toast.error("Error in login admin!");
 
+
+            set({ Admin: false });
             console.log("Logout: ", res.data);
             toast.success("Logout successfully!");
 
