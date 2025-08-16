@@ -93,7 +93,8 @@ export const getMergeSortInfo = async (req: Request, res: Response) => {
 };
 
 
-export const editMergeSort = async (req: Request, res: Response) => {
+
+export const editSortCode = async (req: Request, res: Response) => {
     const userId = req.user._id;
     const { code, language, algoName } = req.body;
     try {
@@ -103,13 +104,6 @@ export const editMergeSort = async (req: Request, res: Response) => {
         const updated = await AlgorithmInfo.findOneAndUpdate({ algoName }, { $set: { [`codes.${language}`]: code } });
 
         if (!updated) return res.status(400).json({ message: "No alogorithm found!" });
-        console.log("Code in backend: ", code);
-
-        updated.codes[language] = code;
-
-
-
-
 
 
 
@@ -120,4 +114,5 @@ export const editMergeSort = async (req: Request, res: Response) => {
         console.log("Internal Sever Error!", error.message);
         res.status(500).json({ message: "Internal Server Error!" });
     }
-}
+};
+

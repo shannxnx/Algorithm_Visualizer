@@ -4,6 +4,7 @@ import AlgoInfo from "../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "react-toastify";
 import { sortStore } from "../../STATE/sortingStore";
+import type { SortKit } from "../../INTERFACES/sortInter";
 
 const div_x = 400;
 const div_y = 50;
@@ -14,6 +15,7 @@ let rectCount = 8;
 
 
 
+
 export default function MergeSort() {
 
     const mainRef = useRef<HTMLElement>(null);
@@ -21,6 +23,8 @@ export default function MergeSort() {
     const setRectCounts = algoStore((state: any) => state.setRectCounts);
     const getMergeSort = sortStore((state: any) => state.getMergeSort);
     const mergeSortInfo = sortStore((state: any) => state.mergeSortInfo);
+
+    const editSortCode = sortStore((state: any) => state.editSortCode);
 
     const [rects, setRects] = useState<number>(5);
     const [rectsArray, setRectsArray] = useState<Array<rectInfo>>([]);
@@ -66,7 +70,16 @@ export default function MergeSort() {
     useEffect(() => {
         setRectsArray(generateBoxesInfo(5));
         getMergeSort();
+
     }, []);
+
+    const MergePayload: SortKit = {
+        algoName: mergeSortInfo.algoName,
+        algoInfo: mergeSortInfo.algoInfo,
+        codes: mergeSortInfo.codes,
+        editAlgoInfo: editSortCode
+
+    };
 
 
 
@@ -334,7 +347,7 @@ export default function MergeSort() {
 
         </div>
 
-        <AlgoInfo algoInfo={mergeSortInfo} />
+        <AlgoInfo algoInfo={MergePayload} />
 
 
     </main>

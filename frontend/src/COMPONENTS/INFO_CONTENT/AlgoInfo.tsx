@@ -6,17 +6,18 @@ import { algoStore } from "../../STATE/algoStore";
 import { sortStore } from "../../STATE/sortingStore";
 
 
+
 type props = {
     readonly algoName: string;
     readonly algoInfo: string;
     codes: {
         [key: string]: string;
     };
-    editAlgoInfo?: (data: any) => void
+    editAlgoInfo: (data: any) => void
 }
 
 
-export default function AlgoInfo({ algoInfo }: { algoInfo: props }) {
+export default function AlgoInfo({ algoInfo }: { algoInfo: props, }) {
 
 
     const [currLanguage, setCurrLanguage] = useState<string>('cpp');
@@ -26,13 +27,15 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props }) {
     const Admin = authStore((state) => state.Admin);
 
 
-    const editMergeSort = sortStore((state) => state.editMergeSort);
+
 
     useEffect(() => {
         setCode(algoInfo.codes[currLanguage])
     }, [currLanguage, algoInfo.codes]);
 
 
+    //console.log("code: ", code);
+    console.log("Curr lang: ", currLanguage);
 
 
 
@@ -53,20 +56,20 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props }) {
     };
 
     const handleCheck = async () => {
-        //console.log("Code to send: ", code);
+
         const data = {
             language: currLanguage,
             code: code,
             algoName: algoInfo.algoName
         };
-        editMergeSort(data);
+        algoInfo.editAlgoInfo(data);
         setEditMode(false);
+        window.location.reload();
     }
 
 
 
-    //console.log("Current languages: ", code);
-    console.log("Edit mode:", editMode);
+
 
 
     return <div className="w-[40%] h-full border-1 rounded flex-col flex  items-center bg-white relative

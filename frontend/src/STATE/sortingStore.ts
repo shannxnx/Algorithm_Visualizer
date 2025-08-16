@@ -19,9 +19,11 @@ interface StoreState {
     insertionSortInfo: AlgoStructure;
     selectionSortInfo: AlgoStructure
 
+    editSortCode: (data: any) => void;
     getBubbleSort: () => void;
     getMergeSort: () => void;
-    editMergeSort: (data: any) => void;
+
+
 
 
 }
@@ -54,6 +56,18 @@ export const sortStore = create<StoreState>((set, get) => ({
         codes: {}
     },
 
+    editSortCode: async (data: any) => {
+        try {
+            const res = await AxiosInstance.post("/sort/edit", data);
+            console.log("Result: ", res.data);
+
+
+        } catch (error: any) {
+            console.log("Error in Editing Sort: ", error.message);
+            toast.error(error?.response?.data?.message);
+        }
+    },
+
     getBubbleSort: async () => {
         try {
             const res = await AxiosInstance.get("/sort/bubble-sort");
@@ -76,16 +90,6 @@ export const sortStore = create<StoreState>((set, get) => ({
         }
     },
 
-    editMergeSort: async (data: any) => {
-        try {
-            const res = await AxiosInstance.post("/sort/merge-sort/edit", data);
-            console.log("Result: ", res.data);
 
-
-        } catch (error: any) {
-            console.log("Error in editing merge sort store: ", error.message);
-            toast.error(error?.response?.data?.message);
-        }
-    }
 
 }));
