@@ -2,6 +2,8 @@ import { ArrowRight, Check, Edit } from "lucide-react"
 import { Editor } from "@monaco-editor/react"
 import { useEffect, useState } from "react";
 import { authStore } from "../../STATE/authStore";
+import { algoStore } from "../../STATE/algoStore";
+import { sortStore } from "../../STATE/sortingStore";
 
 
 type props = {
@@ -10,6 +12,7 @@ type props = {
     codes: {
         [key: string]: string;
     };
+    editAlgoInfo?: (data: any) => void
 }
 
 
@@ -21,6 +24,9 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props }) {
     const [code, setCode] = useState<string>(algoInfo.codes['cpp']);
     const [editMode, setEditMode] = useState<boolean>(false);
     const Admin = authStore((state) => state.Admin);
+
+
+    const editMergeSort = sortStore((state) => state.editMergeSort);
 
     useEffect(() => {
         setCode(algoInfo.codes[currLanguage])
@@ -46,7 +52,14 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props }) {
 
     };
 
-    const handleCheck = () => {
+    const handleCheck = async () => {
+        //console.log("Code to send: ", code);
+        const data = {
+            language: currLanguage,
+            code: code,
+            algoName: algoInfo.algoName
+        };
+        editMergeSort(data);
         setEditMode(false);
     }
 
@@ -54,6 +67,7 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props }) {
 
     //console.log("Current languages: ", code);
     console.log("Edit mode:", editMode);
+
 
     return <div className="w-[40%] h-full border-1 rounded flex-col flex  items-center bg-white relative
     dark:bg-white">

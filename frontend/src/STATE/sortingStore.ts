@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { AxiosInstance } from "../LIB/axios";
+import { toast } from "react-toastify";
 
 
 
@@ -20,6 +21,8 @@ interface StoreState {
 
     getBubbleSort: () => void;
     getMergeSort: () => void;
+    editMergeSort: (data: any) => void;
+
 
 }
 
@@ -70,6 +73,18 @@ export const sortStore = create<StoreState>((set, get) => ({
         } catch (error: any) {
             console.log("Error in Getting Merge Sort Info store: ", error.message);
 
+        }
+    },
+
+    editMergeSort: async (data: any) => {
+        try {
+            const res = await AxiosInstance.post("/sort/merge-sort/edit", data);
+            console.log("Result: ", res.data);
+
+
+        } catch (error: any) {
+            console.log("Error in editing merge sort store: ", error.message);
+            toast.error(error?.response?.data?.message);
         }
     }
 
