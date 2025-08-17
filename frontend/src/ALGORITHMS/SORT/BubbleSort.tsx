@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { BubbleSortInfo } from "../../LIB/algoCodesDB";
 import { toast } from "react-toastify";
 import { sortStore } from "../../STATE/sortingStore";
-import type { SortKit } from "../../INTERFACES/sortInter";
+import type { SortKit } from "../../INTERFACES/sortInterface";
 
 const div_x = 400;
 const div_y = 50;

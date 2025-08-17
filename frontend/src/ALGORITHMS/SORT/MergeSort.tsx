@@ -4,7 +4,8 @@ import AlgoInfo from "../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "react-toastify";
 import { sortStore } from "../../STATE/sortingStore";
-import type { SortKit } from "../../INTERFACES/sortInter";
+import type { SortKit } from "../../INTERFACES/sortInterface";
+import { MergeSortKonva } from "../../TEST_SITE/MergeSortKonva";
 
 const div_x = 400;
 const div_y = 50;
@@ -219,14 +220,14 @@ export default function MergeSort() {
              flex items-center justify-center rounded-[8px] duration-200 bg-white/70 backdrop-blur-sm shadow-xl m-4 
              overflow-x-scroll border-black">
                 {
-                    //rectsArray.length > 0 ? (
-                    //    <Konva1
-                    //        x={totalWidth}
-                    //        y={height}
-                    //        boxesInfo={rectsArray}
-                    //        rectCount={rectCount}
-                    //    />
-                    //) : null
+                    rectsArray.length > 0 ? (
+                        <MergeSortKonva
+                            x={totalWidth}
+                            y={height}
+                            boxesInfo={rectsArray}
+                            rectCount={rectCount}
+                        />
+                    ) : null
                 }
             </div>
 

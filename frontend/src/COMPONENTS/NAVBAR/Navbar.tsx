@@ -50,7 +50,8 @@ export default function Navbar({ onScrollNext }: NavbarProps) {
         <div className="lg:w-1/2 flex gap-8 border-red-400 justify-center items-center">
 
             <a onClick={onScrollNext}>
-                <h1 className={`${Admin ? "text-red-600" : "text-white"} text-2xl cursor-pointer hover:scale-110 duration-150 hover:text-green-400
+                <h1 className={`${Admin ? "text-red-600" : "text-white"} text-2xl cursor-pointer hover:scale-110 duration-150 
+               ${Admin ? "hover:text-red-600" : "hover:text-green-400"} 
             `}>
                     {/* Visualize*/}
                     {
@@ -63,8 +64,13 @@ export default function Navbar({ onScrollNext }: NavbarProps) {
         </div>
 
         <div className="lg:w-[15%] border-1  flex items-center justify-center">
-            <h1 className="text-4xl text-white
-                cursor-pointer hover:scale-110 duration-150 hover:text-green-400">About</h1>
+
+            <h1 className={`text-4xl text-white
+                cursor-pointer hover:scale-110 duration-150 ${Admin ? "hover:text-red-600" : "hover:text-green-400}"}`
+            }>
+                About
+            </h1>
+
         </div>
 
 
