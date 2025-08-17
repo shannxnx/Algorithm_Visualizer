@@ -36,11 +36,15 @@ export default function Navbar({ onScrollNext }: NavbarProps) {
     return <nav className="lg:h-[65px] lg:w-full bg-black border-2  rounded flex p-3 justify-center">
 
         <div className="border-1 lg:w-[15%] flex items-center justify-center">
-            <h1 className="lg:text-4xl text-white LOGO hover:scale-105 duration-100 cursor-pointer
-                hover:text-black   p-1 rounded-[8px] bg-[#26b06d]"
+
+            <h1 className={`lg:text-4xl text-white LOGO hover:scale-105 duration-100 cursor-pointer
+                hover:text-black   p-1 rounded-[8px] ${Admin ? "bg-red-600" : "bg-[#1ce351]"}`}
                 onClick={() => clickIncrement()}>
+
                 AV
+
             </h1>
+
         </div>
 
         <div className="lg:w-1/2 flex gap-8 border-red-400 justify-center items-center">

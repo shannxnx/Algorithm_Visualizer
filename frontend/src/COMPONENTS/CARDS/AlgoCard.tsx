@@ -11,20 +11,23 @@ type props = {
 export default function AlgoCard({ algoName, algoLink }: props) {
 
     return <a href={`${algoLink}`} className="border border-black w-[85%] h-[400px] rounded-[8px] cursor-pointer 
-    ">
-        <div className="w-full h-full flex flex-col items-center gap-8 justify-center">
+    bg-white">
+        <div className="w-full h-full flex flex-col items-center gap-3 justify-center">
 
-            <div className="w-[80%] h-[70%] border-1 mt-8 rounded-[4px]">
+            <div className="w-[85%] h-[70%] border-1 mt-4 rounded-[4px] bg-[#DB8C8C]">
 
             </div>
 
 
 
-            <div className="border-1 w-[80%] h-[30px] rounded-[6px] flex justify-center items-center
-        hover:scale-105 duration-150">
-                {
-                    algoName
-                }
+            <div className="border-1 w-[85%] h-[40px] rounded-[6px] flex justify-center items-center
+        hover:scale-105 duration-150 bg-black">
+                <h1 className="text-white">
+                    {
+                        algoName
+                    }
+                </h1>
+
             </div>
 
         </div>

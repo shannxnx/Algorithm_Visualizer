@@ -2,6 +2,7 @@ import type React from "react";
 import AlgoCard from "../CARDS/AlgoCard";
 import { algoStore } from "../../STATE/algoStore";
 import { sortingArray, searchingArray, graphAlgoArray, backtrackingArray } from "../../LIB/algoDummyDB";
+import { authStore } from "../../STATE/authStore";
 
 
 
@@ -18,6 +19,8 @@ export default function AlgoContainer({ myRef }: Props) {
     const currentArray = algoStore((state: any) => state.currentArray);
     const setCurrentArray = algoStore((state: any) => state.setCurrentArray);
 
+    const Admin = authStore((state: any) => state.Admin);
+
 
     console.log("Algo category : ", algoCategory);
     console.log("Current Array : ", currentArray)
@@ -32,8 +35,9 @@ export default function AlgoContainer({ myRef }: Props) {
     // <option onClick={() => handleCategory('group_algorithms')}>Group Algorithms</option>
 
 
-    return <div className="w-screen overflow-x-hidden flex flex-col justify-center items-center 
-    "
+    return <div className={`w-screen overflow-x-hidden flex flex-col justify-center items-center 
+    ${Admin ? "bg-red-600" : "bg-[#2DFF65]"}`}
+
         ref={myRef}>
 
         <select defaultValue="Algorithm Category"
