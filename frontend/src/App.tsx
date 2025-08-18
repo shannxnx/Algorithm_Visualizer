@@ -18,7 +18,7 @@ function App() {
   const Admin = authStore((state) => state.Admin);
 
 
-  console.log("Admin : ", Admin);
+  //console.log("Admin : ", Admin);
 
   useEffect(() => {
     CheckAuth();

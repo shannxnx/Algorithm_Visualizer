@@ -54,7 +54,7 @@ export const authStore = create<authState>((set, get) => ({
             const res = await AxiosInstanceAdmin.get("/check");
             if (!res) return toast.error("Error in check auth!");
 
-            console.log("user: ", res.data);
+            //console.log("user: ", res.data);
             set({ Admin: res.data });
 
         } catch (error: any) {
