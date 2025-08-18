@@ -69,6 +69,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
             array.push(rectangle);
         }
         setRectArray(array);
+        splitArray(array);
 
     };
 
@@ -77,6 +78,9 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
             const arrayLength = array?.length;
             const leftLength = Math.floor(arrayLength / 2);
             const rightLength = arrayLength - leftLength;
+
+            const isOdd = array.length % 2 === 0 ? false : true
+
 
             const leftArray: Array<rectInfo> = [];
             const rightArray: Array<rectInfo> = [];
@@ -87,22 +91,42 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
                 leftArray.push(rect);
             };
 
-            for (let i = rightLength - 1; i < arrayLength; i++) {
-                const rect: rectInfo = array[i];
+            switch (isOdd) {
+                case true:
+                    for (let i = rightLength - 1; i < arrayLength; i++) {
+                        const rect: rectInfo = array[i];
 
-                rightArray.push(rect);
-            };
+                        rightArray.push(rect);
+                    };
+                    break;
+                case false:
+                    for (let i = rightLength; i < arrayLength; i++) {
+                        const rect: rectInfo = array[i];
+
+                        rightArray.push(rect);
+                    };
+                    break;
+                default:
+                    break;
+            }
+
+
 
             setLeft(leftArray);
             setRight(rightArray);
+            console.log("Hello World");
         }
     }
 
     useEffect(() => {
-        generateArray(7);
+        generateArray(6);
 
 
     }, []);
+
+
+    console.log("Left array: ", left);
+    console.log("Right array: ", right);
 
 
 
@@ -136,6 +160,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
                         />
 
                         {/*Small bug in here fix this in the near future*/}
+
                         {
                             //<Text
                             //    text={`${id}`}
@@ -148,53 +173,67 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
                             //    fontSize={12}
                             ///>
                         }
+
                     </Group>
 
 
                 ))}
 
                 {
-                    //rectArray.map((r, id) => (
-                    //    <Group
-                    //        draggable
-                    //        key={`group-${id}`}
-                    //        x={r.x}
-                    //        y={r.y + 120} // Start 50px lower to accommodate lift
-                    //    >
-                    //        <Rect
-                    //            width={r.width}
-                    //            height={r.height}
-                    //            fill={r.color || "red"}
-                    //            draggable
-                    //        />
-                    //        <Text
-                    //            text={`${r.number}`}
-                    //            width={r.width}
-                    //            height={r.height}
-                    //            align="center"
-                    //            verticalAlign="middle"
-                    //            fill="white"
-                    //            fontSize={20}
-                    //        />
+                    left.map((r, id) => (
+                        <Group
+                            draggable
+                            key={`group-${id}`}
+                            x={r.x - 50}
+                            y={r.y + 120}
+                        >
+                            <Rect
+                                width={r.width}
+                                height={r.height}
+                                fill={r.color || "red"}
+                                draggable
+                            />
+                            <Text
+                                text={`${r.number}`}
+                                width={r.width}
+                                height={r.height}
+                                align="center"
+                                verticalAlign="middle"
+                                fill="white"
+                                fontSize={20}
+                            />
 
-                    //        {/*Small bug in here fix this in the near future*/}
-                    //        {
-                    //            //<Text
-                    //            //    text={`${id}`}
-                    //            //    y={r.height + 5}
-                    //            //    width={r.width}
-                    //            //    height={20}
-                    //            //    align="center"
-                    //            //    verticalAlign="top"
-                    //            //    fill="black"
-                    //            //    fontSize={12}
-                    //            ///>
-                    //        }
-                    //    </Group>
+                        </Group>
+                    ))}
+
+                {
+                    right.map((r, id) => (
+                        <Group
+                            draggable
+                            key={`group-${id}`}
+                            x={r.x + 50}
+                            y={r.y + 120}
+                        >
+                            <Rect
+                                width={r.width}
+                                height={r.height}
+                                fill={r.color || "red"}
+                                draggable
+                            />
+                            <Text
+                                text={`${r.number}`}
+                                width={r.width}
+                                height={r.height}
+                                align="center"
+                                verticalAlign="middle"
+                                fill="white"
+                                fontSize={20}
+                            />
+
+                        </Group>
+                    ))}
 
 
-                    //))
-                }
 
 
 
