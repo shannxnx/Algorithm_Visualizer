@@ -32,6 +32,51 @@ interface rectInfo {
 const konvaWidth: number = 655;
 const konvaHeight: number = 420;
 
+type rectArrayRenderProps = {
+    array: Array<rectInfo>;
+    offsetX: number,
+    offsetY: number
+
+};
+
+function RectangleRenderer({ array, offsetX = 0, offsetY = 0 }: rectArrayRenderProps) {
+    return (
+        <>
+            {
+                array.map((r, id) => (
+                    <Group
+                        draggable
+                        key={`group-${id}`}
+                        x={r.x}
+                        y={r.y + 50} // 
+                    >
+                        <Rect
+                            width={r.width}
+                            height={r.height}
+                            fill={r.color || "red"}
+                            draggable
+                        />
+                        <Text
+                            text={`${r.number}`}
+                            width={r.width}
+                            height={r.height}
+                            align="center"
+                            verticalAlign="middle"
+                            fill="white"
+                            fontSize={20}
+                        />
+
+
+
+                    </Group>
+
+
+                ))
+            }
+        </>
+    )
+}
+
 
 
 function leftArray(array: Array<rectInfo>): Array<rectInfo> {
@@ -279,7 +324,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
     }
 
     useEffect(() => {
-        generateArray(7);
+        generateArray(6);
 
 
     }, []);
@@ -293,7 +338,35 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
 
 
 
+    const renderRectangle = (rArray: Array<rectInfo>) => {
+        return rArray.map((r, id) => (
+            <Group
+                draggable
+                key={`group-${id}`}
+                x={r.x}
+                y={r.y + 50} // Start 50px lower to accommodate lift
+            >
+                <Rect
+                    width={r.width}
+                    height={r.height}
+                    fill={r.color || "red"}
+                    draggable
+                />
+                <Text
+                    text={`${r.number}`}
+                    width={r.width}
+                    height={r.height}
+                    align="center"
+                    verticalAlign="middle"
+                    fill="white"
+                    fontSize={20}
+                />
 
+
+
+            </Group>
+        ));
+    }
 
 
 
@@ -301,48 +374,38 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
         <Stage width={konvaWidth} height={konvaHeight} className={`border-1 w-[95%] h-[95%]`}>
             <Layer>
                 {/*Top Array*/}
-                {rectArray.map((r, id) => (
-                    <Group
-                        draggable
-                        key={`group-${id}`}
-                        x={r.x}
-                        y={r.y + 50} // Start 50px lower to accommodate lift
-                    >
-                        <Rect
-                            width={r.width}
-                            height={r.height}
-                            fill={r.color || "red"}
-                            draggable
-                        />
-                        <Text
-                            text={`${r.number}`}
-                            width={r.width}
-                            height={r.height}
-                            align="center"
-                            verticalAlign="middle"
-                            fill="white"
-                            fontSize={20}
-                        />
-
-                        {/*Small bug in here fix this in the near future*/}
-
-                        {
-                            //<Text
-                            //    text={`${id}`}
-                            //    y={r.height + 5}
-                            //    width={r.width}
-                            //    height={20}
-                            //    align="center"
-                            //    verticalAlign="top"
-                            //    fill="black"
-                            //    fontSize={12}
-                            ///>
-                        }
-
-                    </Group>
+                <RectangleRenderer array={rectArray} offsetX={0} offsetY={50} />
+                {
+                    // rectArray.map((r, id) => (
+                    //     <Group
+                    //         draggable
+                    //         key={`group-${id}`}
+                    //         x={r.x}
+                    //         y={r.y + 50} // Start 50px lower to accommodate lift
+                    //     >
+                    //         <Rect
+                    //             width={r.width}
+                    //             height={r.height}
+                    //             fill={r.color || "red"}
+                    //             draggable
+                    //         />
+                    //         <Text
+                    //             text={`${r.number}`}
+                    //             width={r.width}
+                    //             height={r.height}
+                    //             align="center"
+                    //             verticalAlign="middle"
+                    //             fill="white"
+                    //             fontSize={20}
+                    //         />
 
 
-                ))}
+
+                    //     </Group>
+
+
+                    // ))
+                }
 
                 {/* Left Subarray from the top Array */}
                 {
