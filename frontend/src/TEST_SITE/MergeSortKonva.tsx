@@ -47,8 +47,10 @@ function RectangleRenderer({ array, offsetX = 0, offsetY = 0 }: rectArrayRenderP
                     <Group
                         draggable
                         key={`group-${id}`}
-                        x={r.x}
-                        y={r.y + 50} // 
+                        x={r.x + offsetX}
+                        y={r.y + offsetY
+
+                        }
                     >
                         <Rect
                             width={r.width}
@@ -375,447 +377,48 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
             <Layer>
                 {/*Top Array*/}
                 <RectangleRenderer array={rectArray} offsetX={0} offsetY={50} />
-                {
-                    // rectArray.map((r, id) => (
-                    //     <Group
-                    //         draggable
-                    //         key={`group-${id}`}
-                    //         x={r.x}
-                    //         y={r.y + 50} // Start 50px lower to accommodate lift
-                    //     >
-                    //         <Rect
-                    //             width={r.width}
-                    //             height={r.height}
-                    //             fill={r.color || "red"}
-                    //             draggable
-                    //         />
-                    //         <Text
-                    //             text={`${r.number}`}
-                    //             width={r.width}
-                    //             height={r.height}
-                    //             align="center"
-                    //             verticalAlign="middle"
-                    //             fill="white"
-                    //             fontSize={20}
-                    //         />
-
-
-
-                    //     </Group>
-
-
-                    // ))
-                }
 
                 {/* Left Subarray from the top Array */}
-                {
-                    left.map((r, id) => (
-                        <Group
-                            draggable
-                            key={`group-${id}`}
-                            x={r.x - 50}
-                            y={r.y + 120}
-                        >
-                            <Rect
-                                width={r.width}
-                                height={r.height}
-                                fill={r.color || "red"}
-                                draggable
-                            />
-                            <Text
-                                text={`${r.number}`}
-                                width={r.width}
-                                height={r.height}
-                                align="center"
-                                verticalAlign="middle"
-                                fill="white"
-                                fontSize={20}
-                            />
-
-                        </Group>
-                    ))}
+                <RectangleRenderer array={left} offsetX={-50} offsetY={120} />
 
                 {/* Right Subarray from the top Array */}
-                {
-                    right.map((r, id) => (
-                        <Group
-                            draggable
-                            key={`group-${id}`}
-                            x={r.x + 50}
-                            y={r.y + 120}
-                        >
-                            <Rect
-                                width={r.width}
-                                height={r.height}
-                                fill={r.color || "red"}
-                                draggable
-                            />
-                            <Text
-                                text={`${r.number}`}
-                                width={r.width}
-                                height={r.height}
-                                align="center"
-                                verticalAlign="middle"
-                                fill="white"
-                                fontSize={20}
-                            />
-
-                        </Group>
-                    ))
-                }
+                <RectangleRenderer array={right} offsetX={50} offsetY={120} />
 
                 {/* Left Subarray from the Left Subarray */}
-                {
-                    leftH1.map((r, id) => (
-                        <Group
-                            draggable
-                            key={`group-${id}`}
-                            x={r.x - 100}
-                            y={r.y + 190}
-                        >
-                            <Rect
-                                width={r.width}
-                                height={r.height}
-                                fill={r.color || "red"}
-                                draggable
-                            />
-                            <Text
-                                text={`${r.number}`}
-                                width={r.width}
-                                height={r.height}
-                                align="center"
-                                verticalAlign="middle"
-                                fill="white"
-                                fontSize={20}
-                            />
-
-                        </Group>
-                    ))
-                }
+                <RectangleRenderer array={leftH1} offsetX={-100} offsetY={190} />
 
                 {/* Right Subarray from the Left Subarray */}
-                {
-                    leftH2.map((r, id) => (
-                        <Group
-                            draggable
-                            key={`group-${id}`}
-                            x={r.x - 70}
-                            y={r.y + 190}
-                        >
-                            <Rect
-                                width={r.width}
-                                height={r.height}
-                                fill={r.color || "red"}
-                                draggable
-                            />
-                            <Text
-                                text={`${r.number}`}
-                                width={r.width}
-                                height={r.height}
-                                align="center"
-                                verticalAlign="middle"
-                                fill="white"
-                                fontSize={20}
-                            />
+                <RectangleRenderer array={leftH2} offsetX={-70} offsetY={190} />
 
-                        </Group>
-                    ))
-                }
                 {/* Left subarray from the Right Subarray */}
-                {
-                    rightH1.map((r, id) => (
-                        <Group
-                            draggable
-                            key={`group-${id}`}
-                            x={r.x + 80}
-                            y={r.y + 190}
-                        >
-                            <Rect
-                                width={r.width}
-                                height={r.height}
-                                fill={r.color || "red"}
-                                draggable
-                            />
-                            <Text
-                                text={`${r.number}`}
-                                width={r.width}
-                                height={r.height}
-                                align="center"
-                                verticalAlign="middle"
-                                fill="white"
-                                fontSize={20}
-                            />
+                <RectangleRenderer array={rightH1} offsetX={80} offsetY={190} />
 
-                        </Group>
-                    ))
-                }
                 {/* Right subarray from the Right Subarray */}
-                {
-                    rightH2.map((r, id) => (
-                        <Group
-                            draggable
-                            key={`group-${id}`}
-                            x={r.x + 110}
-                            y={r.y + 190}
-                        >
-                            <Rect
-                                width={r.width}
-                                height={r.height}
-                                fill={r.color || "red"}
-                                draggable
-                            />
-                            <Text
-                                text={`${r.number}`}
-                                width={r.width}
-                                height={r.height}
-                                align="center"
-                                verticalAlign="middle"
-                                fill="white"
-                                fontSize={20}
-                            />
-
-                        </Group>
-                    ))
-                }
+                <RectangleRenderer array={rightH2} offsetX={110} offsetY={190} />
 
                 {/*Top Array with spaces*/}
-                {rectArraySpaces.map((r, id) => (
-                    <Group
-                        draggable
-                        key={`group-${id}`}
-                        x={r.x - 20}
-                        y={r.y + 260} // Start 50px lower to accommodate lift
-
-                    >
-                        <Rect
-                            width={r.width}
-                            height={r.height}
-                            fill={r.color || "red"}
-                            draggable
-                        />
-                        <Text
-                            text={`${r.number}`}
-                            width={r.width}
-                            height={r.height}
-                            align="center"
-                            verticalAlign="middle"
-                            fill="white"
-                            fontSize={20}
-                        />
-
-                    </Group>
-
-
-                ))}
+                <RectangleRenderer array={rectArraySpaces} offsetX={-20} offsetY={260} />
 
                 {/*Sorted left h1*/}
-                {
-                    sortedLeftH1.map((r, id) => (
-                        <Group
-                            draggable
-                            key={`group-${id}`}
-                            x={r.x - 100}
-                            y={r.y + 320}
-                        >
-                            <Rect
-                                width={r.width}
-                                height={r.height}
-                                fill={r.color || "red"}
-                                draggable
-                            />
-                            <Text
-                                text={`${r.number}`}
-                                width={r.width}
-                                height={r.height}
-                                align="center"
-                                verticalAlign="middle"
-                                fill="white"
-                                fontSize={20}
-                            />
-
-                        </Group>
-                    ))}
+                <RectangleRenderer array={sortedLeftH1} offsetX={-100} offsetY={320} />
 
                 {/*Sorted left h2*/}
-                {
-                    sortedLeftH2.map((r, id) => (
-                        <Group
-                            draggable
-                            key={`group-${id}`}
-                            x={r.x - 70}
-                            y={r.y + 320}
-                        >
-                            <Rect
-                                width={r.width}
-                                height={r.height}
-                                fill={r.color || "red"}
-                                draggable
-                            />
-                            <Text
-                                text={`${r.number}`}
-                                width={r.width}
-                                height={r.height}
-                                align="center"
-                                verticalAlign="middle"
-                                fill="white"
-                                fontSize={20}
-                            />
-
-                        </Group>
-                    ))}
+                <RectangleRenderer array={sortedLeftH2} offsetX={-70} offsetY={320} />
 
                 {/*Sorted right H1*/}
-                {
-                    sortedRightH1.map((r, id) => (
-                        <Group
-                            draggable
-                            key={`group-${id}`}
-                            x={r.x + 80}
-                            y={r.y + 320}
-                        >
-                            <Rect
-                                width={r.width}
-                                height={r.height}
-                                fill={r.color || "red"}
-                                draggable
-                            />
-                            <Text
-                                text={`${r.number}`}
-                                width={r.width}
-                                height={r.height}
-                                align="center"
-                                verticalAlign="middle"
-                                fill="white"
-                                fontSize={20}
-                            />
+                <RectangleRenderer array={sortedRightH1} offsetX={80} offsetY={320} />
 
-                        </Group>
-                    ))
-                }
-
-                {
-                    sortedRightH2.map((r, id) => (
-                        <Group
-                            draggable
-                            key={`group-${id}`}
-                            x={r.x + 110}
-                            y={r.y + 320}
-                        >
-                            <Rect
-                                width={r.width}
-                                height={r.height}
-                                fill={r.color || "red"}
-                                draggable
-                            />
-                            <Text
-                                text={`${r.number}`}
-                                width={r.width}
-                                height={r.height}
-                                align="center"
-                                verticalAlign="middle"
-                                fill="white"
-                                fontSize={20}
-                            />
-
-                        </Group>
-                    ))
-                }
-
-
+                {/*Sorted right H2*/}
+                <RectangleRenderer array={sortedRightH2} offsetX={110} offsetY={320} />
 
                 {/* Left Subarray from the Left Subarray (but sorted) */}
-                {
-                    sortedLeft.map((r, id) => (
-                        <Group
-                            draggable
-                            key={`group-${id}`}
-                            x={r.x - 50}
-                            y={r.y + 380}
-                        >
-                            <Rect
-                                width={r.width}
-                                height={r.height}
-                                fill={r.color || "red"}
-                                draggable
-                            />
-                            <Text
-                                text={`${r.number}`}
-                                width={r.width}
-                                height={r.height}
-                                align="center"
-                                verticalAlign="middle"
-                                fill="white"
-                                fontSize={20}
-                            />
-
-                        </Group>
-                    ))}
+                <RectangleRenderer array={sortedLeft} offsetX={-50} offsetY={380} />
 
                 {/* Right Subarray from the Left Subarray (but sorted) */}
-                {
-                    sortedRight.map((r, id) => (
-                        <Group
-                            draggable
-                            key={`group-${id}`}
-                            x={r.x + 50}
-                            y={r.y + 380}
-                        >
-                            <Rect
-                                width={r.width}
-                                height={r.height}
-                                fill={r.color || "red"}
-                                draggable
-                            />
-                            <Text
-                                text={`${r.number}`}
-                                width={r.width}
-                                height={r.height}
-                                align="center"
-                                verticalAlign="middle"
-                                fill="white"
-                                fontSize={20}
-                            />
-
-                        </Group>
-                    ))
-                }
+                <RectangleRenderer array={sortedRight} offsetX={50} offsetY={380} />
 
                 {/*the final fucking sorted array*/}
-                {finalSortedArray.map((r, id) => (
-                    <Group
-                        draggable
-                        key={`group-${id}`}
-                        x={r.x}
-                        y={r.y + 430}
-                    >
-                        <Rect
-                            width={r.width}
-                            height={r.height}
-                            fill={r.color || "red"}
-                            draggable
-                        />
-                        <Text
-                            text={`${r.number}`}
-                            width={r.width}
-                            height={r.height}
-                            align="center"
-                            verticalAlign="middle"
-                            fill="white"
-                            fontSize={20}
-                        />
-
-
-                    </Group>
-
-
-                ))}
-
-
-
-
-
-
-
+                <RectangleRenderer array={finalSortedArray} offsetX={0} offsetY={430} />
 
 
 
