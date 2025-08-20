@@ -38,6 +38,10 @@ export default function MergeSort() {
 
     const totalWidth = (width + gap) * rects;
 
+
+    const [mergeArray, setMergeArray] = useState<Array<rectInfo>>([]);
+    const [copyArray, setCopyArray] = useState<Array<rectInfo>>([]);
+
     interface rectInfo {
         x: number,
         y: number,
@@ -50,26 +54,53 @@ export default function MergeSort() {
 
     const generateBoxesInfo = (count: number): Array<rectInfo> => {
         const boxesInfo: Array<rectInfo> = [];
+        const copyBoxes: Array<rectInfo> = [];
         const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
+        const konvaWidth: number = 655;
+        const konvaHeight: number = 420;
+
+        const rectWidth = count > 6 ? 35 : 40;
+        const spacing = 5;
+        const totalWidth = count * rectWidth + (count - 1) * spacing
+        const startX = (konvaWidth / 2) - (totalWidth / 2);
+
+        const spacing2 = 20;
+        const totalWidth2 = count * rectWidth + (count - 1) * spacing2;
+        const startX2 = (konvaWidth / 2) - (totalWidth2 / 2);
+
 
         for (let i = 0; i < count; i++) {
+
             const rect: rectInfo = {
-                width: width,
-                height: height,
-                x: i * (width + gap) + gap,
-                y: 0,
-                number: Math.floor(Math.random() * 10),
+                x: startX + i * (rectWidth + spacing),
+                y: -45,
+                width: rectWidth,
+                height: rectWidth,
                 id: i,
+                number: Math.floor(Math.random() * 100),
                 color: colors[i % colors.length]
-            };
+            }
+
+            const copyRect: rectInfo = {
+                x: startX2 + i * (rectWidth + spacing2),
+                y: -45,
+                width: rectWidth,
+                height: rectWidth,
+                id: i,
+                number: rect.number
+            }
+
             boxesInfo.push(rect);
+            copyBoxes.push(copyRect);
         }
+        setCopyArray(copyBoxes);
         return boxesInfo;
     };
 
 
     useEffect(() => {
-        setRectsArray(generateBoxesInfo(5));
+        setRectsArray(generateBoxesInfo(7));
+        //setMergeArray(generateBoxesInfo(6));
         getMergeSort();
 
     }, []);
@@ -84,16 +115,13 @@ export default function MergeSort() {
 
 
 
-    //console.log("Merge Sort: ", mergeSortInfo);
-
-
-
 
 
     useEffect(() => {
         if (rectsArray.length > 0 && task) {
             switch (task) {
                 case 'add':
+
                     const updatedArray = [...rectsArray];
                     const rectArrayLen = updatedArray.length;
                     const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
@@ -144,6 +172,7 @@ export default function MergeSort() {
                             color: removeColors[index % removeColors.length]
                         }));
                         setRectsArray(updatedRArr);
+
                     } else {
                         alert("Index out of bounds!");
                     }
@@ -208,6 +237,8 @@ export default function MergeSort() {
 
 
 
+
+
     return <main className="w-screen h-screen flex gap-5 overflow-x-hidden p-2 bg-black">
 
 
@@ -226,6 +257,8 @@ export default function MergeSort() {
                             y={height}
                             boxesInfo={rectsArray}
                             rectCount={rectCount}
+                            copyArray={copyArray}
+                            isAnimating={isAnimating}
                         />
                     ) : null
                 }
@@ -269,7 +302,7 @@ export default function MergeSort() {
                     <div className="w-full h-[50%] flex items-center justify-center">
                         <button className="text-3xl border-1 w-[130px] rounded bg-green-400
                         disabled:opacity-50 cursor-pointer hover:scale-105 duration-150 text-black"
-
+                            onClick={() => setIsAnimating(true)}
                             disabled={isAnimating}>
                             Animate
                         </button>

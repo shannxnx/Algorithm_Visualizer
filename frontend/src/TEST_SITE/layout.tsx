@@ -468,7 +468,8 @@ export default function Layout() {
 
         </div>
 
-        <AlgoInfo algoName="Bubble Sort" />
+        {/*<AlgoInfo algoName="Bubble Sort" />*/}
+
 
 
     </main>
