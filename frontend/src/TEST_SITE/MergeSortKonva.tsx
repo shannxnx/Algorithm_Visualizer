@@ -162,6 +162,8 @@ function animateTo(
         const startX = originX || node!.x();
         const startY = originY || node!.y();
 
+
+
         const anim = new Konva.Animation((frame) => {
             if (!frame) return;
             const progress = Math.min(frame.time / duration, 1);
@@ -386,44 +388,86 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
     const rightH2Ref = useRef<Konva.Group>(null);
 
 
+
     useEffect(() => {
         if (isAnimating && leftGroupRef.current && leftH1Ref.current && leftH2Ref.current) {
-            const duration = 950;
+            const duration = 1350;
 
             (async () => {
-                // leftGroup moves Y then X
+
+                leftH1Ref.current!.x(-50);
+                leftH2Ref.current!.x(-50);
+
+
                 await animateTo(leftGroupRef.current, { y: 120 }, duration, { originX: 0, originY: 0 });
                 await animateTo(leftGroupRef.current, { x: -50 }, duration, { originX: 0, originY: 0 });
 
-                // leftH1 moves Y then X
-                await animateTo(leftH1Ref.current, { y: 190 }, duration, { originX: -1020, originY: 120 });
-                await animateTo(leftH1Ref.current, { x: -100 }, duration, { originX: 0, originY: 120 });
+                await Promise.all([
+                    animateTo(leftH1Ref.current, { y: 190 }, duration, {
+                        originX: 0,
+                        originY: 120,
+                    }),
+                    animateTo(leftH2Ref.current, { y: 190 }, duration, {
+                        originX: 0,
+                        originY: 120,
+                    }),
+                ]);
 
-                await animateTo(leftH2Ref.current, { y: 190 }, duration, { originX: 0, originY: 120 });
-                await animateTo(leftH2Ref.current, { x: -70 }, duration, { originX: 0, originY: 120 });
-
+                await Promise.all([
+                    animateTo(leftH1Ref.current, { x: -100 }, duration, {
+                        originX: 0,
+                        originY: 120,
+                    }),
+                    animateTo(leftH2Ref.current, { x: -70 }, duration, {
+                        originX: 0,
+                        originY: 120,
+                    }),
+                ]);
 
 
             })();
         }
 
         if (isAnimating && rightGroupRef.current && rightH1Ref.current && rightH2Ref.current) {
-            const duration = 950;
+            const duration = 1350;
 
             (async () => {
+
+                rightH1Ref.current!.x(50);
+                rightH2Ref.current!.x(50);
+
                 await animateTo(rightGroupRef.current, { y: 120 }, duration, { originX: 0, originY: 0 });
                 await animateTo(rightGroupRef.current, { x: 50 }, duration, { originX: 0, originY: 0 });
 
-                await animateTo(rightH1Ref.current, { y: 190 }, duration, { originX: 0, originY: 120 });
-                await animateTo(rightH1Ref.current, { x: 80 }, duration, { originX: 0, originY: 120 });
 
-                await animateTo(rightH2Ref.current, { y: 190 }, duration, { originX: 0, originY: 120 });
-                await animateTo(rightH2Ref.current, { x: 110 }, duration, { originX: 0, originY: 120 });
+                await Promise.all([
+                    animateTo(rightH1Ref.current, { y: 190 }, duration, {
+                        originX: 0,
+                        originY: 120,
+                    }),
+                    animateTo(rightH2Ref.current, { y: 190 }, duration, {
+                        originX: 0,
+                        originY: 120,
+                    }),
+                ]);
+
+                await Promise.all([
+                    animateTo(rightH1Ref.current, { x: 80 }, duration, {
+                        originX: 0,
+                        originY: 120,
+                    }),
+                    animateTo(rightH2Ref.current, { x: 110 }, duration, {
+                        originX: 0,
+                        originY: 120,
+                    }),
+                ]);
 
             })();
 
         }
+
     }, [isAnimating]);
+
 
 
 
