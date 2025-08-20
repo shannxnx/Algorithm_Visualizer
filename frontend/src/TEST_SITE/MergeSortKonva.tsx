@@ -1,7 +1,7 @@
 import { Stage, Layer, Rect, Text, Group } from "react-konva"
-import { testArray } from "../LIB/algoDummyDB";
 import type React from "react";
-import { useEffect, useState, type AriaAttributes } from "react";
+import { useEffect, useRef, useState, type AriaAttributes, type Ref, type RefObject } from "react";
+import Konva from "konva";
 
 
 
@@ -40,23 +40,23 @@ type rectArrayRenderProps = {
     offsetY: number,
 
 
+
 };
 
 const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
 
 
-function RectangleRenderer({ array, offsetX = 0, offsetY = 0 }: rectArrayRenderProps) {
+function RectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef }: rectArrayRenderProps &
+{ groupRef?: React.RefObject<Konva.Group | null> }) {
     return (
-        <>
+        <Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
             {
                 array.map((r, id) => (
                     <Group
 
                         key={`group-${id}`}
-                        x={r.x + offsetX}
-                        y={r.y + offsetY
-
-                        }
+                        x={r.x}
+                        y={r.y}
                     >
                         <Rect
 
@@ -82,7 +82,7 @@ function RectangleRenderer({ array, offsetX = 0, offsetY = 0 }: rectArrayRenderP
 
                 ))
             }
-        </>
+        </Group>
     )
 }
 
@@ -149,6 +149,42 @@ function rightArray(array: Array<rectInfo>): Array<rectInfo> {
     }
     return [];
 }
+
+
+// ✅ Helper: animate a node to (x?, y?) over duration
+function animateTo(
+    node: Konva.Node | null,
+    { x, y }: { x?: number; y?: number },
+    duration: number,
+    { originX, originY }: { originX?: number, originY?: number }
+): Promise<void> {
+    return new Promise((resolve) => {
+        const startX = originX || node!.x();
+        const startY = originY || node!.y();
+
+        const anim = new Konva.Animation((frame) => {
+            if (!frame) return;
+            const progress = Math.min(frame.time / duration, 1);
+
+            if (x !== undefined) {
+                const newX = startX + (x - startX) * progress;
+                node!.x(newX);
+            }
+            if (y !== undefined) {
+                const newY = startY + (y - startY) * progress;
+                node!.y(newY);
+            }
+
+            if (progress >= 1) {
+                anim.stop();
+                resolve();
+            }
+        }, node!.getLayer());
+
+        anim.start();
+    });
+}
+
 
 export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArray, isAnimating, rectCount }) => {
 
@@ -219,11 +255,11 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
         }
 
 
-        const finalSortedNumber = [...array].map(r => r.number).sort((a, b) => a! - b!);
-        const finalSortedArray = [...array].map((r, i) => ({ ...r, number: finalSortedNumber[i] }));
+        const finalSortedNumber = [...boxesInfo].map(r => r.number).sort((a, b) => a! - b!);
+        const finalSortedArray = [...boxesInfo].map((r, i) => ({ ...r, number: finalSortedNumber[i] }));
 
         setRectArray(boxesInfo);
-        setRectArraySpaces(copyArray!);
+        //setRectArraySpaces(copyArray!);
 
         setFinalSortedArray(finalSortedArray);
 
@@ -244,8 +280,8 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
         setLeft(lArray);
         setRight(rArray);
 
-        setSortedLeft(finalSortedLeft);
-        setSortedRight(finalSortedRight);
+        //setSortedLeft(finalSortedLeft);
+        //setSortedRight(finalSortedRight);
 
 
 
@@ -277,10 +313,10 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
         //setSortedRightH2(finalRightSortedH2);
 
 
-        //setLeftH1(lArrayH1);
-        //setLeftH2(lArrayH2);
-        //setRightH1(rArrayH1);
-        //setRightH2(rArrayH2);
+        setLeftH1(lArrayH1);
+        setLeftH2(lArrayH2);
+        setRightH1(rArrayH1);
+        setRightH2(rArrayH2);
 
 
 
@@ -340,50 +376,56 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
 
 
-    const [leftOffsetX, setLeftOffsetX] = useState<number>(0);
-    const [leftOffsetY, setLeftOffsetY] = useState<number>(0);
+    const leftGroupRef = useRef<Konva.Group>(null);
+    const leftH1Ref = useRef<Konva.Group>(null);
+    const leftH2Ref = useRef<Konva.Group>(null);
+
+
+    const rightGroupRef = useRef<Konva.Group>(null);
+    const rightH1Ref = useRef<Konva.Group>(null);
+    const rightH2Ref = useRef<Konva.Group>(null);
+
+
     useEffect(() => {
-        if (isAnimating) {
-            let iX = 1;
-            let iY = 1;
-            let addToX = 0;
-            let addToY = 0;
+        if (isAnimating && leftGroupRef.current && leftH1Ref.current && leftH2Ref.current) {
+            const duration = 950;
 
-            const intervalY = setInterval(() => {
+            (async () => {
+                // leftGroup moves Y then X
+                await animateTo(leftGroupRef.current, { y: 120 }, duration, { originX: 0, originY: 0 });
+                await animateTo(leftGroupRef.current, { x: -50 }, duration, { originX: 0, originY: 0 });
 
-                if (iY > 5) {
-                    clearInterval(intervalY);
-                    return;
-                }
+                // leftH1 moves Y then X
+                await animateTo(leftH1Ref.current, { y: 190 }, duration, { originX: -1020, originY: 120 });
+                await animateTo(leftH1Ref.current, { x: -100 }, duration, { originX: 0, originY: 120 });
 
-                addToY += 25;
-                setLeftOffsetY(addToY);
-                iY++
+                await animateTo(leftH2Ref.current, { y: 190 }, duration, { originX: 0, originY: 120 });
+                await animateTo(leftH2Ref.current, { x: -70 }, duration, { originX: 0, originY: 120 });
 
 
-            }, 60)
 
-
-            if (leftOffsetY === 120) {
-                const intervalX = setInterval(() => {
-
-                    if (iX >= 5) {
-                        clearInterval(intervalX);
-                        return;
-                    }
-                    addToX -= iX * 5;
-
-                    setLeftOffsetX(addToX);
-
-                    iX++
-                }, 60)
-            }
+            })();
         }
-    }, [isAnimating])
+
+        if (isAnimating && rightGroupRef.current && rightH1Ref.current && rightH2Ref.current) {
+            const duration = 950;
+
+            (async () => {
+                await animateTo(rightGroupRef.current, { y: 120 }, duration, { originX: 0, originY: 0 });
+                await animateTo(rightGroupRef.current, { x: 50 }, duration, { originX: 0, originY: 0 });
+
+                await animateTo(rightH1Ref.current, { y: 190 }, duration, { originX: 0, originY: 120 });
+                await animateTo(rightH1Ref.current, { x: 80 }, duration, { originX: 0, originY: 120 });
+
+                await animateTo(rightH2Ref.current, { y: 190 }, duration, { originX: 0, originY: 120 });
+                await animateTo(rightH2Ref.current, { x: 110 }, duration, { originX: 0, originY: 120 });
+
+            })();
+
+        }
+    }, [isAnimating]);
 
 
-    console.log("Xoffset:", leftOffsetX);
-    console.log("Yoffset: ", leftOffsetY);
 
 
 
@@ -394,24 +436,24 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 <RectangleRenderer array={boxesInfo} offsetX={0} offsetY={50} />
 
                 {/* Left Subarray from the top Array (offsetX = -50, offsetY = 120)*/}
-                <RectangleRenderer array={left} offsetX={leftOffsetX} offsetY={leftOffsetY} />
+                <RectangleRenderer array={left} offsetX={0} offsetY={0} groupRef={leftGroupRef} />
 
                 {/* Right Subarray from the top Array (offsetX = 50, offsetY = 120)*/}
 
-                <RectangleRenderer array={right} offsetX={50} offsetY={120} />
+                <RectangleRenderer array={right} offsetX={0} offsetY={0} groupRef={rightGroupRef} />
 
                 {/* Left Subarray from the Left Subarray */}
 
-                <RectangleRenderer array={leftH1} offsetX={-100} offsetY={190} />
+                <RectangleRenderer array={leftH1} offsetX={-100} offsetY={190} groupRef={leftH1Ref} />
 
                 {/* Right Subarray from the Left Subarray */}
-                <RectangleRenderer array={leftH2} offsetX={-70} offsetY={190} />
+                <RectangleRenderer array={leftH2} offsetX={-70} offsetY={190} groupRef={leftH2Ref} />
 
                 {/* Left subarray from the Right Subarray */}
-                <RectangleRenderer array={rightH1} offsetX={80} offsetY={190} />
+                <RectangleRenderer array={rightH1} offsetX={80} offsetY={190} groupRef={rightH1Ref} />
 
                 {/* Right subarray from the Right Subarray */}
-                <RectangleRenderer array={rightH2} offsetX={110} offsetY={190} />
+                <RectangleRenderer array={rightH2} offsetX={110} offsetY={190} groupRef={rightH2Ref} />
 
                 {/*Top Array with spaces*/}
                 <RectangleRenderer array={rectArraySpaces} offsetX={0} offsetY={260} />
