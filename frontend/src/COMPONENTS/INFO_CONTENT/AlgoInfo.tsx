@@ -76,7 +76,7 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props, }) {
     dark:bg-white">
         <h1 className="text-3xl mt-4 dark:text-black">{algoInfo.algoName}</h1>
         <button className="absolute right-0 mt-4 mr-4 cursor-pointer">
-            <a href="/"> <ArrowRight size={32} /></a>
+            <a href="/"> <ArrowRight size={32} className="dark:text-black" /></a>
         </button>
 
 
@@ -89,9 +89,9 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props, }) {
                     Admin && <div className="w-[95%] h-[50px] flex items-center
                     justify-end">
                         {
-                            !editMode ? <Edit className="mr-2 hover:scale-105 cursor-pointer"
+                            !editMode ? <Edit className="mr-2 hover:scale-105 cursor-pointer text-black dark:text-black"
                                 onClick={handleEdit} />
-                                : <Check className="mr-2 hover:scale-105 cursor-pointer" onClick={handleCheck} />
+                                : <Check className="mr-2 hover:scale-105 cursor-pointer text-black dark:text-black" onClick={handleCheck} />
                         }
 
                     </div>

@@ -107,7 +107,6 @@ function leftArray(array: Array<rectInfo>): Array<rectInfo> {
 };
 
 
-
 function rightArray(array: Array<rectInfo>): Array<rectInfo> {
     if (array) {
         const arrayLength = array?.length;
@@ -145,19 +144,18 @@ function rightArray(array: Array<rectInfo>): Array<rectInfo> {
 
         //setLeft(leftArray);
         //setRight(rightArray);
-        //console.log("Hello World");
+
     }
     return [];
 }
 
 
 
-function animateTo(
-    node: Konva.Node | null,
-    { x, y }: { x?: number; y?: number },
-    duration: number,
-    { originX, originY }: { originX?: number, originY?: number }
-): Promise<void> {
+function animateTo(node: Konva.Node | null,
+    { x, y }: { x?: number; y?: number }, duration: number,
+    { originX, originY }: { originX?: number, originY?: number }): Promise<void> {
+
+
     return new Promise((resolve) => {
         const startX = originX || node!.x();
         const startY = originY || node!.y();
@@ -185,6 +183,19 @@ function animateTo(
 
         anim.start();
     });
+};
+
+
+function animateSwap(node: Konva.Node | null, array: Array<rectInfo>) {
+
+    const toBeSortArray = [...array];
+
+    for (let i = 0; i < toBeSortArray.length; i++) {
+        for (let j = 0; j < toBeSortArray.length; j++) {
+
+
+        }
+    }
 }
 
 
@@ -334,10 +345,6 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
         setRightH2(rArrayH2);
         setToBeSortedRightH1(rArrayH1);
         setToBeSortedRightH2(rArrayH2);
-
-
-
-
 
 
 

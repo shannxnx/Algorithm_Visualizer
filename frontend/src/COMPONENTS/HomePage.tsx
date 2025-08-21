@@ -18,7 +18,9 @@ export default function FrontPage() {
     }
 
 
-    return <main className={`flex  flex-col  min-h-screen w-screen overflow-y-scroll ${Admin ? "bg-red-600" : "bg-[#2DFF65]"}`}>
+    return <main className={`flex  flex-col  h-full w-full overflow-y-scroll overflow-x-hidden ${Admin ?
+        "bg-red-600" : "bg-[#2DFF65]"} `}
+        style={{ scrollbarWidth: "none" }}>
 
         <Navbar onScrollNext={handleScrollVisualize} />
         <HomeCard />

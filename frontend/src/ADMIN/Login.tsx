@@ -59,28 +59,30 @@ export default function AdminLogin() {
 
 
 
-    return <main className="w-screen h-screen border-50 flex justify-center items-center">
+    return <main className="w-screen h-screen border-50 flex justify-center items-center dark:border-black dark:bg-white">
 
-        <div className="border-1 w-[40%] h-[400px] rounded-[12px] bg-black flex flex-col
+        <div className="border-1 w-[40%] h-[400px] rounded-[12px] bg-black dark:bg-black flex flex-col
         items-center">
             <h1 className="text-center text-white mt-8 text-4xl">Admin</h1>
-            <div className="w-[90%] flex flex-col items-center mt-16 border ">
+            <div className="w-[90%] flex flex-col items-center mt-16 ">
                 <input type="text" className="hidden" />
                 <input type="password" className="hidden" />
 
-                <input type="text" placeholder="Email" className="input input-neutral mt-6" autoComplete="off"
+                <input type="text" placeholder="Email" className="input input-neutral mt-6 dark:border-black
+                dark:bg-white dark:text-black" autoComplete="off"
                     value={email} onChange={(e) => setEmail(e.target.value)} />
 
-                <input type="password" placeholder="Password" className="input input-neutral mt-6 bg-white" autoComplete="off"
+                <input type="password" placeholder="Password" className="input input-neutral mt-6 bg-white dark:bg-white
+                dark:text-black" autoComplete="off"
                     value={password} onChange={(e) => setPasword(e.target.value)} />
 
                 <button className="border-1 w-[120px] h-[40px] border-white mt-4 bg-white rounded-[8px]
-                cursor-pointer hover:scale-105 duration-150"
+                cursor-pointer hover:scale-105 duration-150 dark:bg-white dark:border-white dark:text-black"
                     onClick={handleLogin}>
                     Login
                 </button>
-                <button className="border-1 w-[120px] h-[40px] border-white mt-4 bg-white rounded-[8px]
-                cursor-pointer hover:scale-105 duration-150"
+                <button className="border-1 w-[120px] h-[40px] border-white dark:border-white mt-4 bg-white rounded-[8px]
+                cursor-pointer hover:scale-105 duration-150 dark:text-black"
                     onClick={handleLogout}>
                     Logout
                 </button>

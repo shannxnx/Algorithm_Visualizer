@@ -31,35 +31,42 @@ export default function AlgoContainer({ myRef }: Props) {
         setAlgoCategory(cat); setCurrentArray(array);
     }
 
-    // <option onClick={() => handleCategory('recursion_trees')}>Recursion Trees</option> 
-    // <option onClick={() => handleCategory('group_algorithms')}>Group Algorithms</option>
+
 
 
     return <div className={`w-screen overflow-x-hidden flex flex-col justify-center items-center 
-    ${Admin ? "bg-red-600" : "bg-[#2DFF65]"}`}
+    ${Admin ? "bg-red-600" : "bg-[#2DFF65]"}`} style={{ scrollbarWidth: "none" }}
 
         ref={myRef}>
 
-        <select defaultValue="Algorithm Category"
-            className="select select-primary outline-none  active:outline-none ml-4 mt-3 cursor-pointer ">
-            <option disabled={true}>Algorithm Category </option>
 
-            <option onClick={() => handleCategory('sorting', sortingArray)} >Sorting</option>
-
-            <option onClick={() => handleCategory('searching', searchingArray)}>Searching</option>
-
-            <option onClick={() => handleCategory('path_finding', graphAlgoArray)}>Pathfinding</option>
-
-            <option onClick={() => handleCategory('back_traking', backtrackingArray)}>Backtracking</option>
-
-
+        <select
+            defaultValue="Algorithm Category"
+            className="select select-primary outline-none active:outline-none ml-4 mt-3 focus:outline-0
+             cursor-pointer dark:bg-white dark:text-black border-black z-10 border 
+             "
+            onChange={(e) => {
+                const value = e.target.value;
+                if (value === "sorting") handleCategory("sorting", sortingArray);
+                if (value === "searching") handleCategory("searching", searchingArray);
+                if (value === "path_finding") handleCategory("path_finding", graphAlgoArray);
+                if (value === "back_tracking") handleCategory("back_tracking", backtrackingArray);
+            }}
+        >
+            <option disabled>Algorithm Category</option>
+            <option value="sorting" className="dark:text-black rounded">Sorting</option>
+            <option value="searching" className="dark:text-black">Searching</option>
+            <option value="path_finding" className="dark:text-black">Pathfinding</option>
+            <option value="back_tracking" className="dark:text-black">Backtracking</option>
         </select>
 
 
-        <h1 className="text-3xl mt-10 mb-10">ALGORITHMS</h1>
 
-        <div className="w-screen   grid lg:grid-cols-3 lg:grid-rows-2 p-4 
-        place-items-center gap-y-5 grid-cols-1 grid-rows-4 overflow-x-hidden  border-black">
+        <h1 className="text-3xl mt-10 mb-10 text-black">ALGORITHMS</h1>
+
+        <div className="w-screen grid lg:grid-cols-3 lg:grid-rows-2 p-4 
+        place-items-center gap-y-5 grid-cols-1 grid-rows-4 overflow-x-hidden  border-black"
+            style={{ scrollbarWidth: "none" }}>
 
 
             {
