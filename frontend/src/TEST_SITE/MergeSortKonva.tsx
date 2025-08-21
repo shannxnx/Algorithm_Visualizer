@@ -193,7 +193,6 @@ function animateTo(node: Konva.Node | null,
 
 
 
-
 export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArray, isAnimating, rectCount }) => {
 
     const [rectArray, setRectArray] = useState<Array<rectInfo>>([]);
@@ -423,8 +422,8 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 toBeSortLH2Ref.current!.x(-70);
 
 
-                await animateTo(leftGroupRef.current, { y: 120 }, duration, { originX: 0, originY: 0 });
-                await animateTo(leftGroupRef.current, { x: -50 }, duration, { originX: 0, originY: 0 });
+                await animateTo(leftGroupRef.current, { y: 120 }, duration, { originX: 0, originY: 50 });
+                await animateTo(leftGroupRef.current, { x: -50 }, duration, { originX: 0, originY: 50 });
 
                 await Promise.all([
                     animateTo(leftH1Ref.current, { y: 190 }, duration, {
@@ -475,8 +474,8 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 toBeSortRH1Ref.current!.x(80);
                 toBeSortRH2Ref.current!.x(110);
 
-                await animateTo(rightGroupRef.current, { y: 120 }, duration, { originX: 0, originY: 0 });
-                await animateTo(rightGroupRef.current, { x: 50 }, duration, { originX: 0, originY: 0 });
+                await animateTo(rightGroupRef.current, { y: 120 }, duration, { originX: 0, originY: 50 });
+                await animateTo(rightGroupRef.current, { x: 50 }, duration, { originX: 0, originY: 50 });
 
 
                 await Promise.all([
