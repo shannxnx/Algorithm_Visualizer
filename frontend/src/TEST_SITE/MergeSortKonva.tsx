@@ -28,6 +28,7 @@ interface rectInfo {
     number?: number,
     id: number,
     color?: string,
+    node?: Konva.Rect
 };
 
 
@@ -162,12 +163,14 @@ function animateTo(node: Konva.Node | null,
 
 
 
+
         const anim = new Konva.Animation((frame) => {
             if (!frame) return;
             const progress = Math.min(frame.time / duration, 1);
 
             if (x !== undefined) {
                 const newX = startX + (x - startX) * progress;
+
                 node!.x(newX);
             }
             if (y !== undefined) {
@@ -186,17 +189,9 @@ function animateTo(node: Konva.Node | null,
 };
 
 
-function animateSwap(node: Konva.Node | null, array: Array<rectInfo>) {
-
-    const toBeSortArray = [...array];
-
-    for (let i = 0; i < toBeSortArray.length; i++) {
-        for (let j = 0; j < toBeSortArray.length; j++) {
 
 
-        }
-    }
-}
+
 
 
 export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArray, isAnimating, rectCount }) => {
@@ -460,7 +455,9 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
                 await Promise.all([
                     animateTo(toBeSortLH1Ref.current, { x: -100 }, duration, { originX: 0, originY: 190 }),
-                    animateTo(toBeSortLH2Ref.current, { x: -70 }, duration, { originX: 0, originY: 190 })
+                    animateTo(toBeSortLH2Ref.current, { x: -70 }, duration, { originX: 0, originY: 190 }),
+
+
                 ]);
 
 
