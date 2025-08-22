@@ -28,7 +28,7 @@ interface rectInfo {
     number?: number,
     id: number,
     color?: string,
-    node?: Konva.Rect
+    node?: Konva.Node
 };
 
 
@@ -65,8 +65,10 @@ function RectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef }: rectAr
                             height={r.height}
                             fill={"blue"}
 
+
                         />
                         <Text
+
                             text={`${r.number}`}
                             width={r.width}
                             height={r.height}
@@ -74,6 +76,7 @@ function RectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef }: rectAr
                             verticalAlign="middle"
                             fill="white"
                             fontSize={20}
+
                         />
 
 
@@ -85,6 +88,39 @@ function RectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef }: rectAr
             }
         </Group>
     )
+}
+
+
+function SortRectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef, }: rectArrayRenderProps
+    & { groupRef: React.RefObject<Konva.Group | null> }
+) {
+
+
+
+
+    return <Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
+        {
+            array.map((r, id) => (
+                <Group key={`group-${id}`} x={r.x} y={r.y} ref={(node) => { if (node) r.node = node }}>
+                    <Rect width={r.width} height={r.height} fill={"blue"} />
+
+                    <Text
+                        text={`${r.number}`}
+                        width={r.width}
+                        height={r.height}
+                        align="center"
+                        verticalAlign="middle"
+                        fill="white"
+                        fontSize={20}
+
+                    />
+
+
+
+                </Group>
+            ))
+        }
+    </Group>
 }
 
 
@@ -163,7 +199,6 @@ function animateTo(node: Konva.Node | null,
 
 
 
-
         const anim = new Konva.Animation((frame) => {
             if (!frame) return;
             const progress = Math.min(frame.time / duration, 1);
@@ -187,6 +222,42 @@ function animateTo(node: Konva.Node | null,
         anim.start();
     });
 };
+
+async function animateSort(array: rectInfo[], duration: number = 500) {
+    const arr = [...array]; // shallow copy
+
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length - i - 1; j++) {
+            if (arr[j].number! > arr[j + 1].number!) {
+                const nodeA = arr[j].node;
+                const nodeB = arr[j + 1].node;
+
+
+
+
+                if (!nodeA || !nodeB) continue;
+
+                const xA = nodeA.x();
+                const xB = nodeB.x();
+
+                // Animate swap of entire groups
+                await Promise.all([
+                    animateTo(nodeA, { x: xB }, duration, { originX: xA }),
+                    animateTo(nodeB, { x: xA }, duration, { originX: xB }),
+                ]);
+
+                // Swap in array so next passes are correct
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+            }
+        }
+    }
+
+    return arr;
+}
+
+
+
+
 
 
 
@@ -254,7 +325,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 height: rectWidth,
                 id: i,
                 number: Math.floor(Math.random() * 100),
-                color: colors[i % colors.length]
+                color: "Blue"
             }
 
             const copyRectangle: rectInfo = {
@@ -450,6 +521,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 await Promise.all([
                     animateTo(toBeSortLH1Ref.current, { y: 260 }, duration, { originX: 0, originY: 190 }),
                     animateTo(toBeSortLH2Ref.current, { y: 260 }, duration, { originX: 0, originY: 190 })
+
                 ]);
 
                 await Promise.all([
@@ -457,6 +529,11 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                     animateTo(toBeSortLH2Ref.current, { x: -70 }, duration, { originX: 0, originY: 190 }),
 
 
+                ]);
+
+                await Promise.all([
+                    animateSort(toBeSortedLeftH1, 800),
+                    animateSort(toBeSortedLeftH2, 800)
                 ]);
 
 
@@ -510,6 +587,11 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                     animateTo(toBeSortRH2Ref.current, { x: 110 }, duration, { originX: 0, originY: 190 })
                 ]);
 
+                await Promise.all([
+                    animateSort(toBeSortedRightH1, 800),
+                    animateSort(toBeSortedRightH2, 800)
+                ]);
+
 
             })();
 
@@ -552,17 +634,21 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 {/*<RectangleRenderer array={rectArraySpaces} offsetX={0} offsetY={260} />*/}
 
                 {/*To be sorted leftH1*/}
-                <RectangleRenderer array={toBeSortedLeftH1} offsetX={-100} offsetY={260} groupRef={toBeSortLH1Ref} />
+
+                <SortRectangleRenderer array={toBeSortedLeftH1} offsetX={-100} offsetY={260} groupRef={toBeSortLH1Ref}
+                />
 
                 {/*To be sorted leftH2*/}
-                <RectangleRenderer array={toBeSortedLeftH2} offsetX={-70} offsetY={260} groupRef={toBeSortLH2Ref} />
 
+                <SortRectangleRenderer array={toBeSortedLeftH2} offsetX={-100} offsetY={260} groupRef={toBeSortLH2Ref} />
 
                 {/*To be sorted rightH1*/}
-                <RectangleRenderer array={toBeSortedRightH1} offsetX={80} offsetY={260} groupRef={toBeSortRH1Ref} />
+                <SortRectangleRenderer array={toBeSortedRightH1} offsetX={80} offsetY={260} groupRef={toBeSortRH1Ref} />
 
                 {/*To be sorted rightH2*/}
-                <RectangleRenderer array={toBeSortedRightH2} offsetX={110} offsetY={260} groupRef={toBeSortRH2Ref} />
+                <SortRectangleRenderer array={toBeSortedRightH2} offsetX={110} offsetY={260} groupRef={toBeSortRH2Ref} />
+
+
 
 
                 {/*----------------------------------------------------------------------------------------------------*/}
@@ -589,7 +675,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 <RectangleRenderer array={sortedRight} offsetX={50} offsetY={380} />
 
                 {/*the final fucking sorted array*/}
-                <RectangleRenderer array={finalSortedArray} offsetX={0} offsetY={430} />
+                {/*<RectangleRenderer array={finalSortedArray} offsetX={0} offsetY={430} />*/}
 
 
 
