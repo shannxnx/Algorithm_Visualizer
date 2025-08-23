@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
-import { algoStore } from "../../STATE/algoStore";
-import AlgoInfo from "../../COMPONENTS/INFO_CONTENT/AlgoInfo";
+import { algoStore } from "../../../STATE/algoStore";
+import { Konva1 } from "../../../TEST_SITE/konva1";
+import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { ArrowLeft } from "lucide-react";
+import { BubbleSortInfo } from "../../../LIB/algoCodesDB";
 import { toast } from "react-toastify";
-import { sortStore } from "../../STATE/sortingStore";
-import type { SortKit } from "../../INTERFACES/sortInterface";
-import { MergeSortKonva } from "../../TEST_SITE/MergeSortKonva";
+import { sortStore } from "../../../STATE/sortingStore";
+import type { SortKit } from "../../../INTERFACES/sortInterface";
 
 const div_x = 400;
 const div_y = 50;
@@ -16,14 +17,14 @@ let rectCount = 8;
 
 
 
-
-export default function MergeSort() {
+export default function BubbleSort() {
 
     const mainRef = useRef<HTMLElement>(null);
     const rectCounts = algoStore((state: any) => state.rectCounts);
     const setRectCounts = algoStore((state: any) => state.setRectCounts);
-    const getMergeSort = sortStore((state: any) => state.getMergeSort);
-    const mergeSortInfo = sortStore((state: any) => state.mergeSortInfo);
+    const getBubbleSort = sortStore((state: any) => state.getBubbleSort);
+    const bubbleSortInfo = sortStore((state: any) => state.bubbleSortInfo);
+
 
     const editSortCode = sortStore((state: any) => state.editSortCode);
 
@@ -38,10 +39,6 @@ export default function MergeSort() {
 
     const totalWidth = (width + gap) * rects;
 
-
-    const [mergeArray, setMergeArray] = useState<Array<rectInfo>>([]);
-    const [copyArray, setCopyArray] = useState<Array<rectInfo>>([]);
-
     interface rectInfo {
         x: number,
         y: number,
@@ -54,63 +51,181 @@ export default function MergeSort() {
 
     const generateBoxesInfo = (count: number): Array<rectInfo> => {
         const boxesInfo: Array<rectInfo> = [];
-        const copyBoxes: Array<rectInfo> = [];
         const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
-        const konvaWidth: number = 655;
-        const konvaHeight: number = 420;
-
-        const rectWidth = count > 6 ? 40 : 45;
-        const spacing = 5;
-        const totalWidth = count * rectWidth + (count - 1) * spacing
-        const startX = (konvaWidth / 2) - (totalWidth / 2);
-
-        const spacing2 = 20;
-        const totalWidth2 = count * rectWidth + (count - 1) * spacing2;
-        const startX2 = (konvaWidth / 2) - (totalWidth2 / 2);
-
 
         for (let i = 0; i < count; i++) {
-
             const rect: rectInfo = {
-                x: startX + i * (rectWidth + spacing),
-                y: -45,
-                width: rectWidth,
-                height: rectWidth,
+                width: width,
+                height: height,
+                x: i * (width + gap) + gap,
+                y: 0,
+                number: Math.floor(Math.random() * 10),
                 id: i,
-                number: Math.floor(Math.random() * 100),
                 color: colors[i % colors.length]
-            }
-
-            const copyRect: rectInfo = {
-                x: startX2 + i * (rectWidth + spacing2),
-                y: -45,
-                width: rectWidth,
-                height: rectWidth,
-                id: i,
-                number: rect.number
-            }
-
+            };
             boxesInfo.push(rect);
-            copyBoxes.push(copyRect);
         }
-        setCopyArray(copyBoxes);
         return boxesInfo;
     };
 
 
     useEffect(() => {
-        setRectsArray(generateBoxesInfo(7));
-        //setMergeArray(generateBoxesInfo(6));
-        getMergeSort();
-
+        setRectsArray(generateBoxesInfo(5));
+        getBubbleSort();
     }, []);
 
-    const MergePayload: SortKit = {
-        algoName: mergeSortInfo.algoName,
-        algoInfo: mergeSortInfo.algoInfo,
-        codes: mergeSortInfo.codes,
-        editAlgoInfo: editSortCode
+    console.log("Bubble Sort: ", bubbleSortInfo);
 
+    const BubblePayload: SortKit = {
+        algoInfo: bubbleSortInfo.algoInfo,
+        algoName: bubbleSortInfo.algoName,
+        codes: bubbleSortInfo.codes,
+        editAlgoInfo: editSortCode
+    };
+
+
+    const animateBubbleSort = async () => {
+        setIsAnimating(true);
+        const array = [...rectsArray];
+        const liftHeight = 50;
+        const steps = 20;
+
+        // Initialize all rectangles
+        array.forEach(rect => {
+            rect.color = '#3B82F6';
+            rect.y = 0;
+        });
+
+        for (let i = 0; i < array.length; i++) {
+            for (let j = 0; j < array.length - i - 1; j++) {
+                // Highlight comparison
+                array[j].color = '#EF4444';
+                array[j + 1].color = '#EF4444';
+                setRectsArray([...array]);
+                await new Promise(resolve => setTimeout(resolve, 100));
+
+                if (array[j].number > array[j + 1].number) {
+                    // Indicate swap
+                    array[j].color = '#F97316';
+                    array[j + 1].color = '#F97316';
+                    setRectsArray([...array]);
+                    await new Promise(resolve => setTimeout(resolve, 100));
+
+                    const rectJ = { ...array[j] };
+                    const rectJPlus1 = { ...array[j + 1] };
+
+                    // LIFT PHASE
+                    for (let step = 1; step <= steps; step++) {
+                        const progress = step / steps;
+                        setRectsArray(array.map((rect, idx) => {
+                            if (idx === j) return { ...rectJ, y: -progress * liftHeight };
+                            if (idx === j + 1) return { ...rectJPlus1, y: -progress * liftHeight };
+                            return { ...rect };
+                        }));
+                        await new Promise(resolve => setTimeout(resolve, 20));
+                    }
+
+                    // MOVE PHASE (while lifted)
+                    for (let step = 1; step <= steps; step++) {
+                        const progress = step / steps;
+                        setRectsArray(array.map((rect, idx) => {
+                            if (idx === j) {
+                                return {
+                                    ...rectJ,
+                                    x: rectJ.x + (rectJPlus1.x - rectJ.x) * progress,
+                                    y: -liftHeight
+                                };
+                            }
+                            if (idx === j + 1) {
+                                return {
+                                    ...rectJPlus1,
+                                    x: rectJPlus1.x + (rectJ.x - rectJPlus1.x) * progress,
+                                    y: -liftHeight
+                                };
+                            }
+                            return { ...rect };
+                        }));
+                        await new Promise(resolve => setTimeout(resolve, 20));
+                    }
+
+                    // ACTUAL DATA SWAP (mid-air, with updated x)
+                    const swappedJ = { ...rectJPlus1, x: rectJ.x };
+                    const swappedJPlus1 = { ...rectJ, x: rectJPlus1.x };
+                    array[j] = swappedJ;
+                    array[j + 1] = swappedJPlus1;
+
+                    // LOWER PHASE (now they land with new numbers)
+                    for (let step = 1; step <= steps; step++) {
+                        const progress = step / steps;
+                        setRectsArray(array.map((rect, idx) => {
+                            if (idx === j) {
+                                return {
+                                    ...array[j],
+                                    y: -liftHeight + progress * liftHeight,
+                                    color: progress === 1 ? '#10B981' : '#F97316'
+                                };
+                            }
+                            if (idx === j + 1) {
+                                return {
+                                    ...array[j + 1],
+                                    y: -liftHeight + progress * liftHeight,
+                                    color: progress === 1 ? '#10B981' : '#F97316'
+                                };
+                            }
+                            return { ...rect };
+                        }));
+                        await new Promise(resolve => setTimeout(resolve, 20));
+                    }
+
+                    // Lock in positions
+                    array[j].y = 0;
+                    array[j].id = j;
+                    array[j].color = '#10B981';
+
+                    array[j + 1].y = 0;
+                    array[j + 1].id = j + 1;
+                    array[j + 1].color = '#10B981';
+
+                    setRectsArray([...array]);
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                }
+                else {
+                    // No swap
+                    array[j].color = '#EAB308';
+                    array[j + 1].color = '#EAB308';
+                    setRectsArray([...array]);
+                    await new Promise(resolve => setTimeout(resolve, 200));
+
+                    array[j].color = '#3B82F6';
+                    array[j + 1].color = '#3B82F6';
+                    setRectsArray([...array]);
+                }
+            }
+
+            // Mark sorted element
+            //array[array.length - i - 1].color = '#8B5CF6';
+            setRectsArray([...array]);
+        }
+
+        // Celebration rainbow
+        const rainbowColors = ['#EF4444', '#F97316', '#EAB308', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899'];
+        setRectsArray(array.map((rect, index) => ({
+            ...rect,
+            color: rainbowColors[index % rainbowColors.length]
+        })));
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Final colors
+        setRectsArray(array.map((rect, index) => {
+            const ratio = index / (array.length - 1);
+            const colors = ['#10B981', '#06B6D4', '#3B82F6', '#8B5CF6'];
+            return {
+                ...rect,
+                color: colors[Math.floor(ratio * (colors.length - 1))]
+            };
+        }));
+
+        setIsAnimating(false);
     };
 
 
@@ -121,7 +236,6 @@ export default function MergeSort() {
         if (rectsArray.length > 0 && task) {
             switch (task) {
                 case 'add':
-
                     const updatedArray = [...rectsArray];
                     const rectArrayLen = updatedArray.length;
                     const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
@@ -172,7 +286,6 @@ export default function MergeSort() {
                             color: removeColors[index % removeColors.length]
                         }));
                         setRectsArray(updatedRArr);
-
                     } else {
                         alert("Index out of bounds!");
                     }
@@ -237,8 +350,6 @@ export default function MergeSort() {
 
 
 
-
-
     return <main className="w-screen h-screen flex gap-5 overflow-x-hidden p-2 bg-black">
 
 
@@ -252,13 +363,11 @@ export default function MergeSort() {
              overflow-x-scroll border-black">
                 {
                     rectsArray.length > 0 ? (
-                        <MergeSortKonva
+                        <Konva1
                             x={totalWidth}
                             y={height}
                             boxesInfo={rectsArray}
                             rectCount={rectCount}
-                            copyArray={copyArray}
-                            isAnimating={isAnimating}
                         />
                     ) : null
                 }
@@ -302,7 +411,7 @@ export default function MergeSort() {
                     <div className="w-full h-[50%] flex items-center justify-center">
                         <button className="text-3xl border-1 w-[130px] rounded bg-green-400
                         disabled:opacity-50 cursor-pointer hover:scale-105 duration-150 text-black"
-                            onClick={() => setIsAnimating(true)}
+                            onClick={animateBubbleSort}
                             disabled={isAnimating}>
                             Animate
                         </button>
@@ -381,7 +490,7 @@ export default function MergeSort() {
 
         </div>
 
-        <AlgoInfo algoInfo={MergePayload} />
+        <AlgoInfo algoInfo={BubblePayload} />
 
 
     </main>

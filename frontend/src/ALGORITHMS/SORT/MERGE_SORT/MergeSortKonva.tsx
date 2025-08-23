@@ -17,7 +17,8 @@ type KonvaProps = {
     boxesInfo: Array<rectInfo>,
     rectCount: number,
     copyArray?: Array<rectInfo>
-    isAnimating?: boolean
+    isAnimating?: boolean,
+    setIsAnimating: (bool: boolean) => void
 }
 
 interface rectInfo {
@@ -273,7 +274,6 @@ async function invisibleAnimation(array: rectInfo[], duration: number) {
 
 
 function mergeArray(array1: rectInfo[], array2: rectInfo[]) {
-
     return [...array1, ...array2];
 }
 
@@ -282,7 +282,8 @@ function mergeArray(array1: rectInfo[], array2: rectInfo[]) {
 
 
 
-export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArray, isAnimating, rectCount }) => {
+export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArray, isAnimating, rectCount, setIsAnimating
+}) => {
 
     const [rectArray, setRectArray] = useState<Array<rectInfo>>([]);
     const [rectArraySpaces, setRectArraySpaces] = useState<Array<rectInfo>>([]);
@@ -329,7 +330,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 setTimeout(() => {
                     func(i / 10);
                     if (i === 10) resolve();
-                }, i * 70);
+                }, i * 40);
 
             }
         })
@@ -337,7 +338,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
     async function invisibleOpacity(
         func: (num: number) => void,
-        step = 50
+        step = 30
     ): Promise<void> {
         return new Promise((resolve) => {
             for (let i = 0; i <= 10; i++) {
@@ -666,15 +667,12 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 await animateTo(movingSortedLRef.current, { x: 0 }, duration, { originX: 0, originY: 320 }),
                     await animateTo(movingSortedRRef.current, { x: 0 }, duration, { originX: 0, originY: 320 })
 
-                //await Promise.all([[
-                //    animateTo(movingSortedLRef.current, { x: 0 }, duration, { originX: 0, originY: 320 }),
-                //    animateTo(movingSortedRRef.current, { x: 0 }, duration, { originX: 0, originY: 320 })
-                //]])
 
                 await invisibleOpacity(setOpacity3);
                 await visibleOpacity(setOpacity4);
 
                 await animateSort(finalSortedArray, 800)
+                setIsAnimating(false);
 
 
 
@@ -742,10 +740,12 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
         }
 
+
+
     }, [isAnimating]);
 
 
-    console.log("Merge Sort", mergeArray(left, right))
+
 
 
 
