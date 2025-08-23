@@ -290,11 +290,16 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
     const [opacity1, setOpacity1] = useState<number>(1);
     const [opacity2, setOpacity2] = useState<number>(0);
+    const [opacity3, setOpacity3] = useState<number>(0);
+    const [opacity4, setOpacity4] = useState<number>(0);
 
     const [left, setLeft] = useState<Array<rectInfo>>([]);
     const [right, setRight] = useState<Array<rectInfo>>([]);
     const [sortedLeft, setSortedLeft] = useState<Array<rectInfo>>([]);
     const [sortedRight, setSortedRight] = useState<Array<rectInfo>>([]);
+
+    const [movingSortedL, setMovingSortedL] = useState<Array<rectInfo>>([]);
+    const [movingSortedR, setMovingSortedR] = useState<Array<rectInfo>>([]);
 
 
 
@@ -324,7 +329,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 setTimeout(() => {
                     func(i / 10);
                     if (i === 10) resolve();
-                }, i * 100);
+                }, i * 70);
 
             }
         })
@@ -454,6 +459,11 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
         setSortedLeft(mergeArray(finalSortedH1, finalSortedH2));
         setSortedRight(mergeArray(finalRightSortedH1, finalRightSortedH2));
 
+        setMovingSortedL(finalSortedLeft);
+        setMovingSortedR(finalSortedRight);
+
+        setFinalSortedArray(mergeArray(finalSortedLeft, finalSortedRight));
+
 
 
 
@@ -516,7 +526,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
     const toBeSortLH2Ref = useRef<Konva.Group>(null);
     const sortedLeftH1Ref = useRef<Konva.Group>(null);
     const sortedLeftH2Ref = useRef<Konva.Group>(null);
-
+    const movingSortedLRef = useRef<Konva.Group>(null);
 
 
     const sortedRightRef = useRef<Konva.Group>(null);
@@ -527,7 +537,10 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
     const toBeSortRH2Ref = useRef<Konva.Group>(null);
     const sortedRightH1Ref = useRef<Konva.Group>(null);
     const sortedRightH2Ref = useRef<Konva.Group>(null);
+    const movingSortedRRef = useRef<Konva.Group>(null)
 
+
+    const finalSortedArrayRef = useRef<Konva.Group>(null);
 
 
     useEffect(() => {
@@ -535,6 +548,9 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
             const duration = 1350;
 
             (async () => {
+
+                finalSortedArrayRef.current!.x(0);
+                finalSortedArrayRef.current!.y(390);
 
                 leftH1Ref.current!.x(-50);
                 leftH2Ref.current!.x(-50);
@@ -548,6 +564,13 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
                 sortedRightRef.current!.y(320);
                 sortedRightRef.current!.x(50);
+
+                movingSortedLRef.current!.x(-50);
+                movingSortedLRef.current!.y(320);
+
+                movingSortedRRef.current!.x(50);
+                movingSortedRRef.current!.y(320);
+
 
 
 
@@ -630,6 +653,28 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 ])
 
 
+                await visibleOpacity(setOpacity3);
+
+                //await animateTo(movingSortedLRef.current, { y: 390 }, duration, { originX: 0, originY: 320 });
+                //await animateTo(movingSortedRRef.current, { y: 390 }, duration, { originX: 0, originY: 320 })
+
+                await Promise.all([
+                    animateTo(movingSortedLRef.current, { y: 390 }, duration, { originX: 0, originY: 320 }),
+                    animateTo(movingSortedRRef.current, { y: 390 }, duration, { originX: 0, originY: 320 }),
+                ]);
+
+                await animateTo(movingSortedLRef.current, { x: 0 }, duration, { originX: 0, originY: 320 }),
+                    await animateTo(movingSortedRRef.current, { x: 0 }, duration, { originX: 0, originY: 320 })
+
+                //await Promise.all([[
+                //    animateTo(movingSortedLRef.current, { x: 0 }, duration, { originX: 0, originY: 320 }),
+                //    animateTo(movingSortedRRef.current, { x: 0 }, duration, { originX: 0, originY: 320 })
+                //]])
+
+                await invisibleOpacity(setOpacity3);
+                await visibleOpacity(setOpacity4);
+
+                await animateSort(finalSortedArray, 800)
 
 
 
@@ -776,8 +821,16 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 {/* Right Subarray from the Left Subarray (but sorted) */}
                 <SortRectangleRenderer array={sortedRight} offsetX={50} offsetY={320} groupRef={sortedRightRef} opacity={opacity2} />
 
+                {/* Moving sorted left array */}
+                <SortRectangleRenderer array={movingSortedL} offsetX={-50} offsetY={320} groupRef={movingSortedLRef} opacity={opacity3} />
+
+                {/* Moving sorted right array */}
+                <SortRectangleRenderer array={movingSortedR} offsetX={50} offsetY={320} groupRef={movingSortedRRef} opacity={opacity3} />
+
+
+
                 {/*the final fucking sorted array*/}
-                <RectangleRenderer array={finalSortedArray} offsetX={0} offsetY={390} opacity={0} />
+                <SortRectangleRenderer array={finalSortedArray} offsetX={0} offsetY={390} groupRef={finalSortedArrayRef} opacity={opacity4} />
 
 
 
