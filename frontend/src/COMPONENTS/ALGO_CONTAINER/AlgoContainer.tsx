@@ -3,6 +3,7 @@ import AlgoCard from "../CARDS/AlgoCard";
 import { algoStore } from "../../STATE/algoStore";
 import { sortingArray, searchingArray, graphAlgoArray, backtrackingArray } from "../../LIB/algoDummyDB";
 import { authStore } from "../../STATE/authStore";
+import { useEffect } from "react";
 
 
 
@@ -28,8 +29,13 @@ export default function AlgoContainer({ myRef }: Props) {
 
 
     const handleCategory = (cat: string, array: Array<Object>) => {
-        setAlgoCategory(cat); setCurrentArray(array);
-    }
+        setAlgoCategory(cat);
+        setCurrentArray(array);
+    };
+
+    useEffect(() => {
+        setCurrentArray(sortingArray);
+    }, [])
 
 
 

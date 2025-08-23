@@ -59,7 +59,7 @@ export default function MergeSort() {
         const konvaWidth: number = 655;
         const konvaHeight: number = 420;
 
-        const rectWidth = count > 6 ? 35 : 40;
+        const rectWidth = count > 6 ? 40 : 45;
         const spacing = 5;
         const totalWidth = count * rectWidth + (count - 1) * spacing
         const startX = (konvaWidth / 2) - (totalWidth / 2);
