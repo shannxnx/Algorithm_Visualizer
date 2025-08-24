@@ -1,27 +1,10 @@
-
 import { Stage, Layer, Rect, Text, Group } from "react-konva"
-import { testArray } from "../LIB/algoDummyDB";
+import { testArray } from "../../../LIB/algoDummyDB";
 import type React from "react";
-
-
 
 
 const middle_x = window.innerWidth / 2;
 const middle_y = window.innerHeight / 2;
-
-/*
-prevX + 30
-prev_y - 25
-height + 25
-
-
--------------------------------------------------------
-<Rect x={middle_x} y={middle_y} width={25} height={25} fill="red" />
-<Rect x={middle_x + 30} y={middle_y - 25} width={25} height={25 + 25} fill="red" />
-<Rect x={middle_x + 30 + 30} y={middle_y - 25 - 25} width={25} height={25 + 25 + 25} fill="red" />
-*/
-
-
 
 
 type KonvaProps = {
@@ -42,11 +25,9 @@ interface rectInfo {
 };
 
 
-
-
 export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
-    // Calculate needed height based on maximum lift (50px) plus rectangle height (50px) plus index space (25px)
-    const stageHeight = y + 50 + 50; // Original y + lift + rect height + index space
+
+    const stageHeight = y + 50 + 50;
 
     return (
         <Stage width={x} height={stageHeight} className="">
@@ -55,12 +36,13 @@ export const Konva1: React.FC<KonvaProps> = ({ x, y, boxesInfo }) => {
                     <Group
                         key={`group-${id}`}
                         x={r.x}
-                        y={r.y + 50} // Start 50px lower to accommodate lift
+                        y={r.y + 50}
                     >
                         <Rect
                             width={r.width}
                             height={r.height}
                             fill={r.color || "red"}
+                            cornerRadius={5}
                         />
                         <Text
                             text={`${r.number}`}

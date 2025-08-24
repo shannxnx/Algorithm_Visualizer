@@ -286,7 +286,7 @@
 
 
 import { useEffect, useRef, useState } from "react";
-import { Konva1 } from "./konva1";
+import { Konva1 } from "../ALGORITHMS/SORT/BUBBLE_SORT/konva1";
 import { algoStore } from "../STATE/algoStore";
 
 export default function KonvaContainer() {

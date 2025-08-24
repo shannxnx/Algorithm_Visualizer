@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit } from "../../../INTERFACES/sortInterface";
 import { MergeSortKonva } from "./MergeSortKonva";
+import { mergeStore } from "./STORE/mergeStore";
 
 
 const div_x = 400;
@@ -19,6 +20,8 @@ let rectCount = 8;
 
 
 export default function MergeSort() {
+
+    const setLeft = mergeStore((state: any) => state.setLeft);
 
     const mainRef = useRef<HTMLElement>(null);
     const rectCounts = algoStore((state: any) => state.rectCounts);
@@ -186,6 +189,7 @@ export default function MergeSort() {
                     const poppedArray = [...rectsArray];
                     poppedArray.pop();
                     setRectsArray(poppedArray);
+
                     break;
             }
             setTask('');
@@ -203,6 +207,7 @@ export default function MergeSort() {
         if (rects > 1) {
             setRects(rects - 1);
             setTask('pop');
+
         }
     };
 

@@ -42,7 +42,7 @@ export function RectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef, o
                         width={r.width}
                         height={r.height}
                         fill={"blue"}
-
+                        cornerRadius={5}
 
                     />
                     <Text
@@ -79,7 +79,12 @@ export function SortRectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRe
         {
             array.map((r, id) => (
                 <Group key={`group-${id}`} x={r.x} y={r.y} ref={(node) => { if (node) r.node = node }}>
-                    <Rect width={r.width} height={r.height} fill={"blue"} />
+                    <Rect
+                        width={r.width}
+                        height={r.height}
+                        fill={"blue"}
+                        cornerRadius={5}
+                    />
 
                     <Text
                         text={`${r.number}`}

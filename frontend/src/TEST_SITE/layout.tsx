@@ -1,6 +1,6 @@
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useEffect, useRef, useState } from "react";
-import { Konva1 } from "./konva1";
+import { Konva1 } from "../ALGORITHMS/SORT/BUBBLE_SORT/konva1";
 import { algoStore } from "../STATE/algoStore";
 import AlgoInfo from "../COMPONENTS/INFO_CONTENT/AlgoInfo";
 

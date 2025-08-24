@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import HomePage from './COMPONENTS/HomePage'
-import { Konva1 } from './TEST_SITE/konva1'
+import { Konva1 } from './ALGORITHMS/SORT/BUBBLE_SORT/konva1'
 import KonvaContainer from './TEST_SITE/konvaContainer'
 import Layout from './TEST_SITE/layout'
 import BubbleSort from './ALGORITHMS/SORT/BUBBLE_SORT/BubbleSort'
