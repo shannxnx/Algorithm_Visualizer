@@ -1,8 +1,9 @@
 import { Stage, Layer, Rect, Text, Group } from "react-konva"
 import type React from "react";
-import { useEffect, useRef, useState, type AriaAttributes, type Ref, type RefObject } from "react";
+import { useEffect, useRef, useState, type Ref, type RefObject } from "react";
 import Konva from "konva";
-
+import { RectangleRenderer, SortRectangleRenderer } from "../../../RENDERER/Renderer";
+import { mergeStore } from "./STORE/mergeStore";
 
 
 
@@ -45,147 +46,17 @@ type rectArrayRenderProps = {
 
 };
 
-const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
-
-
-function RectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef, opacity = 1 }: rectArrayRenderProps &
-{ groupRef?: React.RefObject<Konva.Group | null> }) {
-    return (
-        <Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
-            {
-                array.map((r, id) => (
-                    <Group
-                        opacity={opacity}
-                        key={`group-${id}`}
-                        x={r.x}
-                        y={r.y}
-                    >
-                        <Rect
-
-                            width={r.width}
-                            height={r.height}
-                            fill={"blue"}
-
-
-                        />
-                        <Text
-
-                            text={`${r.number}`}
-                            width={r.width}
-                            height={r.height}
-                            align="center"
-                            verticalAlign="middle"
-                            fill="white"
-                            fontSize={20}
-
-                        />
+//const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
 
 
 
-                    </Group>
 
 
-                ))
-            }
-        </Group>
-    )
+function splitHalf(array: rectInfo[], side: "left" | "right") {
+    const mid = Math.floor(array.length / 2);
+    return side === "left" ? array.slice(0, mid) : array.slice(mid);
 }
 
-
-function SortRectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef, opacity = 1 }: rectArrayRenderProps
-    & { groupRef: React.RefObject<Konva.Group | null> }
-) {
-
-
-
-
-    return <Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY} opacity={opacity}>
-        {
-            array.map((r, id) => (
-                <Group key={`group-${id}`} x={r.x} y={r.y} ref={(node) => { if (node) r.node = node }}>
-                    <Rect width={r.width} height={r.height} fill={"blue"} />
-
-                    <Text
-                        text={`${r.number}`}
-                        width={r.width}
-                        height={r.height}
-                        align="center"
-                        verticalAlign="middle"
-                        fill="white"
-                        fontSize={20}
-
-                    />
-
-
-
-                </Group>
-            ))
-        }
-    </Group>
-}
-
-
-
-function leftArray(array: Array<rectInfo>): Array<rectInfo> {
-    if (array) {
-        const arrayLength = array?.length;
-        const leftLength = Math.floor(arrayLength / 2);
-        const leftArray: Array<rectInfo> = [];
-
-        for (let i = 0; i < leftLength; i++) {
-            const rect: rectInfo = array[i];
-            leftArray.push(rect);
-        };
-
-
-        return leftArray;
-
-    }
-    return [];
-};
-
-
-function rightArray(array: Array<rectInfo>): Array<rectInfo> {
-    if (array) {
-        const arrayLength = array?.length;
-        const leftLength = Math.floor(arrayLength / 2);
-        const rightLength = arrayLength - leftLength;
-
-        const isOdd = array.length % 2 === 0 ? false : true
-
-        const rightArray: Array<rectInfo> = [];
-
-
-
-        switch (isOdd) {
-            case true:
-                for (let i = rightLength - 1; i < arrayLength; i++) {
-                    const rect: rectInfo = array[i];
-
-                    rightArray.push(rect);
-                };
-                break;
-            case false:
-                for (let i = rightLength; i < arrayLength; i++) {
-                    const rect: rectInfo = array[i];
-
-                    rightArray.push(rect);
-                };
-                break;
-            default:
-                break;
-        }
-
-        return rightArray;
-
-
-
-        //setLeft(leftArray);
-        //setRight(rightArray);
-
-    }
-    return [];
-}
 
 
 
@@ -257,21 +128,6 @@ async function animateSort(array: rectInfo[], duration: number = 500) {
 }
 
 
-async function invisibleAnimation(array: rectInfo[], duration: number) {
-    array.forEach(r => {
-        if (r.node) {
-            r.node.getParent()?.to({
-                opacity: 0,
-                duration: 1,
-                onFinish: () => {
-                    r.node?.getParent()?.visible(false);
-                }
-            })
-        }
-    })
-};
-
-
 
 function mergeArray(array1: rectInfo[], array2: rectInfo[]) {
     return [...array1, ...array2];
@@ -279,14 +135,34 @@ function mergeArray(array1: rectInfo[], array2: rectInfo[]) {
 
 
 
-
+async function fadeEffect(func: (num: number) => void, steps = 30, action: "in" | "out"): Promise<void> {
+    return new Promise((resolve) => {
+        for (let i = 0; i <= 10; i++) {
+            let progress = i / 10;
+            setTimeout(() => {
+                func(action === "in" ? progress : 1 - progress)
+                if (i === 10) resolve();
+            }, i * steps)
+        }
+    })
+}
 
 
 export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArray, isAnimating, rectCount, setIsAnimating
 }) => {
 
-    const [rectArray, setRectArray] = useState<Array<rectInfo>>([]);
-    const [rectArraySpaces, setRectArraySpaces] = useState<Array<rectInfo>>([]);
+
+    const right = mergeStore((state: any) => state.right);
+    const setRight = mergeStore((state: any) => state.setRight);
+    const left = mergeStore((state: any) => state.left);
+    const setLeft = mergeStore((state: any) => state.setLeft);
+
+    const mainArray = mergeStore((state: any) => state.mainArray);
+    const setMainArray = mergeStore((state: any) => state.setMainArray);
+
+
+    //const [rectArray, setRectArray] = useState<Array<rectInfo>>([]);
+    //const [rectArraySpaces, setRectArraySpaces] = useState<Array<rectInfo>>([]);
     const [finalSortedArray, setFinalSortedArray] = useState<Array<rectInfo>>([]);
 
     const [opacity1, setOpacity1] = useState<number>(1);
@@ -294,8 +170,8 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
     const [opacity3, setOpacity3] = useState<number>(0);
     const [opacity4, setOpacity4] = useState<number>(0);
 
-    const [left, setLeft] = useState<Array<rectInfo>>([]);
-    const [right, setRight] = useState<Array<rectInfo>>([]);
+
+
     const [sortedLeft, setSortedLeft] = useState<Array<rectInfo>>([]);
     const [sortedRight, setSortedRight] = useState<Array<rectInfo>>([]);
 
@@ -304,102 +180,51 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
 
 
-
-    const [leftH1, setLeftH1] = useState<Array<rectInfo>>([]);
-    const [leftH2, setLeftH2] = useState<Array<rectInfo>>([]);
-
-    const [sortedLeftH1, setSortedLeftH1] = useState<Array<rectInfo>>([]);
-    const [sortedLeftH2, setSortedLeftH2] = useState<Array<rectInfo>>([]);
-    const [toBeSortedLeftH1, setToBeSortedLeftH1] = useState<Array<rectInfo>>([]);
-    const [toBeSortedLeftH2, setToBeSortedLeftH2] = useState<Array<rectInfo>>([]);
-
-
-    const [rightH1, setRightH1] = useState<Array<rectInfo>>([]);
-    const [rightH2, setRightH2] = useState<Array<rectInfo>>([]);
-    const [toBeSortedRightH1, setToBeSortedRightH1] = useState<Array<rectInfo>>([]);
-    const [toBeSortedRightH2, setToBeSortedRightH2] = useState<Array<rectInfo>>([]);
+    const leftH1 = mergeStore((state: any) => state.leftH1);
+    const setLeftH1 = mergeStore((state: any) => state.setLeftH1);
+    const leftH2 = mergeStore((state: any) => state.leftH2);
+    const setLeftH2 = mergeStore((state: any) => state.setLeftH2);
+    const rightH1 = mergeStore((state: any) => state.rightH1);
+    const setRightH1 = mergeStore((state: any) => state.setRightH1);
+    const rightH2 = mergeStore((state: any) => state.rightH2);
+    const setRightH2 = mergeStore((state: any) => state.setRightH2);
 
 
-    const [sortedRightH1, setSortedRightH1] = useState<Array<rectInfo>>([]);
-    const [sortedRightH2, setSortedRightH2] = useState<Array<rectInfo>>([]);
+    const sortedLeftH1 = mergeStore((state: any) => state.sortedLeftH1);
+    const setSortedLeftH1 = mergeStore((state: any) => state.setSortedLeftH1);
+    const sortedLeftH2 = mergeStore((state: any) => state.sortedLeftH2);
+    const setSortedLeftH2 = mergeStore((state: any) => state.setSortedLeftH2);
+    const sortedRightH1 = mergeStore((state: any) => state.sortedRightH1);
+    const setSortedRightH1 = mergeStore((state: any) => state.setSortedRightH1);
+    const sortedRightH2 = mergeStore((state: any) => state.sortedRightH2);
+    const setSortedRightH2 = mergeStore((state: any) => state.setSortedRightH2);
 
 
-    function visibleOpacity(func: (num: number) => void): Promise<void> {
-        return new Promise((resolve) => {
-            for (let i = 0; i <= 10; i++) {
-                setTimeout(() => {
-                    func(i / 10);
-                    if (i === 10) resolve();
-                }, i * 40);
-
-            }
-        })
-    };
-
-    async function invisibleOpacity(
-        func: (num: number) => void,
-        step = 30
-    ): Promise<void> {
-        return new Promise((resolve) => {
-            for (let i = 0; i <= 10; i++) {
-                setTimeout(() => {
-                    func(1 - i / 10);
-                    if (i === 10) resolve();
-                }, i * step);
-            }
-        });
-    }
-
-    const stageHeight = y + 50 + 50;
+    const toBeSortedLeftH1 = mergeStore((state: any) => state.toBeSortedLeftH1);
+    const setToBeSortedLeftH1 = mergeStore((state: any) => state.setToBeSortedLeftH1);
+    const toBeSortedLeftH2 = mergeStore((state: any) => state.toBeSortedLeftH2);
+    const setToBeSortedLeftH2 = mergeStore((state: any) => state.setToBeSortedLeftH2);
+    const toBeSortedRightH1 = mergeStore((state: any) => state.toBeSortedRightH1);
+    const setToBeSortedRightH1 = mergeStore((state: any) => state.setToBeSortedRightH1);
+    const toBeSortedRightH2 = mergeStore((state: any) => state.toBeSortedRightH2);
+    const setToBeSortedRightH2 = mergeStore((state: any) => state.setToBeSortedRightH2);
 
 
-    function generateArray(length: number) {
-        const array: Array<rectInfo> = [];
-        let copyArrays: Array<rectInfo> = [];
 
 
-        const rectWidth = length > 6 ? 35 : 40;
-        const spacing = 5;
-        const totalWidth = length * rectWidth + (length - 1) * spacing
-
-        const startX = (konvaWidth / 2) - (totalWidth / 2);
-
-        for (let i = 0; i < length; i++) {
-
-            const rectangle: rectInfo = {
-                x: startX + i * (rectWidth + spacing),
-                y: -45,
-                width: rectWidth,
-                height: rectWidth,
-                id: i,
-                number: Math.floor(Math.random() * 100),
-                color: "Blue"
-            }
-
-            const copyRectangle: rectInfo = {
-                x: startX + i * (rectWidth + spacing + 15),
-                y: -45,
-                width: rectWidth,
-                height: rectWidth,
-                id: i,
-                number: rectangle.number
-            }
-
-            array.push(rectangle);
-            copyArrays.push(copyRectangle);
-        }
+    function generateArray() {
 
 
         const finalSortedNumber = [...boxesInfo].map(r => r.number).sort((a, b) => a! - b!);
         const finalSortedArray = [...boxesInfo].map((r, i) => ({ ...r, number: finalSortedNumber[i] }));
 
-        setRectArray(boxesInfo);
-        //setRectArraySpaces(copyArray!);
+
+        setMainArray(boxesInfo);
 
         setFinalSortedArray(finalSortedArray);
 
-        const lArray = leftArray(boxesInfo);
-        const rArray = rightArray(boxesInfo);
+        const lArray = splitHalf(boxesInfo, "left");
+        const rArray = splitHalf(boxesInfo, "right");
 
         const sortedLeftNumber = [...lArray].map(r => r.number).sort((a, b) => a! - b!);
         const finalSortedLeft = [...lArray].map((r, i) => ({
@@ -419,8 +244,8 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
 
 
-        const lArrayH1 = leftArray(lArray);
-        const lArrayH2 = rightArray(lArray);
+        const lArrayH1 = splitHalf(lArray, "left");
+        const lArrayH2 = splitHalf(lArray, "right");
 
         const sortedNumberH1 = [...lArrayH1].map(r => r.number).sort((a, b) => a! - b!);
         const finalSortedH1 = [...lArrayH1].map((r, i) => ({ ...r, number: sortedNumberH1[i] }));
@@ -432,8 +257,8 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
         setSortedLeftH2(finalSortedH2);
 
 
-        const rArrayH1 = leftArray(rArray);
-        const rArrayH2 = rightArray(rArray);
+        const rArrayH1 = splitHalf(rArray, "left");
+        const rArrayH2 = splitHalf(rArray, "right");
 
 
         const rightSortedNumberH1 = [...rArrayH1].map(r => r.number).sort((a, b) => a! - b!);
@@ -470,55 +295,11 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
     };
 
-    function splitArray(array: Array<rectInfo>) {
-        if (array) {
-            const arrayLength = array?.length;
-            const leftLength = Math.floor(arrayLength / 2);
-            const rightLength = arrayLength - leftLength;
-
-            const isOdd = array.length % 2 === 0 ? false : true
-
-
-            const leftArray: Array<rectInfo> = [];
-            const rightArray: Array<rectInfo> = [];
-
-            for (let i = 0; i < leftLength; i++) {
-                const rect: rectInfo = array[i];
-
-                leftArray.push(rect);
-            };
-
-            switch (isOdd) {
-                case true:
-                    for (let i = rightLength - 1; i < arrayLength; i++) {
-                        const rect: rectInfo = array[i];
-
-                        rightArray.push(rect);
-                    };
-                    break;
-                case false:
-                    for (let i = rightLength; i < arrayLength; i++) {
-                        const rect: rectInfo = array[i];
-
-                        rightArray.push(rect);
-                    };
-                    break;
-                default:
-                    break;
-            }
-
-
-
-            setLeft(leftArray);
-            setRight(rightArray);
-        }
-    }
-
     useEffect(() => {
-        generateArray(6);
-    }, []);
+        generateArray();
+    }, [boxesInfo]);
 
-
+    //left
     const sortedLeftRef = useRef<Konva.Group>(null);
     const leftGroupRef = useRef<Konva.Group>(null);
     const leftH1Ref = useRef<Konva.Group>(null);
@@ -530,6 +311,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
     const movingSortedLRef = useRef<Konva.Group>(null);
 
 
+    //right
     const sortedRightRef = useRef<Konva.Group>(null);
     const rightGroupRef = useRef<Konva.Group>(null);
     const rightH1Ref = useRef<Konva.Group>(null);
@@ -613,9 +395,6 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
                 ]);
 
-                //await animateSort(toBeSortedLeftH1, 800);
-                //await animateSort(toBeSortedLeftH2, 800)
-
                 await Promise.all([
                     animateSort(toBeSortedLeftH1, 800),
                     animateSort(toBeSortedLeftH2, 800),
@@ -640,24 +419,22 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
 
 
-                // await Promise.all([
-                //     invisibleAnimation(sortedLeftH1, 500),
-                //     invisibleAnimation(sortedLeftH2, 500),
+                //out
+                await fadeEffect(setOpacity1, 30, "out");
 
-                // ]);
-                await invisibleOpacity(setOpacity1);
-                await visibleOpacity(setOpacity2)
+                //in
+                await fadeEffect(setOpacity2, 30, "in");
+
 
                 await Promise.all([
                     animateSort(sortedLeft, 800),
                     animateSort(sortedRight, 800)
                 ])
 
+                //in
+                await fadeEffect(setOpacity3, 30, "in");
 
-                await visibleOpacity(setOpacity3);
 
-                //await animateTo(movingSortedLRef.current, { y: 390 }, duration, { originX: 0, originY: 320 });
-                //await animateTo(movingSortedRRef.current, { y: 390 }, duration, { originX: 0, originY: 320 })
 
                 await Promise.all([
                     animateTo(movingSortedLRef.current, { y: 390 }, duration, { originX: 0, originY: 320 }),
@@ -667,17 +444,14 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 await animateTo(movingSortedLRef.current, { x: 0 }, duration, { originX: 0, originY: 320 }),
                     await animateTo(movingSortedRRef.current, { x: 0 }, duration, { originX: 0, originY: 320 })
 
+                //out
+                await fadeEffect(setOpacity3, 20, "out");
 
-                await invisibleOpacity(setOpacity3);
-                await visibleOpacity(setOpacity4);
+                //in
+                await fadeEffect(setOpacity4, 20, "in");
 
                 await animateSort(finalSortedArray, 800)
                 setIsAnimating(false);
-
-
-
-
-
 
 
 
@@ -696,7 +470,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 sortedRightH1Ref.current!.x(80);
                 sortedRightH2Ref.current!.x(110);
                 sortedRightRef.current!.x(50);
-                //sortedRightRef.current!.y(320);
+
 
                 await animateTo(rightGroupRef.current, { y: 120 }, duration, { originX: 0, originY: 50 });
                 await animateTo(rightGroupRef.current, { x: 50 }, duration, { originX: 0, originY: 50 });
@@ -746,9 +520,6 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
 
 
-
-
-
     return (
         <Stage width={konvaWidth} height={konvaHeight} className={`w-[95%] h-[95%]`}>
             <Layer>
@@ -794,12 +565,9 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 <SortRectangleRenderer array={toBeSortedRightH2} offsetX={110} offsetY={260} groupRef={toBeSortRH2Ref} opacity={1} />
 
 
-
-
                 {/*----------------------------------------------------------------------------------------------------*/}
                 {/*----------------------------------------------------------------------------------------------------*/}
                 {/*----------------------------------------------------------------------------------------------------*/}
-
 
                 {/*Sorted left h1*/}
                 <SortRectangleRenderer array={sortedLeftH1} offsetX={-100} offsetY={330} groupRef={sortedLeftH1Ref} opacity={opacity1} />
@@ -826,8 +594,6 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
                 {/* Moving sorted right array */}
                 <SortRectangleRenderer array={movingSortedR} offsetX={50} offsetY={320} groupRef={movingSortedRRef} opacity={opacity3} />
-
-
 
                 {/*the final fucking sorted array*/}
                 <SortRectangleRenderer array={finalSortedArray} offsetX={0} offsetY={390} groupRef={finalSortedArrayRef} opacity={opacity4} />

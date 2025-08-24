@@ -7,6 +7,7 @@ import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit } from "../../../INTERFACES/sortInterface";
 import { MergeSortKonva } from "./MergeSortKonva";
 
+
 const div_x = 400;
 const div_y = 50;
 const width = 50;
@@ -101,7 +102,6 @@ export default function MergeSort() {
 
     useEffect(() => {
         setRectsArray(generateBoxesInfo(7));
-        //setMergeArray(generateBoxesInfo(6));
         getMergeSort();
 
     }, []);
@@ -240,7 +240,7 @@ export default function MergeSort() {
     }
 
 
-    console.log("Redts Array: ", rectsArray);
+
 
 
     return <main className="w-screen h-screen flex gap-5 overflow-x-hidden p-2 bg-black">
