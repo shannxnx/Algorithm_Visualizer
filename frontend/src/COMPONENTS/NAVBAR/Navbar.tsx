@@ -36,7 +36,7 @@ export default function Navbar({ onScrollNext }: NavbarProps) {
     return <nav className="lg:h-[65px] lg:w-full bg-black border-2  flex p-3 justify-center
     dark:border-black" style={{ scrollbarWidth: "none" }}>
 
-        <div className="border-1 dark:border-black lg:w-[15%] flex items-center justify-center">
+        <div className=" dark:border-black lg:w-[15%] flex items-center justify-center">
 
             <h1 className={`lg:text-4xl text-white LOGO hover:scale-105 duration-100 cursor-pointer
                 hover:text-black   p-1 rounded-[8px] ${Admin ? "bg-red-600" : "bg-[#1ce351]"}`}

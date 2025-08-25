@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { algoStore } from "../../../STATE/algoStore";
 import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Space } from "lucide-react";
 import { toast } from "react-toastify";
 import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit } from "../../../INTERFACES/sortInterface";
@@ -119,10 +119,27 @@ export default function MergeSort() {
 
 
 
-
+    console.log("Remove index: ", removeIndex);
 
     useEffect(() => {
         if (rectsArray.length > 0 && task) {
+
+            const insertArray = [...rectsArray];
+            const arrayLength = rectsArray.length;
+
+            const rectWidth = arrayLength > 6 ? 40 : 45;
+
+            const konvaWidth: number = 655;
+
+            const spacing = 5;
+            const totalWidth = arrayLength * rectWidth + (arrayLength - 1) * spacing
+            const startX = (konvaWidth / 2) - (totalWidth / 2);
+
+
+
+            const spacing2 = 20;
+            const totalWidth2 = arrayLength * rectWidth + (arrayLength - 1) * spacing2;
+            const startX2 = (konvaWidth / 2) - (totalWidth2 / 2);
             switch (task) {
                 case 'add':
 
@@ -147,11 +164,19 @@ export default function MergeSort() {
 
                 case 'insert':
                     const insertArray = [...rectsArray];
+                    const arrayLength = rectsArray.length;
+
+                    const konvaWidth: number = 655;
+
+
+                    const spacing2 = 20;
+                    const totalWidth2 = arrayLength * rectWidth + (arrayLength - 1) * spacing2;
+                    const startX2 = (konvaWidth / 2) - (totalWidth2 / 2);
                     const insertColors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
                     const insertRect: rectInfo = {
-                        width: width,
-                        height: height,
-                        x: 0, // Will be updated below
+                        width: rectWidth,
+                        height: rectWidth,
+                        x: 0,
                         y: 0,
                         number: insertVal,
                         id: insertIndex,
@@ -160,21 +185,23 @@ export default function MergeSort() {
                     insertArray.splice(insertIndex, 0, insertRect);
                     const updatedIArr = insertArray.map((r, index) => ({
                         ...r,
-                        x: index * (width + gap) + gap,
+                        y: -45,
+                        x: startX + index * (rectWidth + spacing),
                         id: index,
                         color: insertColors[index % insertColors.length]
                     }));
                     setRectsArray(updatedIArr);
                     break;
 
+
                 case 'removeIndex':
                     const removeArray = [...rectsArray];
-                    if (removeIndex < removeArray.length) {
+                    if (removeIndex - 1 < removeArray.length) {
                         removeArray.splice(removeIndex, 1);
                         const removeColors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
                         const updatedRArr = removeArray.map((r, index) => ({
                             ...r,
-                            x: index * (width + gap) + gap,
+                            x: startX + index * (rectWidth + spacing),
                             id: index,
                             color: removeColors[index % removeColors.length]
                         }));
@@ -223,8 +250,8 @@ export default function MergeSort() {
     };
 
     const handleRemoveIndex = () => {
-        if (rects > 1 && removeIndex < rects) {
-            setRects(rects - 1);
+        if (rectsArray.length > 1 && removeIndex < rectsArray.length) {
+            setRects(rectsArray.length - 1);
             setTask("removeIndex");
         }
     }
@@ -372,7 +399,7 @@ export default function MergeSort() {
                             <input type="number" className="border-1 w-[54px] ml-3 text-[16px] p-1
                                     outline-none text-black"
                                 min={0}
-                                max={rects - 1}
+                                max={rectsArray.length - 1}
                                 value={removeIndex}
                                 onChange={(e) => setRemoveIndex(Number(e.target.value))}
                                 name="indexr"
