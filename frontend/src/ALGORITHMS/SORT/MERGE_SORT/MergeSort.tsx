@@ -212,12 +212,24 @@ export default function MergeSort() {
 
                     if (removeIndex - 1 < removeArray.length) {
                         removeArray.splice(removeIndex, 1);
+
+                        const rmLength = removeArray.length;
+                        const rmKonvaWidth = 655;
+                        const rmSpacing = 5;
+                        const rmRectWidth = rmLength > 6 ? 40 : 45;
+
+                        const rmTotalWidth = rmLength * rmRectWidth + (rmLength - 1) * rmSpacing;
+
+
+                        const rmStartX = (konvaWidth / 2) - (rmTotalWidth / 2);
+
+
                         const removeColors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
                         const updatedRArr = removeArray.map((r, index) => ({
                             ...r,
-                            width: rectWidth,
-                            height: rectWidth,
-                            x: startX + index * (rectWidth + spacing),
+                            width: rmRectWidth,
+                            height: rmRectWidth,
+                            x: rmStartX + index * (rmRectWidth + rmSpacing),
                             id: index,
                             color: removeColors[index % removeColors.length]
                         }));
@@ -232,7 +244,7 @@ export default function MergeSort() {
                     const poppedArray = [...rectsArray];
                     poppedArray.pop();
 
-                    const newLength = poppedArray.length + 1;
+                    const newLength = poppedArray.length;
                     const newKonvaWidth = 655;
                     const newSpacing = 5;
                     const newRectWidth = newLength > 6 ? 40 : 45;
