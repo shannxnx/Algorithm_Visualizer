@@ -10,7 +10,7 @@ import { mergeStore } from "./STORE/mergeStore";
 const middle_x = window.innerWidth / 2;
 const middle_y = window.innerHeight / 2;
 
-
+type animation = "idle" | "animating" | "done";
 
 type KonvaProps = {
     x: number,
@@ -18,8 +18,9 @@ type KonvaProps = {
     boxesInfo: Array<rectInfo>,
     rectCount: number,
     copyArray?: Array<rectInfo>
-    isAnimating?: boolean,
-    setIsAnimating: (bool: boolean) => void
+    isAnimating?: animation,
+    setIsAnimating: (animate: animation) => void
+
 }
 
 interface rectInfo {
@@ -103,8 +104,6 @@ async function animateSort(array: rectInfo[], duration: number = 500) {
             if (arr[j].number! > arr[j + 1].number!) {
                 const nodeA = arr[j].node;
                 const nodeB = arr[j + 1].node;
-
-
 
 
                 if (!nodeA || !nodeB) continue;
@@ -287,10 +286,10 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
 
     const finalSortedArrayRef = useRef<Konva.Group>(null);
-
+    console.log("Isanimation (msKonva): ", isAnimating);
 
     useEffect(() => {
-        if (isAnimating && leftGroupRef.current && leftH1Ref.current && leftH2Ref.current) {
+        if (isAnimating === "animating" && leftGroupRef.current && leftH1Ref.current && leftH2Ref.current) {
             const duration = 1350;
 
             (async () => {
@@ -413,14 +412,14 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                 await fadeEffect(setOpacity4, 20, "in");
 
                 await animateSort(finalSortedArray, 800)
-                setIsAnimating(false);
+                setIsAnimating("done");
 
 
 
             })();
         }
 
-        if (isAnimating && rightGroupRef.current && rightH1Ref.current && rightH2Ref.current) {
+        if (isAnimating === "animating" && rightGroupRef.current && rightH1Ref.current && rightH2Ref.current) {
             const duration = 1350;
 
             (async () => {

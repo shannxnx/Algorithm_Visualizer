@@ -17,11 +17,14 @@ const gap = 5;
 let rectCount = 8;
 
 
+type animation = "idle" | "animating" | "done";
+
 
 
 export default function MergeSort() {
 
     const setLeft = mergeStore((state: any) => state.setLeft);
+    const left = mergeStore((state: any) => state.left)
 
     const mainRef = useRef<HTMLElement>(null);
     const rectCounts = algoStore((state: any) => state.rectCounts);
@@ -35,7 +38,7 @@ export default function MergeSort() {
     const [rectsArray, setRectsArray] = useState<Array<rectInfo>>([]);
     const [task, setTask] = useState<string>('');
 
-    const [isAnimating, setIsAnimating] = useState<boolean>(false);
+    const [isAnimating, setIsAnimating] = useState<animation>("idle");
 
     const [insertVal, setInsertVal] = useState<number>(0);
     const [insertIndex, setInsertIndex] = useState<number>(0);
@@ -46,6 +49,10 @@ export default function MergeSort() {
 
     const [mergeArray, setMergeArray] = useState<Array<rectInfo>>([]);
     const [copyArray, setCopyArray] = useState<Array<rectInfo>>([]);
+
+    const handleAnimating = (animate: animation) => {
+        setIsAnimating(animate);
+    }
 
     interface rectInfo {
         x: number,
@@ -72,8 +79,9 @@ export default function MergeSort() {
         const spacing2 = 20;
         const totalWidth2 = count * rectWidth + (count - 1) * spacing2;
         const startX2 = (konvaWidth / 2) - (totalWidth2 / 2);
+        const startX3 = (konvaWidth / 2) - (totalWidth2 / 2);
 
-
+        console.log("Total width (7): ", totalWidth);
         for (let i = 0; i < count; i++) {
 
             const rect: rectInfo = {
@@ -103,6 +111,9 @@ export default function MergeSort() {
     };
 
 
+    console.log("Left: ", left);
+
+
     useEffect(() => {
         setRectsArray(generateBoxesInfo(7));
         getMergeSort();
@@ -119,14 +130,13 @@ export default function MergeSort() {
 
 
 
-    console.log("Remove index: ", removeIndex);
+    console.log("boxes info: ", rectsArray);
 
     useEffect(() => {
         if (rectsArray.length > 0 && task) {
 
             const insertArray = [...rectsArray];
-            const arrayLength = rectsArray.length;
-
+            const arrayLength = rectsArray.length + 1;
             const rectWidth = arrayLength > 6 ? 40 : 45;
 
             const konvaWidth: number = 655;
@@ -135,43 +145,42 @@ export default function MergeSort() {
             const totalWidth = arrayLength * rectWidth + (arrayLength - 1) * spacing
             const startX = (konvaWidth / 2) - (totalWidth / 2);
 
-
-
             const spacing2 = 20;
             const totalWidth2 = arrayLength * rectWidth + (arrayLength - 1) * spacing2;
-            const startX2 = (konvaWidth / 2) - (totalWidth2 / 2);
+
+
             switch (task) {
                 case 'add':
-
                     const updatedArray = [...rectsArray];
                     const rectArrayLen = updatedArray.length;
 
-                    const lastItem = updatedArray[rectArrayLen - 1];
-
                     const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
                     const newRect: rectInfo = {
-                        width: lastItem.width,
-                        height: lastItem.height,
-                        x: lastItem.x + lastItem.width + 5,
-                        y: lastItem.y,
+                        width: rectWidth,
+                        height: rectWidth,
+                        x: 0,
+                        y: -45,
                         number: Math.floor(Math.random() * 10),
                         id: rectArrayLen,
                         color: colors[rectArrayLen % colors.length]
                     };
+
                     updatedArray.push(newRect);
-                    setRectsArray(updatedArray);
+
+                    const centeredArray = updatedArray.map((r, i) => ({
+                        ...r,
+                        width: rectWidth,
+                        height: rectWidth,
+                        x: startX + i * (rectWidth + spacing),
+                        y: -45,
+                        id: i
+                    }));
+
+                    setRectsArray(centeredArray);
                     break;
 
                 case 'insert':
-                    const insertArray = [...rectsArray];
-                    const arrayLength = rectsArray.length;
-
-                    const konvaWidth: number = 655;
-
-
-                    const spacing2 = 20;
-                    const totalWidth2 = arrayLength * rectWidth + (arrayLength - 1) * spacing2;
-                    const startX2 = (konvaWidth / 2) - (totalWidth2 / 2);
+                    let insertLength = rectsArray.length - 1;
                     const insertColors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
                     const insertRect: rectInfo = {
                         width: rectWidth,
@@ -182,25 +191,32 @@ export default function MergeSort() {
                         id: insertIndex,
                         color: insertColors[insertIndex % insertColors.length]
                     };
+                    console.log(`Total width ${arrayLength}:  `, totalWidth);
                     insertArray.splice(insertIndex, 0, insertRect);
+
                     const updatedIArr = insertArray.map((r, index) => ({
                         ...r,
+                        width: rectWidth,
+                        height: rectWidth,
                         y: -45,
                         x: startX + index * (rectWidth + spacing),
                         id: index,
                         color: insertColors[index % insertColors.length]
                     }));
+
                     setRectsArray(updatedIArr);
                     break;
 
-
                 case 'removeIndex':
                     const removeArray = [...rectsArray];
+
                     if (removeIndex - 1 < removeArray.length) {
                         removeArray.splice(removeIndex, 1);
                         const removeColors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
                         const updatedRArr = removeArray.map((r, index) => ({
                             ...r,
+                            width: rectWidth,
+                            height: rectWidth,
                             x: startX + index * (rectWidth + spacing),
                             id: index,
                             color: removeColors[index % removeColors.length]
@@ -215,16 +231,172 @@ export default function MergeSort() {
                 case 'pop':
                     const poppedArray = [...rectsArray];
                     poppedArray.pop();
-                    setRectsArray(poppedArray);
 
+                    const newLength = poppedArray.length + 1;
+                    const newKonvaWidth = 655;
+                    const newSpacing = 5;
+                    const newRectWidth = newLength > 6 ? 40 : 45;
+
+                    const newTotalWidth = newLength * newRectWidth + (newLength - 1) * newSpacing;
+                    const newStartX = (newKonvaWidth / 2) - (newTotalWidth / 2);
+
+                    const updatedArr = poppedArray.map((r, index) => ({
+                        ...r,
+                        width: newRectWidth,
+                        height: newRectWidth,
+                        x: newStartX + index * (newRectWidth + newSpacing),
+                        y: -45,
+                        id: index,
+                    }));
+
+                    setRectsArray(updatedArr);
                     break;
             }
             setTask('');
         }
     }, [task, rectsArray, insertVal, insertIndex, removeIndex]);
 
+
+    //useEffect(() => {
+    //    if (rectsArray.length > 0 && task) {
+
+    //        const insertArray = [...rectsArray];
+    //        const arrayLength = rectsArray.length + 1;
+    //        const rectWidth = arrayLength > 6 ? 40 : 45;
+
+    //        const konvaWidth: number = 655;
+
+    //        const spacing = 5;
+    //        const totalWidth = arrayLength * rectWidth + (arrayLength - 1) * spacing
+    //        const startX = (konvaWidth / 2) - (totalWidth / 2);
+
+
+
+    //        const spacing2 = 20;
+    //        const totalWidth2 = arrayLength * rectWidth + (arrayLength - 1) * spacing2;
+    //        //const startX2 = (konvaWidth / 2) - (totalWidth2 / 2);
+    //        switch (task) {
+    //            case 'add':
+
+    //                const updatedArray = [...rectsArray];
+    //                const rectArrayLen = updatedArray.length;
+    //                const konvaWidth = 655;
+    //                const spacing = 5;
+    //                const startX = (konvaWidth / 2) - (totalWidth / 2);
+
+    //                const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
+    //                const newRect: rectInfo = {
+    //                    width: rectWidth,
+    //                    height: rectWidth,
+    //                    x: 0,
+    //                    y: -45,
+    //                    number: Math.floor(Math.random() * 10),
+    //                    id: rectArrayLen,
+    //                    color: colors[rectArrayLen % colors.length]
+    //                };
+
+    //                updatedArray.push(newRect);
+
+
+    //                const centeredArray = updatedArray.map((r, i) => ({
+    //                    ...r,
+    //                    width: rectWidth,
+    //                    height: rectWidth,
+    //                    x: startX + i * (rectWidth + spacing),
+    //                    y: -45,
+    //                    id: i
+    //                }));
+
+    //                setRectsArray(centeredArray);
+    //                break;
+
+    //            case 'insert':
+    //                const insertArray = [...rectsArray];
+    //                const arrayLength = rectsArray.length + 1;
+
+
+
+    //                const insertColors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
+    //                const insertRect: rectInfo = {
+    //                    width: rectWidth,
+    //                    height: rectWidth,
+    //                    x: 0,
+    //                    y: 0,
+    //                    number: insertVal,
+    //                    id: insertIndex,
+    //                    color: insertColors[insertIndex % insertColors.length]
+    //                };
+    //                console.log(`Total width ${arrayLength}:  `, totalWidth);
+    //                insertArray.splice(insertIndex, 0, insertRect);
+
+    //                const updatedIArr = insertArray.map((r, index) => ({
+    //                    ...r,
+    //                    width: rectWidth,
+    //                    height: rectWidth,
+    //                    y: -45,
+    //                    x: startX + index * (rectWidth + spacing),
+    //                    id: index,
+    //                    color: insertColors[index % insertColors.length]
+    //                }));
+
+
+    //                setRectsArray(updatedIArr);
+    //                break;
+    //            case 'removeIndex':
+    //                const removeArray = [...rectsArray];
+
+    //                if (removeIndex - 1 < removeArray.length) {
+    //                    removeArray.splice(removeIndex, 1);
+    //                    const removeColors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
+    //                    const updatedRArr = removeArray.map((r, index) => ({
+    //                        ...r,
+    //                        width: rectWidth,
+    //                        height: rectWidth,
+    //                        x: startX + index * (rectWidth + spacing),
+    //                        id: index,
+    //                        color: removeColors[index % removeColors.length]
+    //                    }));
+    //                    setRectsArray(updatedRArr);
+
+    //                } else {
+    //                    alert("Index out of bounds!");
+    //                }
+    //                break;
+
+    //            case 'pop':
+    //                const poppedArray = [...rectsArray];
+    //                poppedArray.pop();
+
+    //                const newLength = poppedArray.length + 1;
+    //                const newKonvaWidth = 655;
+    //                const newSpacing = 5;
+    //                const newRectWidth = newLength > 6 ? 40 : 45;
+
+    //                const newTotalWidth = newLength * newRectWidth + (newLength - 1) * newSpacing;
+    //                const newStartX = (newKonvaWidth / 2) - (newTotalWidth / 2);
+
+    //                const updatedArr = poppedArray.map((r, index) => ({
+    //                    ...r,
+    //                    width: newRectWidth,
+    //                    height: newRectWidth,
+    //                    x: newStartX + index * (newRectWidth + newSpacing),
+    //                    y: -45,
+    //                    id: index,
+    //                }));
+
+    //                setRectsArray(updatedArr);
+
+    //                break;
+    //        }
+    //        setTask('');
+    //    }
+    //}, [task, rectsArray, insertVal, insertIndex, removeIndex]);
+
     const handleAdd = () => {
-        if (rects <= 10) {
+        if (rectsArray.length > 10) {
+            return toast("Max array reached!");
+        }
+        if (rects <= 13) {
             setRects(rects + 1);
             setTask('add');
         }
@@ -239,14 +411,15 @@ export default function MergeSort() {
     };
 
     const handleInsert = () => {
-        if (insertIndex <= rects && rects <= 10) {
+        if (rectsArray.length > 10) {
+            return toast("Max array reached!");
+        }
+
+        if (insertIndex <= rectsArray.length && rectsArray.length <= 10) {
             setRects(rects + 1);
             setTask('insert');
         }
-        else {
-            toast.error("Maximum array length!")
 
-        }
     };
 
     const handleRemoveIndex = () => {
@@ -267,11 +440,18 @@ export default function MergeSort() {
     };
 
     const handleNewBoxes = () => {
-        const newBoxes = generateBoxesInfo(rectsArray.length);
-        setRectsArray(newBoxes);
+        if (isAnimating === "done") {
+            setLeft([]);
+            const newBoxes = generateBoxesInfo(rectsArray.length);
+
+        } else {
+            const newBoxes = generateBoxesInfo(rectsArray.length);
+            setRectsArray(newBoxes);
+        }
+
     }
 
-
+    console.log("Animtion: ", isAnimating);
 
 
 
@@ -295,7 +475,7 @@ export default function MergeSort() {
                             rectCount={rectCount}
                             copyArray={copyArray}
                             isAnimating={isAnimating}
-                            setIsAnimating={setIsAnimating}
+                            setIsAnimating={handleAnimating}
                         />
                     ) : null
                 }
@@ -311,7 +491,7 @@ export default function MergeSort() {
 
                         <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
                         cursor-pointer hover:scale-105 duration-150 text-black"
-                            disabled={isAnimating}
+                            disabled={isAnimating === "animating" ? true : false}
                             onClick={handleAdd}
                         >
                             Add
@@ -319,7 +499,7 @@ export default function MergeSort() {
 
                         <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
                         cursor-pointer hover:scale-105 duration-150 text-black"
-                            disabled={isAnimating}
+                            disabled={isAnimating === "animating" ? true : false}
                             onClick={handlePop}
                         >
                             Pop
@@ -327,7 +507,7 @@ export default function MergeSort() {
 
                         <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
                         cursor-pointer hover:scale-105 duration-150 text-black"
-                            disabled={isAnimating}
+                            disabled={isAnimating === "animating" ? true : false}
                             onClick={handleNewBoxes}
                         >
                             New
@@ -339,8 +519,8 @@ export default function MergeSort() {
                     <div className="w-full h-[50%] flex items-center justify-center">
                         <button className="text-3xl border-1 w-[130px] rounded bg-green-400
                         disabled:opacity-50 cursor-pointer hover:scale-105 duration-150 text-black"
-                            onClick={() => setIsAnimating(true)}
-                            disabled={isAnimating}>
+                            onClick={() => setIsAnimating("animating")}
+                            disabled={isAnimating === "animating" ? true : false}>
                             Animate
                         </button>
                     </div>
@@ -357,7 +537,7 @@ export default function MergeSort() {
 
                             <button className="text-2xl h-full border-1 p-1 rounded hover:scale-105 duration-100 cursor-pointer
                             bg-green-400 disabled:opacity-50 text-black "
-                                disabled={isAnimating}
+                                disabled={isAnimating === "animating" ? true : false}
                                 onClick={handleInsert}
                             >
                                 Insert
@@ -369,7 +549,7 @@ export default function MergeSort() {
                                 max={999}
                                 value={insertVal}
                                 onChange={(e) => setInsertVal(Number(e.target.value))}
-                                disabled={isAnimating} />
+                                disabled={isAnimating === "animating" ? true : false} />
 
 
                             <label htmlFor="index" className="ml-1 text-black">Index</label>
@@ -377,10 +557,10 @@ export default function MergeSort() {
                                 className="border-1 w-[54px] text-[16px] ml-2 p-1
                             outline-none text-black "
                                 min={0}
-                                disabled={isAnimating}
+                                disabled={isAnimating === "animating" ? true : false}
                                 value={insertIndex}
                                 onChange={(e) => setInsertIndex(Number(e.target.value))}
-                                max={rects - 1}
+                                max={rectsArray.length - 1}
                             />
 
 
@@ -389,7 +569,7 @@ export default function MergeSort() {
                         <div className="w-[80%] h-[40%]  items-center flex">
                             <button className="text-2xl h-full border-1 p-1 rounded hover:scale-105 duration-100 cursor-pointer
                             bg-red-500 disabled:opacity-50 text-black"
-                                disabled={isAnimating}
+                                disabled={isAnimating === "animating" ? true : false}
                                 onClick={handleRemoveIndex}
                             >
                                 Remove
@@ -403,7 +583,7 @@ export default function MergeSort() {
                                 value={removeIndex}
                                 onChange={(e) => setRemoveIndex(Number(e.target.value))}
                                 name="indexr"
-                                disabled={isAnimating}
+                                disabled={isAnimating === "animating" ? true : false}
                             />
 
                         </div>

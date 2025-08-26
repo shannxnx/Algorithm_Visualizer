@@ -106,20 +106,20 @@ export const mergeStore = create<storeState>((set) => ({
     setMainArray: (array: rectInfo[]) => {
 
         set({ mainArray: array });
-        if (array) console.log("Main array: ", array);
+
 
     },
     setLeft: (array: rectInfo[]) => {
 
         set({ left: array });
-        if (array) console.log("Left array: ", array);
+
 
 
     },
     setRight: (array: rectInfo[]) => {
 
         set({ right: array });
-        if (array) console.log("Right array: ", array);
+
 
 
     },
@@ -127,13 +127,13 @@ export const mergeStore = create<storeState>((set) => ({
     setLeftH1: (array: rectInfo[]) => {
 
         set({ leftH1: array });
-        if (array) console.log("LeftH1 array: ", array);
+
 
     },
     setLeftH2: (array: rectInfo[]) => {
 
         set({ leftH2: array });
-        if (array) console.log("LeftH2 array: ", array);
+
 
     },
     setRightH1: (array: rectInfo[]) => {
@@ -146,11 +146,11 @@ export const mergeStore = create<storeState>((set) => ({
 
     setSortedLeftH1: (array: rectInfo[]) => {
         set({ sortedLeftH1: array });
-        if (array) console.log("Sorted LeftH1 : ", array);
+
     },
     setSortedLeftH2: (array: rectInfo[]) => {
         set({ sortedLeftH2: array });
-        if (array) console.log("Sorted LeftH2: ", array);
+
     },
     setSortedRightH1: (array: rectInfo[]) => {
         set({ sortedRightH1: array });
