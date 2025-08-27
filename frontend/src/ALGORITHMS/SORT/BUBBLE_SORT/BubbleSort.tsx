@@ -3,7 +3,6 @@ import { algoStore } from "../../../STATE/algoStore";
 import { Konva1 } from "./konva1";
 import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { ArrowLeft } from "lucide-react";
-import { BubbleSortInfo } from "../../../LIB/algoCodesDB";
 import { toast } from "react-toastify";
 import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit } from "../../../INTERFACES/sortInterface";
