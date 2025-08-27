@@ -12,6 +12,11 @@ const middle_y = window.innerHeight / 2;
 
 type animation = "idle" | "animating" | "done";
 
+interface animationController {
+    shouldStop: boolean
+}
+
+
 type KonvaProps = {
     x: number,
     y: number,
@@ -19,7 +24,8 @@ type KonvaProps = {
     rectCount: number,
     copyArray?: Array<rectInfo>
     isAnimating?: animation,
-    setIsAnimating: (animate: animation) => void
+    setIsAnimating: (animate: animation) => void,
+    animationControllerRef?: animationController
 
 }
 
@@ -46,10 +52,6 @@ type rectArrayRenderProps = {
 
 
 };
-
-//const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
-
-
 
 
 
@@ -157,7 +159,7 @@ function splitAndSort(arr: rectInfo[], direction: "left" | "right") {
 }
 
 
-export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArray, isAnimating, rectCount, setIsAnimating }) => {
+export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, setIsAnimating, }) => {
 
 
     const right = mergeStore((state: any) => state.right);
@@ -214,6 +216,8 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
     const setToBeSortedRightH1 = mergeStore((state: any) => state.setToBeSortedRightH1);
     const toBeSortedRightH2 = mergeStore((state: any) => state.toBeSortedRightH2);
     const setToBeSortedRightH2 = mergeStore((state: any) => state.setToBeSortedRightH2);
+
+    const animationControllerRef = useRef<{ shouldStop: boolean }>({ shouldStop: false });
 
 
     function generateArray() {
@@ -286,16 +290,65 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
 
     const finalSortedArrayRef = useRef<Konva.Group>(null);
-    console.log("Isanimation (msKonva): ", isAnimating);
+    const resetAllRefPositions = () => {
+        const refs = [
+            leftGroupRef, rightGroupRef, finalSortedArrayRef,
+            leftH1Ref, leftH2Ref, toBeSortLH1Ref, toBeSortLH2Ref,
+            sortedLeftH1Ref, sortedLeftH2Ref, sortedLeftRef, sortedRightRef,
+            movingSortedLRef, movingSortedRRef, rightH1Ref, rightH2Ref,
+            toBeSortRH1Ref, toBeSortRH2Ref, sortedRightH1Ref, sortedRightH2Ref
+        ];
+
+        refs.forEach(ref => {
+            if (ref.current) {
+                ref.current.stopDrag();
+                ref.current.to({
+                    x: 0,
+                    y: 0,
+                    duration: 0
+                })
+            }
+        });
+
+        setTimeout(() => {
+            animationControllerRef.current.shouldStop = false;
+        }, 100);
+
+
+
+
+    }
+
+
+
+
+
+
 
     useEffect(() => {
+        if (isAnimating === "idle") {
+
+
+            (async () => {
+                setOpacity1(1);
+                setOpacity2(0);
+                setOpacity3(0);
+                setOpacity4(0);
+                resetAllRefPositions();
+            })();
+        }
+
         if (isAnimating === "animating" && leftGroupRef.current && leftH1Ref.current && leftH2Ref.current) {
             const duration = 1350;
 
             (async () => {
 
+                if (animationControllerRef.current.shouldStop) return;
+
                 finalSortedArrayRef.current!.x(0);
                 finalSortedArrayRef.current!.y(390);
+
+
 
                 leftH1Ref.current!.x(-50);
                 leftH2Ref.current!.x(-50);
@@ -320,7 +373,10 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
 
                 await animateTo(leftGroupRef.current, { y: 120 }, duration, { originX: 0, originY: 50 });
+                if (animationControllerRef.current.shouldStop) return;
+
                 await animateTo(leftGroupRef.current, { x: -50 }, duration, { originX: 0, originY: 50 });
+                if (animationControllerRef.current.shouldStop) return;
 
                 await Promise.all([
                     animateTo(leftH1Ref.current, { y: 190 }, duration, {
@@ -332,6 +388,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                         originY: 120,
                     }),
                 ]);
+                if (animationControllerRef.current.shouldStop) return;
 
                 await Promise.all([
                     animateTo(leftH1Ref.current, { x: -100 }, duration, {
@@ -343,12 +400,14 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                         originY: 120,
                     }),
                 ]);
+                if (animationControllerRef.current.shouldStop) return;
 
                 await Promise.all([
                     animateTo(toBeSortLH1Ref.current, { y: 260 }, duration, { originX: 0, originY: 190 }),
                     animateTo(toBeSortLH2Ref.current, { y: 260 }, duration, { originX: 0, originY: 190 })
 
                 ]);
+                if (animationControllerRef.current.shouldStop) return;
 
                 await Promise.all([
                     animateTo(toBeSortLH1Ref.current, { x: -100 }, duration, { originX: 0, originY: 190 }),
@@ -356,6 +415,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
 
                 ]);
+                if (animationControllerRef.current.shouldStop) return;
 
                 await Promise.all([
                     animateSort(toBeSortedLeftH1, 800),
@@ -363,6 +423,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                     animateSort(toBeSortedRightH1, 800),
                     animateSort(toBeSortedRightH2, 800)
                 ]);
+                if (animationControllerRef.current.shouldStop) return;
 
                 await Promise.all([
                     animateTo(sortedLeftH1Ref.current, { y: 320 }, duration, { originX: 0, originY: 260 }),
@@ -371,6 +432,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                     animateTo(sortedRightH2Ref.current, { y: 320 }, duration, { originX: 0, originY: 260 }),
 
                 ]);
+                if (animationControllerRef.current.shouldStop) return;
 
                 await Promise.all([
                     animateTo(sortedLeftH1Ref.current, { x: -50 }, duration, { originX: 0, originY: 190 }),
@@ -378,22 +440,27 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                     animateTo(sortedRightH1Ref.current, { x: 50 }, duration, { originX: 0, originY: 260 }),
                     animateTo(sortedRightH2Ref.current, { x: 50 }, duration, { originX: 0, originY: 260 }),
                 ]);
+                if (animationControllerRef.current.shouldStop) return;
 
 
                 //out
                 await fadeEffect(setOpacity1, 30, "out");
+                if (animationControllerRef.current.shouldStop) return;
 
                 //in
                 await fadeEffect(setOpacity2, 30, "in");
+                if (animationControllerRef.current.shouldStop) return;
 
 
                 await Promise.all([
                     animateSort(sortedLeft, 800),
                     animateSort(sortedRight, 800)
                 ])
+                if (animationControllerRef.current.shouldStop) return;
 
                 //in
                 await fadeEffect(setOpacity3, 30, "in");
+                if (animationControllerRef.current.shouldStop) return;
 
 
 
@@ -401,18 +468,34 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                     animateTo(movingSortedLRef.current, { y: 390 }, duration, { originX: 0, originY: 320 }),
                     animateTo(movingSortedRRef.current, { y: 390 }, duration, { originX: 0, originY: 320 }),
                 ]);
+                if (animationControllerRef.current.shouldStop) return;
 
-                await animateTo(movingSortedLRef.current, { x: 0 }, duration, { originX: 0, originY: 320 }),
-                    await animateTo(movingSortedRRef.current, { x: 0 }, duration, { originX: 0, originY: 320 })
+                await animateTo(movingSortedLRef.current, { x: 0 }, duration, { originX: 0, originY: 320 });
+                if (animationControllerRef.current.shouldStop) return;
+
+                await animateTo(movingSortedRRef.current, { x: 0 }, duration, { originX: 0, originY: 320 })
+                if (animationControllerRef.current.shouldStop) return;
 
                 //out
                 await fadeEffect(setOpacity3, 20, "out");
+                if (animationControllerRef.current.shouldStop) return;
 
                 //in
                 await fadeEffect(setOpacity4, 20, "in");
+                if (animationControllerRef.current.shouldStop) return;
 
-                await animateSort(finalSortedArray, 800)
-                setIsAnimating("done");
+                if (finalSortedArrayRef.current) {
+                    finalSortedArrayRef.current.x(0);
+                    finalSortedArrayRef.current.y(390);
+                }
+
+
+                await animateSort(finalSortedArray, 800);
+
+                if (!animationControllerRef.current.shouldStop) {
+                    setIsAnimating("done");
+                };
+
 
 
 
@@ -423,6 +506,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
             const duration = 1350;
 
             (async () => {
+                if (animationControllerRef.current.shouldStop) return;
 
                 rightH1Ref.current!.x(50);
                 rightH2Ref.current!.x(50);
@@ -434,7 +518,9 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
 
                 await animateTo(rightGroupRef.current, { y: 120 }, duration, { originX: 0, originY: 50 });
+                if (animationControllerRef.current.shouldStop) return;
                 await animateTo(rightGroupRef.current, { x: 50 }, duration, { originX: 0, originY: 50 });
+                if (animationControllerRef.current.shouldStop) return;
 
 
                 await Promise.all([
@@ -447,6 +533,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                         originY: 120,
                     }),
                 ]);
+                if (animationControllerRef.current.shouldStop) return;
 
                 await Promise.all([
                     animateTo(rightH1Ref.current, { x: 80 }, duration, {
@@ -458,16 +545,19 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
                         originY: 120,
                     }),
                 ]);
+                if (animationControllerRef.current.shouldStop) return;
 
                 await Promise.all([
                     animateTo(toBeSortRH1Ref.current, { y: 260 }, duration, { originX: 0, originY: 190 }),
                     animateTo(toBeSortRH2Ref.current, { y: 260 }, duration, { originX: 0, originY: 190 })
                 ]);
+                if (animationControllerRef.current.shouldStop) return;
 
                 await Promise.all([
                     animateTo(toBeSortRH1Ref.current, { x: 80 }, duration, { originX: 0, originY: 190 }),
                     animateTo(toBeSortRH2Ref.current, { x: 110 }, duration, { originX: 0, originY: 190 })
                 ]);
+                if (animationControllerRef.current.shouldStop) return;
 
 
 
@@ -479,7 +569,10 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ x, y, boxesInfo, copyArra
 
     }, [isAnimating]);
 
-
+    console.log("Opacity (1): ", opacity1);
+    console.log("Opacity (2): ", opacity2);
+    console.log("Opacity (3): ", opacity3);
+    console.log("Opacity (4): ", opacity4);
 
     return (
         <Stage width={konvaWidth} height={konvaHeight} className={`w-[95%] h-[95%]`}>

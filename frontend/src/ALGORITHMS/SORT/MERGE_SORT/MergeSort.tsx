@@ -50,6 +50,9 @@ export default function MergeSort() {
     const [mergeArray, setMergeArray] = useState<Array<rectInfo>>([]);
     const [copyArray, setCopyArray] = useState<Array<rectInfo>>([]);
 
+
+
+
     const handleAnimating = (animate: animation) => {
         setIsAnimating(animate);
     }
@@ -191,7 +194,7 @@ export default function MergeSort() {
                         id: insertIndex,
                         color: insertColors[insertIndex % insertColors.length]
                     };
-                    console.log(`Total width ${arrayLength}:  `, totalWidth);
+
                     insertArray.splice(insertIndex, 0, insertRect);
 
                     const updatedIArr = insertArray.map((r, index) => ({
@@ -318,11 +321,13 @@ export default function MergeSort() {
 
     const handleNewBoxes = () => {
         if (isAnimating === "done") {
-            setLeft([]);
-            const newBoxes = generateBoxesInfo(rectsArray.length);
 
+            const newBoxes = generateBoxesInfo(rectsArray.length);
+            setRectsArray(newBoxes);
+            setIsAnimating("idle")
         } else {
             const newBoxes = generateBoxesInfo(rectsArray.length);
+
             setRectsArray(newBoxes);
         }
 
