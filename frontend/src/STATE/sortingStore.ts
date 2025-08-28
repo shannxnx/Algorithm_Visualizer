@@ -22,6 +22,10 @@ interface StoreState {
     editSortCode: (data: any) => void;
     getBubbleSort: () => void;
     getMergeSort: () => void;
+    getQuickSort: () => void;
+    getInsertionSort: () => void;
+    getSelectionSort: () => void;
+
 
 
 
@@ -75,7 +79,7 @@ export const sortStore = create<StoreState>((set, get) => ({
 
 
         } catch (error: any) {
-            console.log("Error in Getting bubble sort info store: ", error.message);
+            console.log("Error in getting algo store: ", error.message);
         }
 
     },
@@ -85,8 +89,35 @@ export const sortStore = create<StoreState>((set, get) => ({
             const res = await AxiosInstance.get("/sort/merge-sort");
             set({ mergeSortInfo: res.data });
         } catch (error: any) {
-            console.log("Error in Getting Merge Sort Info store: ", error.message);
+            console.log("Error in getting algo store: ", error.message);
 
+        }
+    },
+
+    getInsertionSort: async () => {
+        try {
+            const res = await AxiosInstance.get("/sort/insertion-sort");
+            set({ quickSortInfo: res.data });
+        } catch (error: any) {
+            console.log("Error in getting algo store: ", error.message);
+        }
+    },
+
+    getQuickSort: async () => {
+        try {
+            const res = await AxiosInstance.get("/sort/quick-sort");
+            set({ quickSortInfo: res.data });
+        } catch (error: any) {
+            console.log("Error in getting algo store: ", error.message);
+        }
+    },
+
+    getSelectionSort: async () => {
+        try {
+            const res = await AxiosInstance.get("/sort/selection-sort");
+            set({ quickSortInfo: res.data });
+        } catch (error: any) {
+            console.log("Error in getting algo store: ", error.message);
         }
     },
 

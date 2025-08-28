@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify'
 import MergeSort from './ALGORITHMS/SORT/MERGE_SORT/MergeSort'
 import AdminLogin from './ADMIN/Login'
 import { authStore } from './STATE/authStore'
+import QuickSort from './ALGORITHMS/SORT/QUICK_SORT/QuickSort'
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
         <Route path='/layout' element={<Layout />} />
         <Route path='/sort/bubble' element={<BubbleSort />} />
         <Route path='/sort/merge' element={<MergeSort />} />
+        <Route path='/sort/quick' element={<QuickSort />} />
         <Route path='/secret/login' element={clickCount != 13 ? <Navigate to="/" replace /> : <AdminLogin />} />
 
 

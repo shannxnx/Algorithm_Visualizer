@@ -189,11 +189,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
     const movingSortedR = mergeStore((state: any) => state.movingSortedR);
     const setMovingSortedR = mergeStore((state: any) => state.setMovingSortedR);
 
-    //const [sortedLeft, setSortedLeft] = useState<Array<rectInfo>>([]);
-    //const [sortedRight, setSortedRight] = useState<Array<rectInfo>>([]);
 
-    //   const [movingSortedL, setMovingSortedL] = useState<Array<rectInfo>>([]);
-    ///const [movingSortedR, setMovingSortedR] = useState<Array<rectInfo>>([]);
 
 
 
@@ -226,48 +222,6 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
     const toBeSortedRightH2 = mergeStore((state: any) => state.toBeSortedRightH2);
     const setToBeSortedRightH2 = mergeStore((state: any) => state.setToBeSortedRightH2);
 
-
-
-    //function generateArray() {
-
-    //    const finalSortedArray = sortArrayNumbers(boxesInfo);
-    //    setMainArray(boxesInfo);
-    //    setFinalSortedArray(finalSortedArray);
-
-    //    const { half: lArray, sorted: finalSortedLeft } = splitAndSort(boxesInfo, "left");
-    //    const { half: rArray, sorted: finalSortedRight } = splitAndSort(boxesInfo, "right");
-
-    //    setLeft(lArray);
-    //    setRight(rArray);
-
-    //    const { half: lArrayH1, sorted: finalSortedH1 } = splitAndSort(lArray, "left");
-    //    const { half: lArrayH2, sorted: finalSortedH2 } = splitAndSort(lArray, "right");
-
-    //    setLeftH1(lArrayH1);
-    //    setLeftH2(lArrayH2);
-    //    setSortedLeftH1(finalSortedH1);
-    //    setSortedLeftH2(finalSortedH2);
-    //    setToBeSortedLeftH1(lArrayH1);
-    //    setToBeSortedLeftH2(lArrayH2);
-
-
-    //    const { half: rArrayH1, sorted: finalRightSortedH1 } = splitAndSort(rArray, "left");
-    //    const { half: rArrayH2, sorted: finalRightSortedH2 } = splitAndSort(rArray, "right");
-
-    //    setRightH1(rArrayH1);
-    //    setRightH2(rArrayH2);
-    //    setSortedRightH1(finalRightSortedH1);
-    //    setSortedRightH2(finalRightSortedH2);
-    //    setToBeSortedRightH1(rArrayH1);
-    //    setToBeSortedRightH2(rArrayH2);
-
-
-    //    setSortedLeft(mergeArray(finalSortedH1, finalSortedH2));
-    //    setSortedRight(mergeArray(finalRightSortedH1, finalRightSortedH2));
-    //    setMovingSortedL(finalSortedLeft);
-    //    setMovingSortedR(finalSortedRight);
-    //    setFinalSortedArray(mergeArray(finalSortedLeft, finalSortedRight));
-    //}
 
     function generateArray() {
         const finalSortedArray = sortArrayNumbers([...boxesInfo]);
