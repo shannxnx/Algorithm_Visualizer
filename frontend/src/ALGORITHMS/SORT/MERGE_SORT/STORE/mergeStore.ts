@@ -27,24 +27,30 @@ interface rectInfo {
 }
 
 interface storeState {
-    // Main arrays
+
     mainArray: rectInfo[];
     left: rectInfo[];
     right: rectInfo[];
 
-    // H1 arrays
+    sortedLeft: rectInfo[];
+    sortedRight: rectInfo[];
+
+    movingSortedL: rectInfo[];
+    movingSortedR: rectInfo[];
+
+
     leftH1: rectInfo[];
     leftH2: rectInfo[];
     rightH1: rectInfo[];
     rightH2: rectInfo[];
 
-    // Sorted arrays
+
     sortedLeftH1: rectInfo[];
     sortedLeftH2: rectInfo[];
     sortedRightH1: rectInfo[];
     sortedRightH2: rectInfo[];
 
-    // To be sorted arrays
+
     toBeSortedLeftH1: rectInfo[];
     toBeSortedLeftH2: rectInfo[];
     toBeSortedRightH1: rectInfo[];
@@ -53,24 +59,24 @@ interface storeState {
     finalSortedArray: rectInfo[];
 
 
-    // Setters for main arrays
+
     setMainArray: (array: rectInfo[]) => void;
     setLeft: (array: rectInfo[]) => void;
     setRight: (array: rectInfo[]) => void;
 
-    // Setters for H1/H2 arrays
+
     setLeftH1: (array: rectInfo[]) => void;
     setLeftH2: (array: rectInfo[]) => void;
     setRightH1: (array: rectInfo[]) => void;
     setRightH2: (array: rectInfo[]) => void;
 
-    // Setters for sorted arrays
+
     setSortedLeftH1: (array: rectInfo[]) => void;
     setSortedLeftH2: (array: rectInfo[]) => void;
     setSortedRightH1: (array: rectInfo[]) => void;
     setSortedRightH2: (array: rectInfo[]) => void;
 
-    // Setters for to be sorted arrays
+
     setToBeSortedLeftH1: (array: rectInfo[]) => void;
     setToBeSortedLeftH2: (array: rectInfo[]) => void;
     setToBeSortedRightH1: (array: rectInfo[]) => void;
@@ -78,6 +84,14 @@ interface storeState {
 
 
     setFinalSortedArray: (array: rectInfo[]) => void;
+
+    setSortedLeft: (array: rectInfo[]) => void;
+    setSortedRight: (array: rectInfo[]) => void;
+    setMovingSortedL: (array: rectInfo[]) => void;
+    setMovingSortedR: (array: rectInfo[]) => void;
+
+    resetState: () => void;
+
 }
 
 export const mergeStore = create<storeState>((set) => ({
@@ -101,6 +115,12 @@ export const mergeStore = create<storeState>((set) => ({
     toBeSortedLeftH2: [] as rectInfo[],
     toBeSortedRightH1: [] as rectInfo[],
     toBeSortedRightH2: [] as rectInfo[],
+
+    sortedLeft: [] as rectInfo[],
+    sortedRight: [] as rectInfo[],
+
+    movingSortedL: [] as rectInfo[],
+    movingSortedR: [] as rectInfo[],
 
 
     setMainArray: (array: rectInfo[]) => {
@@ -177,6 +197,37 @@ export const mergeStore = create<storeState>((set) => ({
     setFinalSortedArray: (array: rectInfo[]) => {
         set({ finalSortedArray: array });
         //if (array) console.log("Final Array: ", array);
-    }
+    },
+
+
+    setSortedLeft: (array: rectInfo[]) => {
+        set({ sortedLeft: array });
+    },
+
+    setSortedRight: (array: rectInfo[]) => {
+        set({ sortedRight: array });
+    },
+
+    setMovingSortedL: (array: rectInfo[]) => {
+        set({ movingSortedL: array });
+    },
+
+    setMovingSortedR: (array: rectInfo[]) => {
+        set({ movingSortedR: array });
+    },
+
+    resetState: () => set({
+        left: [],
+        right: [],
+        mainArray: [],
+        finalSortedArray: [],
+        sortedLeft: [],
+        sortedRight: [],
+        movingSortedL: [],
+        movingSortedR: [],
+        leftH1: [], leftH2: [], rightH1: [], rightH2: [],
+        sortedLeftH1: [], sortedLeftH2: [], sortedRightH1: [], sortedRightH2: [],
+        toBeSortedLeftH1: [], toBeSortedLeftH2: [], toBeSortedRightH1: [], toBeSortedRightH2: []
+    }),
 
 }));

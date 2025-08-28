@@ -12,9 +12,7 @@ const middle_y = window.innerHeight / 2;
 
 type animation = "idle" | "animating" | "done";
 
-interface animationController {
-    shouldStop: boolean
-}
+
 
 
 type KonvaProps = {
@@ -25,7 +23,7 @@ type KonvaProps = {
     copyArray?: Array<rectInfo>
     isAnimating?: animation,
     setIsAnimating: (animate: animation) => void,
-    animationControllerRef?: animationController
+    animationControllerRef: React.RefObject<{ shouldStop: boolean }>
 
 }
 
@@ -159,7 +157,7 @@ function splitAndSort(arr: rectInfo[], direction: "left" | "right") {
 }
 
 
-export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, setIsAnimating, }) => {
+export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, setIsAnimating, animationControllerRef }) => {
 
 
     const right = mergeStore((state: any) => state.right);
@@ -179,12 +177,23 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
     const [opacity4, setOpacity4] = useState<number>(0);
 
 
+    const sortedLeft = mergeStore((state: any) => state.sortedLeft);
+    const setSortedLeft = mergeStore((state: any) => state.setSortedLeft);
 
-    const [sortedLeft, setSortedLeft] = useState<Array<rectInfo>>([]);
-    const [sortedRight, setSortedRight] = useState<Array<rectInfo>>([]);
+    const sortedRight = mergeStore((state: any) => state.sortedRight);
+    const setSortedRight = mergeStore((state: any) => state.setSortedRight);
 
-    const [movingSortedL, setMovingSortedL] = useState<Array<rectInfo>>([]);
-    const [movingSortedR, setMovingSortedR] = useState<Array<rectInfo>>([]);
+    const movingSortedL = mergeStore((state: any) => state.movingSortedL);
+    const setMovingSortedL = mergeStore((state: any) => state.setMovingSortedL);
+
+    const movingSortedR = mergeStore((state: any) => state.movingSortedR);
+    const setMovingSortedR = mergeStore((state: any) => state.setMovingSortedR);
+
+    //const [sortedLeft, setSortedLeft] = useState<Array<rectInfo>>([]);
+    //const [sortedRight, setSortedRight] = useState<Array<rectInfo>>([]);
+
+    //   const [movingSortedL, setMovingSortedL] = useState<Array<rectInfo>>([]);
+    ///const [movingSortedR, setMovingSortedR] = useState<Array<rectInfo>>([]);
 
 
 
@@ -217,54 +226,108 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
     const toBeSortedRightH2 = mergeStore((state: any) => state.toBeSortedRightH2);
     const setToBeSortedRightH2 = mergeStore((state: any) => state.setToBeSortedRightH2);
 
-    const animationControllerRef = useRef<{ shouldStop: boolean }>({ shouldStop: false });
 
+
+    //function generateArray() {
+
+    //    const finalSortedArray = sortArrayNumbers(boxesInfo);
+    //    setMainArray(boxesInfo);
+    //    setFinalSortedArray(finalSortedArray);
+
+    //    const { half: lArray, sorted: finalSortedLeft } = splitAndSort(boxesInfo, "left");
+    //    const { half: rArray, sorted: finalSortedRight } = splitAndSort(boxesInfo, "right");
+
+    //    setLeft(lArray);
+    //    setRight(rArray);
+
+    //    const { half: lArrayH1, sorted: finalSortedH1 } = splitAndSort(lArray, "left");
+    //    const { half: lArrayH2, sorted: finalSortedH2 } = splitAndSort(lArray, "right");
+
+    //    setLeftH1(lArrayH1);
+    //    setLeftH2(lArrayH2);
+    //    setSortedLeftH1(finalSortedH1);
+    //    setSortedLeftH2(finalSortedH2);
+    //    setToBeSortedLeftH1(lArrayH1);
+    //    setToBeSortedLeftH2(lArrayH2);
+
+
+    //    const { half: rArrayH1, sorted: finalRightSortedH1 } = splitAndSort(rArray, "left");
+    //    const { half: rArrayH2, sorted: finalRightSortedH2 } = splitAndSort(rArray, "right");
+
+    //    setRightH1(rArrayH1);
+    //    setRightH2(rArrayH2);
+    //    setSortedRightH1(finalRightSortedH1);
+    //    setSortedRightH2(finalRightSortedH2);
+    //    setToBeSortedRightH1(rArrayH1);
+    //    setToBeSortedRightH2(rArrayH2);
+
+
+    //    setSortedLeft(mergeArray(finalSortedH1, finalSortedH2));
+    //    setSortedRight(mergeArray(finalRightSortedH1, finalRightSortedH2));
+    //    setMovingSortedL(finalSortedLeft);
+    //    setMovingSortedR(finalSortedRight);
+    //    setFinalSortedArray(mergeArray(finalSortedLeft, finalSortedRight));
+    //}
 
     function generateArray() {
-
-        const finalSortedArray = sortArrayNumbers(boxesInfo);
-        setMainArray(boxesInfo);
+        const finalSortedArray = sortArrayNumbers([...boxesInfo]);
+        setMainArray([...boxesInfo]);
         setFinalSortedArray(finalSortedArray);
 
-        const { half: lArray, sorted: finalSortedLeft } = splitAndSort(boxesInfo, "left");
-        const { half: rArray, sorted: finalSortedRight } = splitAndSort(boxesInfo, "right");
+        const { half: lArray, sorted: finalSortedLeft } = splitAndSort([...boxesInfo], "left");
+        const { half: rArray, sorted: finalSortedRight } = splitAndSort([...boxesInfo], "right");
 
-        setLeft(lArray);
-        setRight(rArray);
+        setLeft([...lArray]);
+        setRight([...rArray]);
 
-        const { half: lArrayH1, sorted: finalSortedH1 } = splitAndSort(lArray, "left");
-        const { half: lArrayH2, sorted: finalSortedH2 } = splitAndSort(lArray, "right");
+        const { half: lArrayH1, sorted: finalSortedH1 } = splitAndSort([...lArray], "left");
+        const { half: lArrayH2, sorted: finalSortedH2 } = splitAndSort([...lArray], "right");
 
-        setLeftH1(lArrayH1);
-        setLeftH2(lArrayH2);
-        setSortedLeftH1(finalSortedH1);
-        setSortedLeftH2(finalSortedH2);
-        setToBeSortedLeftH1(lArrayH1);
-        setToBeSortedLeftH2(lArrayH2);
+        setLeftH1([...lArrayH1]);
+        setLeftH2([...lArrayH2]);
+        setSortedLeftH1([...finalSortedH1]);
+        setSortedLeftH2([...finalSortedH2]);
+        setToBeSortedLeftH1([...lArrayH1]);
+        setToBeSortedLeftH2([...lArrayH2]);
 
+        const { half: rArrayH1, sorted: finalRightSortedH1 } = splitAndSort([...rArray], "left");
+        const { half: rArrayH2, sorted: finalRightSortedH2 } = splitAndSort([...rArray], "right");
 
-        const { half: rArrayH1, sorted: finalRightSortedH1 } = splitAndSort(rArray, "left");
-        const { half: rArrayH2, sorted: finalRightSortedH2 } = splitAndSort(rArray, "right");
+        setRightH1([...rArrayH1]);
+        setRightH2([...rArrayH2]);
+        setSortedRightH1([...finalRightSortedH1]);
+        setSortedRightH2([...finalRightSortedH2]);
+        setToBeSortedRightH1([...rArrayH1]);
+        setToBeSortedRightH2([...rArrayH2]);
 
-        setRightH1(rArrayH1);
-        setRightH2(rArrayH2);
-        setSortedRightH1(finalRightSortedH1);
-        setSortedRightH2(finalRightSortedH2);
-        setToBeSortedRightH1(rArrayH1);
-        setToBeSortedRightH2(rArrayH2);
+        setSortedLeft(mergeArray([...finalSortedH1], [...finalSortedH2]));
+        setSortedRight(mergeArray([...finalRightSortedH1], [...finalRightSortedH2]));
+        setMovingSortedL([...finalSortedLeft]);
+        setMovingSortedR([...finalSortedRight]);
+        setFinalSortedArray(mergeArray([...finalSortedLeft], [...finalSortedRight]));
 
-
-        setSortedLeft(mergeArray(finalSortedH1, finalSortedH2));
-        setSortedRight(mergeArray(finalRightSortedH1, finalRightSortedH2));
-        setMovingSortedL(finalSortedLeft);
-        setMovingSortedR(finalSortedRight);
-        setFinalSortedArray(mergeArray(finalSortedLeft, finalSortedRight));
+        animationControllerRef.current.shouldStop = false;
     }
 
 
     useEffect(() => {
         generateArray();
     }, [boxesInfo]);
+
+    console.log("leftH1:", leftH1);
+    console.log("leftH2:", leftH2);
+    console.log("rightH1:", rightH1);
+    console.log("rightH2:", rightH2);
+
+    console.log("sortedLeftH1:", sortedLeftH1);
+    console.log("sortedLeftH2:", sortedLeftH2);
+    console.log("sortedRightH1:", sortedRightH1);
+    console.log("sortedRightH2:", sortedRightH2);
+
+    console.log("toBeSortedLeftH1:", toBeSortedLeftH1);
+    console.log("toBeSortedLeftH2:", toBeSortedLeftH2);
+    console.log("toBeSortedRightH1:", toBeSortedRightH1);
+    console.log("toBeSortedRightH2:", toBeSortedRightH2);
 
     //left
     const sortedLeftRef = useRef<Konva.Group>(null);
@@ -296,7 +359,9 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
             leftH1Ref, leftH2Ref, toBeSortLH1Ref, toBeSortLH2Ref,
             sortedLeftH1Ref, sortedLeftH2Ref, sortedLeftRef, sortedRightRef,
             movingSortedLRef, movingSortedRRef, rightH1Ref, rightH2Ref,
-            toBeSortRH1Ref, toBeSortRH2Ref, sortedRightH1Ref, sortedRightH2Ref
+            toBeSortRH1Ref, toBeSortRH2Ref, sortedRightH1Ref, sortedRightH2Ref,
+
+
         ];
 
         refs.forEach(ref => {
@@ -309,6 +374,10 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
                 })
             }
         });
+        setOpacity1(1);
+        setOpacity2(0);
+        setOpacity3(0);
+        setOpacity4(0);
 
         setTimeout(() => {
             animationControllerRef.current.shouldStop = false;
@@ -323,20 +392,14 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
 
 
 
-
-
     useEffect(() => {
         if (isAnimating === "idle") {
-
-
-            (async () => {
-                setOpacity1(1);
-                setOpacity2(0);
-                setOpacity3(0);
-                setOpacity4(0);
-                resetAllRefPositions();
-            })();
+            resetAllRefPositions();
         }
+    }, [isAnimating]);
+
+    useEffect(() => {
+
 
         if (isAnimating === "animating" && leftGroupRef.current && leftH1Ref.current && leftH2Ref.current) {
             const duration = 1350;
@@ -496,6 +559,11 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
                     setIsAnimating("done");
                 };
 
+                return () => {
+
+                    animationControllerRef.current.shouldStop = true;
+                };
+
 
 
 
@@ -573,6 +641,8 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
     console.log("Opacity (2): ", opacity2);
     console.log("Opacity (3): ", opacity3);
     console.log("Opacity (4): ", opacity4);
+
+    console.log("Final sorted array: ", finalSortedArray);
 
     return (
         <Stage width={konvaWidth} height={konvaHeight} className={`w-[95%] h-[95%]`}>
@@ -655,6 +725,11 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
             </Layer>
         </Stage>
     )
+
+
+
 }
+
+
 
 

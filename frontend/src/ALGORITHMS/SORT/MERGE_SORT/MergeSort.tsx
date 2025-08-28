@@ -24,7 +24,39 @@ type animation = "idle" | "animating" | "done";
 export default function MergeSort() {
 
     const setLeft = mergeStore((state: any) => state.setLeft);
-    const left = mergeStore((state: any) => state.left)
+    const left = mergeStore((state: any) => state.left);
+    const right = mergeStore((state: any) => state.right);
+
+
+
+
+    const animationControllerRef = useRef<{ shouldStop: boolean }>({ shouldStop: false });
+
+
+
+    const leftH1 = mergeStore((state: any) => state.leftH1);
+    const leftH2 = mergeStore((state: any) => state.leftH2);
+    const rightH1 = mergeStore((state: any) => state.rightH1);
+    const rightH2 = mergeStore((state: any) => state.rightH2);
+
+    const sortedLeftH1 = mergeStore((state: any) => state.sortedLeftH1);
+    const sortedLeftH2 = mergeStore((state: any) => state.sortedLeftH2);
+    const sortedRightH1 = mergeStore((state: any) => state.sortedRightH1);
+    const sortedRightH2 = mergeStore((state: any) => state.sortedRightH2);
+
+    const toBeSortedLeftH1 = mergeStore((state: any) => state.toBeSortedLeftH1);
+    const toBeSortedLeftH2 = mergeStore((state: any) => state.toBeSortedLeftH2);
+    const toBeSortedRightH1 = mergeStore((state: any) => state.toBeSortedRightH1);
+    const toBeSortedRightH2 = mergeStore((state: any) => state.toBeSortedRightH2);
+
+
+
+
+
+
+
+
+
 
     const mainRef = useRef<HTMLElement>(null);
     const rectCounts = algoStore((state: any) => state.rectCounts);
@@ -114,7 +146,7 @@ export default function MergeSort() {
     };
 
 
-    console.log("Left: ", left);
+
 
 
     useEffect(() => {
@@ -319,21 +351,45 @@ export default function MergeSort() {
         setRectsArray(updatedArray);
     };
 
+
+
     const handleNewBoxes = () => {
-        if (isAnimating === "done") {
 
-            const newBoxes = generateBoxesInfo(rectsArray.length);
-            setRectsArray(newBoxes);
-            setIsAnimating("idle")
-        } else {
-            const newBoxes = generateBoxesInfo(rectsArray.length);
-
-            setRectsArray(newBoxes);
+        if (isAnimating === "animating") {
+            animationControllerRef.current.shouldStop = true;
         }
 
+        const newBoxes = generateBoxesInfo(rectsArray.length);
+        setRectsArray(newBoxes);
+        setIsAnimating("idle");
+
+
+        mergeStore.getState().resetState();
     }
 
     console.log("Animtion: ", isAnimating);
+
+
+    useEffect(() => {
+        console.log("leftH1:", leftH1);
+        console.log("leftH2:", leftH2);
+        console.log("rightH1:", rightH1);
+        console.log("rightH2:", rightH2);
+
+        console.log("sortedLeftH1:", sortedLeftH1);
+        console.log("sortedLeftH2:", sortedLeftH2);
+        console.log("sortedRightH1:", sortedRightH1);
+        console.log("sortedRightH2:", sortedRightH2);
+
+        console.log("toBeSortedLeftH1:", toBeSortedLeftH1);
+        console.log("toBeSortedLeftH2:", toBeSortedLeftH2);
+        console.log("toBeSortedRightH1:", toBeSortedRightH1);
+        console.log("toBeSortedRightH2:", toBeSortedRightH2);
+    }, [
+        leftH1, leftH2, rightH1, rightH2,
+        sortedLeftH1, sortedLeftH2, sortedRightH1, sortedRightH2,
+        toBeSortedLeftH1, toBeSortedLeftH2, toBeSortedRightH1, toBeSortedRightH2
+    ]);
 
 
 
@@ -358,6 +414,8 @@ export default function MergeSort() {
                             copyArray={copyArray}
                             isAnimating={isAnimating}
                             setIsAnimating={handleAnimating}
+                            animationControllerRef={animationControllerRef}
+
                         />
                     ) : null
                 }
@@ -373,7 +431,7 @@ export default function MergeSort() {
 
                         <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
                         cursor-pointer hover:scale-105 duration-150 text-black"
-                            disabled={isAnimating === "animating" ? true : false}
+                            disabled={isAnimating === "animating" || isAnimating === "done" ? true : false}
                             onClick={handleAdd}
                         >
                             Add
@@ -381,7 +439,7 @@ export default function MergeSort() {
 
                         <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
                         cursor-pointer hover:scale-105 duration-150 text-black"
-                            disabled={isAnimating === "animating" ? true : false}
+                            disabled={isAnimating === "animating" || isAnimating === "done" ? true : false}
                             onClick={handlePop}
                         >
                             Pop
@@ -402,7 +460,7 @@ export default function MergeSort() {
                         <button className="text-3xl border-1 w-[130px] rounded bg-green-400
                         disabled:opacity-50 cursor-pointer hover:scale-105 duration-150 text-black"
                             onClick={() => setIsAnimating("animating")}
-                            disabled={isAnimating === "animating" ? true : false}>
+                            disabled={isAnimating === "animating" || isAnimating === "done" ? true : false}>
                             Animate
                         </button>
                     </div>
@@ -419,7 +477,7 @@ export default function MergeSort() {
 
                             <button className="text-2xl h-full border-1 p-1 rounded hover:scale-105 duration-100 cursor-pointer
                             bg-green-400 disabled:opacity-50 text-black "
-                                disabled={isAnimating === "animating" ? true : false}
+                                disabled={isAnimating === "animating" || isAnimating === "done" ? true : false}
                                 onClick={handleInsert}
                             >
                                 Insert
@@ -451,7 +509,7 @@ export default function MergeSort() {
                         <div className="w-[80%] h-[40%]  items-center flex">
                             <button className="text-2xl h-full border-1 p-1 rounded hover:scale-105 duration-100 cursor-pointer
                             bg-red-500 disabled:opacity-50 text-black"
-                                disabled={isAnimating === "animating" ? true : false}
+                                disabled={isAnimating === "animating" || isAnimating === "done" ? true : false}
                                 onClick={handleRemoveIndex}
                             >
                                 Remove
