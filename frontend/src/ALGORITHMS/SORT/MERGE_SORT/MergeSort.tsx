@@ -461,7 +461,7 @@ export default function MergeSort() {
 
             </div>
 
-            <div className="w-[95%] h-[120px] lg:flex items-center justify-around mb-3 border-black ">
+            <div className="w-[95%] lg:h-[120px] h-[15%] flex items-center justify-around mb-3 border-black ">
 
                 <div className="w-[35%] h-full border-1 flex flex-col border-black">
 
