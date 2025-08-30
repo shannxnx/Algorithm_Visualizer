@@ -72,8 +72,8 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props, }) {
 
 
 
-    return <div className="w-[40%] h-full border-1 rounded flex-col flex  items-center bg-white relative
-    dark:bg-white">
+    return <div className="lg:w-[40%] lg:h-full border-1 rounded flex-col lg:flex  items-center bg-white relative
+    dark:bg-white hidden ">
         <h1 className="text-3xl mt-4 dark:text-black">{algoInfo.algoName}</h1>
         <button className="absolute right-0 mt-4 mr-4 cursor-pointer">
             <a href="/"> <ArrowRight size={32} className="dark:text-black" /></a>

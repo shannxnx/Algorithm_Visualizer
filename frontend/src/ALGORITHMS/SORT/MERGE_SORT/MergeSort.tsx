@@ -7,6 +7,7 @@ import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit } from "../../../INTERFACES/sortInterface";
 import { MergeSortKonva } from "./MergeSortKonva";
 import { mergeStore } from "./STORE/mergeStore";
+import useMeasure from "react-use-measure";
 
 
 const div_x = 400;
@@ -53,6 +54,8 @@ export default function MergeSort() {
 
 
 
+    const konvaDivRef = useRef<HTMLDivElement | null>(null);
+    const [konvaDivWidth, setKonvaDivWidth] = useState<number>(0);
 
 
 
@@ -99,14 +102,18 @@ export default function MergeSort() {
         color?: string
     };
 
+    const [ref, bounds] = useMeasure();
+
+    console.log("Ref width: ", bounds.width);
+
     const generateBoxesInfo = (count: number): Array<rectInfo> => {
         const boxesInfo: Array<rectInfo> = [];
         const copyBoxes: Array<rectInfo> = [];
         const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
-        const konvaWidth: number = 655;
-        const konvaHeight: number = 420;
+        const konvaWidth: number = Math.floor(bounds.width);
 
-        const rectWidth = count > 6 ? 40 : 45;
+
+        const rectWidth = konvaWidth >= 700 ? count > 6 ? 40 : 45 : count > 6 ? 35 : 30;
         const spacing = 5;
         const totalWidth = count * rectWidth + (count - 1) * spacing
         const startX = (konvaWidth / 2) - (totalWidth / 2);
@@ -147,13 +154,29 @@ export default function MergeSort() {
 
 
 
+    //useEffect(() => {
+    //    if (!konvaDivRef) return;
+    //    const observer = new ResizeObserver((entries) => {
+    //        for (let entry of entries) {
+    //            setKonvaDivWidth(entry.contentRect.width);
+    //        }
+    //    });
 
+    //    observer.observe(konvaDivRef.current!);
+
+    //    return observer.disconnect();
+
+    //}, []);
+
+    //console.log("Konva width: ", konvaDivWidth);
 
     useEffect(() => {
-        setRectsArray(generateBoxesInfo(7));
-        getMergeSort();
+        if (bounds.width && bounds.height > 0) {
+            setRectsArray(generateBoxesInfo(7));
+            getMergeSort();
+        }
 
-    }, []);
+    }, [bounds.width]);
 
     const MergePayload: SortKit = {
         algoName: mergeSortInfo.algoName,
@@ -165,16 +188,18 @@ export default function MergeSort() {
 
 
 
-    console.log("boxes info: ", rectsArray);
+
 
     useEffect(() => {
         if (rectsArray.length > 0 && task) {
 
             const insertArray = [...rectsArray];
             const arrayLength = rectsArray.length + 1;
-            const rectWidth = arrayLength > 6 ? 40 : 45;
 
-            const konvaWidth: number = 655;
+
+            const konvaWidth: number = bounds.width;
+
+            const rectWidth = arrayLength > 6 ? 40 : 45;
 
             const spacing = 5;
             const totalWidth = arrayLength * rectWidth + (arrayLength - 1) * spacing
@@ -249,14 +274,14 @@ export default function MergeSort() {
                         removeArray.splice(removeIndex, 1);
 
                         const rmLength = removeArray.length;
-                        const rmKonvaWidth = 655;
+                        const rmKonvaWidth = bounds.width;
                         const rmSpacing = 5;
                         const rmRectWidth = rmLength > 6 ? 40 : 45;
 
                         const rmTotalWidth = rmLength * rmRectWidth + (rmLength - 1) * rmSpacing;
 
 
-                        const rmStartX = (konvaWidth / 2) - (rmTotalWidth / 2);
+                        const rmStartX = (rmKonvaWidth / 2) - (rmTotalWidth / 2);
 
 
                         const removeColors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
@@ -280,7 +305,7 @@ export default function MergeSort() {
                     poppedArray.pop();
 
                     const newLength = poppedArray.length;
-                    const newKonvaWidth = 655;
+                    const newKonvaWidth = bounds.width;
                     const newSpacing = 5;
                     const newRectWidth = newLength > 6 ? 40 : 45;
 
@@ -305,10 +330,13 @@ export default function MergeSort() {
 
 
     const handleAdd = () => {
-        if (rectsArray.length > 10) {
+        if (bounds.width >= 650 && rectsArray.length >= 9) {
             return toast("Max array reached!");
         }
-        if (rects <= 13) {
+        else if (bounds.width < 400 && rectsArray.length > 6) {
+            return toast("Max array reached!");
+        }
+        if (rectsArray.length < 10) {
             setRects(rects + 1);
             setTask('add');
         }
@@ -323,11 +351,14 @@ export default function MergeSort() {
     };
 
     const handleInsert = () => {
-        if (rectsArray.length > 10) {
+        if (bounds.width >= 650 && rectsArray.length >= 9) {
+            return toast("Max array reached!");
+        }
+        else if (bounds.width < 400 && rectsArray.length > 6) {
             return toast("Max array reached!");
         }
 
-        if (insertIndex <= rectsArray.length && rectsArray.length <= 10) {
+        if (insertIndex <= rectsArray.length && rectsArray.length < 10) {
             setRects(rects + 1);
             setTask('insert');
         }
@@ -367,43 +398,46 @@ export default function MergeSort() {
         mergeStore.getState().resetState();
     }
 
-    console.log("Animtion: ", isAnimating);
+    //console.log("Animtion: ", isAnimating);
 
 
-    useEffect(() => {
-        console.log("leftH1:", leftH1);
-        console.log("leftH2:", leftH2);
-        console.log("rightH1:", rightH1);
-        console.log("rightH2:", rightH2);
+    //useEffect(() => {
+    //    console.log("leftH1:", leftH1);
+    //    console.log("leftH2:", leftH2);
+    //    console.log("rightH1:", rightH1);
+    //    console.log("rightH2:", rightH2);
 
-        console.log("sortedLeftH1:", sortedLeftH1);
-        console.log("sortedLeftH2:", sortedLeftH2);
-        console.log("sortedRightH1:", sortedRightH1);
-        console.log("sortedRightH2:", sortedRightH2);
+    //    console.log("sortedLeftH1:", sortedLeftH1);
+    //    console.log("sortedLeftH2:", sortedLeftH2);
+    //    console.log("sortedRightH1:", sortedRightH1);
+    //    console.log("sortedRightH2:", sortedRightH2);
 
-        console.log("toBeSortedLeftH1:", toBeSortedLeftH1);
-        console.log("toBeSortedLeftH2:", toBeSortedLeftH2);
-        console.log("toBeSortedRightH1:", toBeSortedRightH1);
-        console.log("toBeSortedRightH2:", toBeSortedRightH2);
-    }, [
-        leftH1, leftH2, rightH1, rightH2,
-        sortedLeftH1, sortedLeftH2, sortedRightH1, sortedRightH2,
-        toBeSortedLeftH1, toBeSortedLeftH2, toBeSortedRightH1, toBeSortedRightH2
-    ]);
+    //    console.log("toBeSortedLeftH1:", toBeSortedLeftH1);
+    //    console.log("toBeSortedLeftH2:", toBeSortedLeftH2);
+    //    console.log("toBeSortedRightH1:", toBeSortedRightH1);
+    //    console.log("toBeSortedRightH2:", toBeSortedRightH2);
+    //}, [
+    //    leftH1, leftH2, rightH1, rightH2,
+    //    sortedLeftH1, sortedLeftH2, sortedRightH1, sortedRightH2,
+    //    toBeSortedLeftH1, toBeSortedLeftH2, toBeSortedRightH1, toBeSortedRightH2
+    //]);
 
+
+    console.log("bounds height: ", bounds.height);
 
 
     return <main className="w-screen h-screen flex gap-5 overflow-x-hidden p-2 bg-black">
 
 
-        <div className="w-[60%] h-full border-1 relative flex flex-col rounded bg-white
+        <div className="lg:w-[60%] w-full h-full border-1 relative flex flex-col rounded bg-white
         items-center">
 
 
 
-            <div className="w-[95%] h-[75%] border-1
+            <div className="w-[95%] lg:h-[75%] h-[85%] md:h-[90%] border-1
              flex items-center justify-center rounded-[8px] duration-200 bg-white/70 backdrop-blur-sm shadow-xl m-4 
-             overflow-x-scroll border-black">
+             overflow-x-scroll border-black"
+                ref={ref}>
                 {
                     rectsArray.length > 0 ? (
                         <MergeSortKonva
@@ -415,15 +449,19 @@ export default function MergeSort() {
                             isAnimating={isAnimating}
                             setIsAnimating={handleAnimating}
                             animationControllerRef={animationControllerRef}
+                            konvaWidth={bounds.width}
+                            konvaHeight={420}
 
                         />
                     ) : null
                 }
             </div>
 
+            <div className="w-[95%] h-[120px] flex items-center justify-around rounded mb-3 border-black border hidden ">
 
+            </div>
 
-            <div className="w-[95%] h-[120px] flex items-center justify-around mb-3 border-black">
+            <div className="w-[95%] h-[120px] lg:flex items-center justify-around mb-3 border-black ">
 
                 <div className="w-[35%] h-full border-1 flex flex-col border-black">
 
