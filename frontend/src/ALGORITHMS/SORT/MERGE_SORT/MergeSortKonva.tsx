@@ -534,55 +534,55 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
                     if (animationControllerRef.current.shouldStop) return;
 
                     finalSortedArrayRef.current!.x(0);
-                    finalSortedArrayRef.current!.y(300);
+                    finalSortedArrayRef.current!.y(260);
 
-                    leftH1Ref.current!.x(-40);
-                    leftH2Ref.current!.x(-40);
-                    toBeSortLH1Ref.current!.x(-70);
-                    toBeSortLH2Ref.current!.x(-50);
-                    sortedLeftH1Ref.current!.x(-70);
-                    sortedLeftH2Ref.current!.x(-50);
+                    leftH1Ref.current!.x(-20);
+                    leftH2Ref.current!.x(-20);
+                    toBeSortLH1Ref.current!.x(-50);
+                    toBeSortLH2Ref.current!.x(-30);
+                    sortedLeftH1Ref.current!.x(-50);
+                    sortedLeftH2Ref.current!.x(-30);
 
-                    sortedLeftRef.current!.x(-40);
-                    sortedLeftRef.current!.y(260);
+                    sortedLeftRef.current!.x(-20);
+                    sortedLeftRef.current!.y(220);
 
-                    sortedRightRef.current!.y(260);
-                    sortedRightRef.current!.x(40);
+                    sortedRightRef.current!.y(220);
+                    sortedRightRef.current!.x(20);
 
-                    movingSortedLRef.current!.x(-40);
-                    movingSortedLRef.current!.y(260);
+                    movingSortedLRef.current!.x(-20);
+                    movingSortedLRef.current!.y(220);
 
-                    movingSortedRRef.current!.x(40);
-                    movingSortedRRef.current!.y(260);
+                    movingSortedRRef.current!.x(20);
+                    movingSortedRRef.current!.y(220);
 
-                    // 🌀 Same sequence, tighter Y positions
+
                     await animateTo(leftGroupRef.current, { y: 100 }, duration, { originX: 0, originY: 40 });
                     if (animationControllerRef.current.shouldStop) return;
 
-                    await animateTo(leftGroupRef.current, { x: -40 }, duration, { originX: 0, originY: 40 });
+                    await animateTo(leftGroupRef.current, { x: -20 }, duration, { originX: 0, originY: 40 });
                     if (animationControllerRef.current.shouldStop) return;
 
                     await Promise.all([
-                        animateTo(leftH1Ref.current, { y: 160 }, duration, { originX: 0, originY: 100 }),
-                        animateTo(leftH2Ref.current, { y: 160 }, duration, { originX: 0, originY: 100 }),
+                        animateTo(leftH1Ref.current, { y: 140 }, duration, { originX: 0, originY: 100 }),
+                        animateTo(leftH2Ref.current, { y: 140 }, duration, { originX: 0, originY: 100 }),
                     ]);
                     if (animationControllerRef.current.shouldStop) return;
 
                     await Promise.all([
-                        animateTo(leftH1Ref.current, { x: -70 }, duration, { originX: 0, originY: 100 }),
-                        animateTo(leftH2Ref.current, { x: -50 }, duration, { originX: 0, originY: 100 }),
+                        animateTo(leftH1Ref.current, { x: -50 }, duration, { originX: 0, originY: 100 }),
+                        animateTo(leftH2Ref.current, { x: -30 }, duration, { originX: 0, originY: 100 }),
                     ]);
                     if (animationControllerRef.current.shouldStop) return;
 
                     await Promise.all([
-                        animateTo(toBeSortLH1Ref.current, { y: 210 }, duration, { originX: 0, originY: 160 }),
-                        animateTo(toBeSortLH2Ref.current, { y: 210 }, duration, { originX: 0, originY: 160 }),
+                        animateTo(toBeSortLH1Ref.current, { y: 180 }, duration, { originX: 0, originY: 140 }),
+                        animateTo(toBeSortLH2Ref.current, { y: 180 }, duration, { originX: 0, originY: 140 }),
                     ]);
                     if (animationControllerRef.current.shouldStop) return;
 
                     await Promise.all([
-                        animateTo(toBeSortLH1Ref.current, { x: -70 }, duration, { originX: 0, originY: 160 }),
-                        animateTo(toBeSortLH2Ref.current, { x: -50 }, duration, { originX: 0, originY: 160 }),
+                        animateTo(toBeSortLH1Ref.current, { x: -50 }, duration, { originX: 0, originY: 140 }),
+                        animateTo(toBeSortLH2Ref.current, { x: -30 }, duration, { originX: 0, originY: 140 }),
                     ]);
                     if (animationControllerRef.current.shouldStop) return;
 
@@ -595,52 +595,62 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
                     if (animationControllerRef.current.shouldStop) return;
 
                     await Promise.all([
-                        animateTo(sortedLeftH1Ref.current, { y: 260 }, duration, { originX: 0, originY: 210 }),
-                        animateTo(sortedLeftH2Ref.current, { y: 260 }, duration, { originX: 0, originY: 210 }),
-                        animateTo(sortedRightH1Ref.current, { y: 260 }, duration, { originX: 0, originY: 210 }),
-                        animateTo(sortedRightH2Ref.current, { y: 260 }, duration, { originX: 0, originY: 210 }),
+                        animateTo(sortedLeftH1Ref.current, { y: 220 }, duration, { originX: 0, originY: 180 }),
+                        animateTo(sortedLeftH2Ref.current, { y: 220 }, duration, { originX: 0, originY: 180 }),
+                        animateTo(sortedRightH1Ref.current, { y: 220 }, duration, { originX: 0, originY: 180 }),
+                        animateTo(sortedRightH2Ref.current, { y: 220 }, duration, { originX: 0, originY: 180 }),
                     ]);
-                    if (animationControllerRef.current.shouldStop) return;
-
-                    await fadeEffect(setOpacity1, 20, "out");
-                    if (animationControllerRef.current.shouldStop) return;
-
-                    await fadeEffect(setOpacity2, 20, "in");
                     if (animationControllerRef.current.shouldStop) return;
 
                     await Promise.all([
-                        animateSort(sortedLeft, 600),
-                        animateSort(sortedRight, 600),
+                        animateTo(sortedLeftH1Ref.current, { x: -20 }, duration, { originX: 0, originY: 220 }),
+                        animateTo(sortedLeftH2Ref.current, { x: -20 }, duration, { originX: 0, originY: 220 }),
+                        animateTo(sortedRightH1Ref.current, { x: 20 }, duration, { originX: 0, originY: 220 }),
+                        animateTo(sortedRightH2Ref.current, { x: 20 }, duration, { originX: 0, originY: 220 }),
                     ]);
                     if (animationControllerRef.current.shouldStop) return;
 
-                    await fadeEffect(setOpacity3, 20, "in");
+
+
+                    await fadeEffect(setOpacity1, 30, "out");
+                    if (animationControllerRef.current.shouldStop) return;
+
+                    await fadeEffect(setOpacity2, 30, "in");
                     if (animationControllerRef.current.shouldStop) return;
 
                     await Promise.all([
-                        animateTo(movingSortedLRef.current, { y: 300 }, duration, { originX: 0, originY: 260 }),
-                        animateTo(movingSortedRRef.current, { y: 300 }, duration, { originX: 0, originY: 260 }),
+                        animateSort(sortedLeft, 800),
+                        animateSort(sortedRight, 800),
                     ]);
                     if (animationControllerRef.current.shouldStop) return;
 
-                    await animateTo(movingSortedLRef.current, { x: 0 }, duration, { originX: 0, originY: 260 });
+                    await fadeEffect(setOpacity3, 30, "in");
                     if (animationControllerRef.current.shouldStop) return;
 
-                    await animateTo(movingSortedRRef.current, { x: 0 }, duration, { originX: 0, originY: 260 });
+                    await Promise.all([
+                        animateTo(movingSortedLRef.current, { y: 260 }, duration, { originX: 0, originY: 220 }),
+                        animateTo(movingSortedRRef.current, { y: 260 }, duration, { originX: 0, originY: 220 }),
+                    ]);
                     if (animationControllerRef.current.shouldStop) return;
 
-                    await fadeEffect(setOpacity3, 15, "out");
+                    await animateTo(movingSortedLRef.current, { x: 0 }, duration, { originX: 0, originY: 220 });
                     if (animationControllerRef.current.shouldStop) return;
 
-                    await fadeEffect(setOpacity4, 15, "in");
+                    await animateTo(movingSortedRRef.current, { x: 0 }, duration, { originX: 0, originY: 220 });
+                    if (animationControllerRef.current.shouldStop) return;
+
+                    await fadeEffect(setOpacity3, 30, "out");
+                    if (animationControllerRef.current.shouldStop) return;
+
+                    await fadeEffect(setOpacity4, 30, "in");
                     if (animationControllerRef.current.shouldStop) return;
 
                     if (finalSortedArrayRef.current) {
                         finalSortedArrayRef.current.x(0);
-                        finalSortedArrayRef.current.y(300);
+                        finalSortedArrayRef.current.y(260);
                     }
 
-                    await animateSort(finalSortedArray, 600);
+                    await animateSort(finalSortedArray, 800);
 
                     if (!animationControllerRef.current.shouldStop) {
                         setIsAnimating("done");
@@ -725,41 +735,41 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
                 const duration = 1350;
                 (async () => {
                     // 🔹 Mobile (<650px, max 6 rects, tighter spacing)
-                    rightH1Ref.current!.x(30);
-                    rightH2Ref.current!.x(30);
-                    toBeSortRH1Ref.current!.x(50);
-                    toBeSortRH2Ref.current!.x(70);
-                    sortedRightH1Ref.current!.x(50);
-                    sortedRightH2Ref.current!.x(70);
-                    sortedRightRef.current!.x(30);
+                    rightH1Ref.current!.x(20);
+                    rightH2Ref.current!.x(20);
+                    toBeSortRH1Ref.current!.x(30);
+                    toBeSortRH2Ref.current!.x(50);
+                    sortedRightH1Ref.current!.x(30);
+                    sortedRightH2Ref.current!.x(50);
+                    sortedRightRef.current!.x(20);
 
                     await animateTo(rightGroupRef.current, { y: 100 }, duration, { originX: 0, originY: 40 });
                     if (animationControllerRef.current.shouldStop) return;
 
-                    await animateTo(rightGroupRef.current, { x: 30 }, duration, { originX: 0, originY: 40 });
+                    await animateTo(rightGroupRef.current, { x: 20 }, duration, { originX: 0, originY: 40 });
                     if (animationControllerRef.current.shouldStop) return;
 
                     await Promise.all([
-                        animateTo(rightH1Ref.current, { y: 190 }, duration, { originX: 0, originY: 120 }),
-                        animateTo(rightH2Ref.current, { y: 190 }, duration, { originX: 0, originY: 120 }),
+                        animateTo(rightH1Ref.current, { y: 140 }, duration, { originX: 0, originY: 100 }),
+                        animateTo(rightH2Ref.current, { y: 140 }, duration, { originX: 0, originY: 100 }),
                     ]);
                     if (animationControllerRef.current.shouldStop) return;
 
                     await Promise.all([
-                        animateTo(rightH1Ref.current, { x: 50 }, duration, { originX: 0, originY: 120 }),
-                        animateTo(rightH2Ref.current, { x: 70 }, duration, { originX: 0, originY: 120 }),
+                        animateTo(rightH1Ref.current, { x: 30 }, duration, { originX: 0, originY: 120 }),
+                        animateTo(rightH2Ref.current, { x: 50 }, duration, { originX: 0, originY: 120 }),
                     ]);
                     if (animationControllerRef.current.shouldStop) return;
 
                     await Promise.all([
-                        animateTo(toBeSortRH1Ref.current, { y: 260 }, duration, { originX: 0, originY: 190 }),
-                        animateTo(toBeSortRH2Ref.current, { y: 260 }, duration, { originX: 0, originY: 190 }),
+                        animateTo(toBeSortRH1Ref.current, { y: 180 }, duration, { originX: 0, originY: 140 }),
+                        animateTo(toBeSortRH2Ref.current, { y: 180 }, duration, { originX: 0, originY: 140 }),
                     ]);
                     if (animationControllerRef.current.shouldStop) return;
 
                     await Promise.all([
-                        animateTo(toBeSortRH1Ref.current, { x: 50 }, duration, { originX: 0, originY: 190 }),
-                        animateTo(toBeSortRH2Ref.current, { x: 70 }, duration, { originX: 0, originY: 190 }),
+                        animateTo(toBeSortRH1Ref.current, { x: 30 }, duration, { originX: 0, originY: 140 }),
+                        animateTo(toBeSortRH2Ref.current, { x: 50 }, duration, { originX: 0, originY: 140 }),
                     ]);
                     if (animationControllerRef.current.shouldStop) return;
 
