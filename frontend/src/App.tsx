@@ -10,6 +10,9 @@ import MergeSort from './ALGORITHMS/SORT/MERGE_SORT/MergeSort'
 import AdminLogin from './ADMIN/Login'
 import { authStore } from './STATE/authStore'
 import QuickSort from './ALGORITHMS/SORT/QUICK_SORT/QuickSort'
+import RollingButtons from './TEST_SITE/RollingButtons'
+
+
 
 function App() {
 
@@ -37,6 +40,10 @@ function App() {
         <Route path='/sort/merge' element={<MergeSort />} />
         <Route path='/sort/quick' element={<QuickSort />} />
         <Route path='/secret/login' element={clickCount != 13 ? <Navigate to="/" replace /> : <AdminLogin />} />
+
+
+
+        <Route path='/rolling-buttons' element={<RollingButtons />} />
 
 
 

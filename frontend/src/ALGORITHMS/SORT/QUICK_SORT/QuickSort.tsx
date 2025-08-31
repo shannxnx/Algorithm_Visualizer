@@ -1,15 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit } from "../../../INTERFACES/sortInterface";
-import { ArrowLeft, BetweenVerticalEnd, BetweenVerticalStart, Delete, Play, Plus, Scissors, Shuffle } from "lucide-react";
-
+import { ArrowLeft, ArrowRight, BetweenVerticalEnd, BetweenVerticalStart, Delete, Play, Plus, Scissors, Shuffle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function QuickSort() {
 
     const quickSortInfo = sortStore((state: any) => state.quickSortInfo);
     const getQuickSort = sortStore((state: any) => state.getQuickSort);
     const editSortCode = sortStore((state: any) => state.editSortCode);
+
+    const [showButtons, setShowButtons] = useState<boolean>(true)
 
 
     useEffect(() => {
@@ -41,7 +43,6 @@ export default function QuickSort() {
              overflow-x-scroll border-black">
                 NIGGA
             </div>
-
 
 
             <div className="w-[95%] lg:h-[120px] h-[15%] flex items-center  rounded mb-3
@@ -153,7 +154,7 @@ export default function QuickSort() {
 
 
 
-        </div >
+        </div>
 
 
         <AlgoInfo algoInfo={QuickPayload} />
