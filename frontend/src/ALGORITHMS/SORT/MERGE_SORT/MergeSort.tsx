@@ -416,9 +416,6 @@ export default function MergeSort() {
 
     console.log("Array Length: ", rectsArray.length);
 
-
-
-
     return <main className="w-screen h-screen flex gap-5 overflow-x-hidden p-2 bg-black">
 
 
@@ -455,9 +452,11 @@ export default function MergeSort() {
             </div>
 
             {
-                showButton && rectsArray && <ButtonV1 showButton={showButtonProps} actions={actionsProps} states={stateProps} />
+                //showButton && rectsArray && <ButtonV1 showButton={showButtonProps} actions={actionsProps} states={stateProps} />
 
             }
+
+            <ButtonV1 showButton={showButtonProps} actions={actionsProps} states={stateProps} />
 
 
         </div>
