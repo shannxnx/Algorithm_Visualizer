@@ -8,6 +8,8 @@ import type { SortKit } from "../../../INTERFACES/sortInterface";
 import { MergeSortKonva } from "./MergeSortKonva";
 import { mergeStore } from "./STORE/mergeStore";
 import useMeasure from "react-use-measure";
+import ButtonV1 from "../../../COMPONENTS/BUTTONS/ButtonV1";
+import { animate } from "framer-motion";
 
 
 const div_x = 400;
@@ -394,9 +396,11 @@ export default function MergeSort() {
         new: handleNewBoxes,
         insert: handleInsert,
         remove: handleRemoveIndex,
+        animate: () => setIsAnimating("animating"),
 
         setInsertValue: (val: number) => setInsertVal(val),
-        setInsertIndex: (val: number) => setInsertIndex(val),
+        setIndexValue: (val: number) => setInsertIndex(val),
+        setRemoveIndex: (val: number) => setRemoveIndex(val),
 
 
     };
@@ -405,10 +409,12 @@ export default function MergeSort() {
         isAnimating: isAnimating,
         insertValue: insertVal,
         insertIndex: insertIndex,
-        removeIndex: removeIndex
-
+        removeIndex: removeIndex,
+        arrayLength: Number(rectsArray.length)
 
     };
+
+    console.log("Array Length: ", rectsArray.length);
 
 
 
@@ -448,119 +454,11 @@ export default function MergeSort() {
 
             </div>
 
-            <div className="w-[95%] lg:h-[120px] h-[15%] flex items-center justify-around mb-3 border-black ">
+            {
+                showButton && rectsArray && <ButtonV1 showButton={showButtonProps} actions={actionsProps} states={stateProps} />
 
-                <div className="w-[35%] h-full border-1 flex flex-col border-black">
+            }
 
-                    <div className="w-full h-1/2 flex justify-around items-center border-b-1 border-black">
-
-                        <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
-                        cursor-pointer hover:scale-105 duration-150 text-black"
-                            disabled={isAnimating === "animating" || isAnimating === "done" ? true : false}
-                            onClick={handleAdd}
-                        >
-                            Add
-                        </button>
-
-                        <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
-                        cursor-pointer hover:scale-105 duration-150 text-black"
-                            disabled={isAnimating === "animating" || isAnimating === "done" ? true : false}
-                            onClick={handlePop}
-                        >
-                            Pop
-                        </button>
-
-                        <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
-                        cursor-pointer hover:scale-105 duration-150 text-black"
-                            disabled={isAnimating === "animating" ? true : false}
-                            onClick={handleNewBoxes}
-                        >
-                            New
-                        </button>
-
-                    </div>
-
-
-                    <div className="w-full h-[50%] flex items-center justify-center">
-                        <button className="text-3xl border-1 w-[130px] rounded bg-green-400
-                        disabled:opacity-50 cursor-pointer hover:scale-105 duration-150 text-black"
-                            onClick={() => setIsAnimating("animating")}
-                            disabled={isAnimating === "animating" || isAnimating === "done" ? true : false}>
-                            Animate
-                        </button>
-                    </div>
-                </div>
-
-
-                <div className="w-[440px] h-full  border-black
-                        flex items-center justify-end cursor-pointer gap-2 bg-white">
-
-                    <div className="w-[90%] h-full border-1 flex flex-col items-center
-                            justify-center gap-2 border-black">
-
-                        <div className="w-[80%] h-[40%] flex items-center">
-
-                            <button className="text-2xl h-full border-1 p-1 rounded hover:scale-105 duration-100 cursor-pointer
-                            bg-green-400 disabled:opacity-50 text-black "
-                                disabled={isAnimating === "animating" || isAnimating === "done" ? true : false}
-                                onClick={handleInsert}
-                            >
-                                Insert
-                            </button>
-                            <label htmlFor="value" className="ml-1 text-black">Value</label>
-
-                            <input type="number" name="value" className="border-1 w-[54px] ml-3 text-[16px] p-1
-                            outline-none text-black"
-                                max={999}
-                                value={insertVal}
-                                onChange={(e) => setInsertVal(Number(e.target.value))}
-                                disabled={isAnimating === "animating" ? true : false} />
-
-
-                            <label htmlFor="index" className="ml-1 text-black">Index</label>
-                            <input type="number" name="index"
-                                className="border-1 w-[54px] text-[16px] ml-2 p-1
-                            outline-none text-black "
-                                min={0}
-                                disabled={isAnimating === "animating" ? true : false}
-                                value={insertIndex}
-                                onChange={(e) => setInsertIndex(Number(e.target.value))}
-                                max={rectsArray.length - 1}
-                            />
-
-
-                        </div>
-
-                        <div className="w-[80%] h-[40%]  items-center flex">
-                            <button className="text-2xl h-full border-1 p-1 rounded hover:scale-105 duration-100 cursor-pointer
-                            bg-red-500 disabled:opacity-50 text-black"
-                                disabled={isAnimating === "animating" || isAnimating === "done" ? true : false}
-                                onClick={handleRemoveIndex}
-                            >
-                                Remove
-                            </button>
-                            <label htmlFor="indexR" className="ml-1 text-black">Index</label>
-
-                            <input type="number" className="border-1 w-[54px] ml-3 text-[16px] p-1
-                                    outline-none text-black"
-                                min={0}
-                                max={rectsArray.length - 1}
-                                value={removeIndex}
-                                onChange={(e) => setRemoveIndex(Number(e.target.value))}
-                                name="indexR"
-                                disabled={isAnimating === "animating" ? true : false}
-                            />
-
-                        </div>
-                    </div>
-
-                    <button className="w-[10%] h-full border-1 flex justify-center items-center border-black">
-                        <ArrowLeft color="black" />
-                    </button>
-
-                </div>
-
-            </div>
 
         </div>
 
