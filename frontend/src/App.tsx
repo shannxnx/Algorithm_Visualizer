@@ -43,7 +43,7 @@ function App() {
 
 
 
-        <Route path='/rolling-buttons' element={<RollingButtons />} />
+
 
 
 

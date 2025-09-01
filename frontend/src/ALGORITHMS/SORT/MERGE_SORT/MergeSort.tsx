@@ -52,8 +52,6 @@ export default function MergeSort() {
 
 
 
-
-
     const konvaDivRef = useRef<HTMLDivElement | null>(null);
     const [konvaDivWidth, setKonvaDivWidth] = useState<number>(0);
 
@@ -86,6 +84,7 @@ export default function MergeSort() {
     const [copyArray, setCopyArray] = useState<Array<rectInfo>>([]);
 
 
+    const [showButton, setShowButton] = useState<boolean>(true);
 
 
     const handleAnimating = (animate: animation) => {
@@ -152,23 +151,6 @@ export default function MergeSort() {
         return boxesInfo;
     };
 
-
-
-    //useEffect(() => {
-    //    if (!konvaDivRef) return;
-    //    const observer = new ResizeObserver((entries) => {
-    //        for (let entry of entries) {
-    //            setKonvaDivWidth(entry.contentRect.width);
-    //        }
-    //    });
-
-    //    observer.observe(konvaDivRef.current!);
-
-    //    return observer.disconnect();
-
-    //}, []);
-
-    //console.log("Konva width: ", konvaDivWidth);
 
     useEffect(() => {
         if (bounds.width && bounds.height > 0) {
@@ -329,6 +311,7 @@ export default function MergeSort() {
     }, [task, rectsArray, insertVal, insertIndex, removeIndex]);
 
 
+
     const handleAdd = () => {
         if (bounds.width >= 650 && rectsArray.length >= 9) {
             return toast("Max array reached!");
@@ -396,34 +379,38 @@ export default function MergeSort() {
 
 
         mergeStore.getState().resetState();
-    }
-
-    //console.log("Animtion: ", isAnimating);
+    };
 
 
-    //useEffect(() => {
-    //    console.log("leftH1:", leftH1);
-    //    console.log("leftH2:", leftH2);
-    //    console.log("rightH1:", rightH1);
-    //    console.log("rightH2:", rightH2);
-
-    //    console.log("sortedLeftH1:", sortedLeftH1);
-    //    console.log("sortedLeftH2:", sortedLeftH2);
-    //    console.log("sortedRightH1:", sortedRightH1);
-    //    console.log("sortedRightH2:", sortedRightH2);
-
-    //    console.log("toBeSortedLeftH1:", toBeSortedLeftH1);
-    //    console.log("toBeSortedLeftH2:", toBeSortedLeftH2);
-    //    console.log("toBeSortedRightH1:", toBeSortedRightH1);
-    //    console.log("toBeSortedRightH2:", toBeSortedRightH2);
-    //}, [
-    //    leftH1, leftH2, rightH1, rightH2,
-    //    sortedLeftH1, sortedLeftH2, sortedRightH1, sortedRightH2,
-    //    toBeSortedLeftH1, toBeSortedLeftH2, toBeSortedRightH1, toBeSortedRightH2
-    //]);
+    const showButtonProps = {
+        value: showButton,
+        action: (val: boolean) => setShowButton(val)
+    };
 
 
-    console.log("bounds height: ", bounds.height);
+    const actionsProps = {
+        add: handleAdd,
+        pop: handlePop,
+        new: handleNewBoxes,
+        insert: handleInsert,
+        remove: handleRemoveIndex,
+
+        setInsertValue: (val: number) => setInsertVal(val),
+        setInsertIndex: (val: number) => setInsertIndex(val),
+
+
+    };
+
+    const stateProps = {
+        isAnimating: isAnimating,
+        insertValue: insertVal,
+        insertIndex: insertIndex,
+        removeIndex: removeIndex
+
+
+    };
+
+
 
 
     return <main className="w-screen h-screen flex gap-5 overflow-x-hidden p-2 bg-black">
@@ -560,16 +547,17 @@ export default function MergeSort() {
                                 max={rectsArray.length - 1}
                                 value={removeIndex}
                                 onChange={(e) => setRemoveIndex(Number(e.target.value))}
-                                name="indexr"
+                                name="indexR"
                                 disabled={isAnimating === "animating" ? true : false}
                             />
 
                         </div>
                     </div>
 
-                    <div className="w-[10%] h-full border-1 flex justify-center items-center border-black">
+                    <button className="w-[10%] h-full border-1 flex justify-center items-center border-black">
                         <ArrowLeft color="black" />
-                    </div>
+                    </button>
+
                 </div>
 
             </div>
