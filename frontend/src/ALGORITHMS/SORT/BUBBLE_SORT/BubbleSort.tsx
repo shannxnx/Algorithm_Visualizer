@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { toast } from "react-toastify";
 import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit } from "../../../INTERFACES/sortInterface";
+import ButtonV1 from "../../../COMPONENTS/BUTTONS/ButtonV1";
 
 const div_x = 400;
 const div_y = 50;
@@ -14,6 +15,8 @@ const height = 50;
 const gap = 5;
 let rectCount = 8;
 
+
+type animation = "idle" | "animating" | "done";
 
 
 export default function BubbleSort() {
@@ -30,11 +33,15 @@ export default function BubbleSort() {
     const [rects, setRects] = useState<number>(5);
     const [rectsArray, setRectsArray] = useState<Array<rectInfo>>([]);
     const [task, setTask] = useState<string>('');
-    const [isAnimating, setIsAnimating] = useState<boolean>(false);
+    //const [isAnimating, setIsAnimating] = useState<boolean>(false);
+    const [isAnimating, setIsAnimating] = useState<animation>("idle");
+
 
     const [insertVal, setInsertVal] = useState<number>(0);
     const [insertIndex, setInsertIndex] = useState<number>(0);
     const [removeIndex, setRemoveIndex] = useState<number>(0);
+
+    const [showButton, setShowButton] = useState<boolean>(true);
 
     const totalWidth = (width + gap) * rects;
 
@@ -73,7 +80,6 @@ export default function BubbleSort() {
         getBubbleSort();
     }, []);
 
-    console.log("Bubble Sort: ", bubbleSortInfo);
 
     const BubblePayload: SortKit = {
         algoInfo: bubbleSortInfo.algoInfo,
@@ -84,7 +90,7 @@ export default function BubbleSort() {
 
 
     const animateBubbleSort = async () => {
-        setIsAnimating(true);
+        setIsAnimating("animating");
         const array = [...rectsArray];
         const liftHeight = 50;
         const steps = 20;
@@ -224,7 +230,7 @@ export default function BubbleSort() {
             };
         }));
 
-        setIsAnimating(false);
+        setIsAnimating("done");
     };
 
 
@@ -345,7 +351,49 @@ export default function BubbleSort() {
     const handleNewBoxes = () => {
         const newBoxes = generateBoxesInfo(rectsArray.length);
         setRectsArray(newBoxes);
+        setIsAnimating("idle")
+    };
+
+
+    const handleAnimate = async () => {
+        await animateBubbleSort();
+        setIsAnimating("done")
     }
+
+    const showButtonProps = {
+        value: showButton,
+        action: (val: boolean) => setShowButton(val)
+    };
+
+
+
+
+    const actionsProps = {
+        add: handleAdd,
+        pop: handlePop,
+        new: handleNewBoxes,
+        insert: handleInsert,
+        remove: handleRemoveIndex,
+        animateForBubbleSort: handleAnimate,
+
+        setInsertValue: (val: number) => setInsertVal(val),
+        setIndexValue: (val: number) => setInsertIndex(val),
+        setRemoveIndex: (val: number) => setRemoveIndex(val),
+
+
+    };
+
+    const stateProps = {
+        isAnimating: isAnimating,
+        insertValue: insertVal,
+        insertIndex: insertIndex,
+        removeIndex: removeIndex,
+        arrayLength: Number(rects)
+
+    };
+
+    console.log("Is animating: ", isAnimating);
+
 
 
 
@@ -373,119 +421,8 @@ export default function BubbleSort() {
             </div>
 
 
+            <ButtonV1 showButton={showButtonProps} actions={actionsProps} states={stateProps} />
 
-            <div className="w-[95%] h-[120px] flex items-center justify-around mb-3 border-black">
-
-                <div className="w-[35%] h-full border-1 flex flex-col border-black">
-
-                    <div className="w-full h-1/2 flex justify-around items-center border-b-1 border-black">
-
-                        <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
-                        cursor-pointer hover:scale-105 duration-150 text-black"
-                            disabled={isAnimating}
-                            onClick={handleAdd}
-                        >
-                            Add
-                        </button>
-
-                        <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
-                        cursor-pointer hover:scale-105 duration-150 text-black"
-                            disabled={isAnimating}
-                            onClick={handlePop}
-                        >
-                            Pop
-                        </button>
-
-                        <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
-                        cursor-pointer hover:scale-105 duration-150 text-black"
-                            disabled={isAnimating}
-                            onClick={handleNewBoxes}
-                        >
-                            New
-                        </button>
-
-                    </div>
-
-
-                    <div className="w-full h-[50%] flex items-center justify-center">
-                        <button className="text-3xl border-1 w-[130px] rounded bg-green-400
-                        disabled:opacity-50 cursor-pointer hover:scale-105 duration-150 text-black"
-                            onClick={animateBubbleSort}
-                            disabled={isAnimating}>
-                            Animate
-                        </button>
-                    </div>
-                </div>
-
-
-                <div className="w-[440px] h-full  border-black
-                        flex items-center justify-end cursor-pointer gap-2 bg-white">
-
-                    <div className="w-[90%] h-full border-1 flex flex-col items-center
-                            justify-center gap-2 border-black">
-
-                        <div className="w-[80%] h-[40%] flex items-center">
-
-                            <button className="text-2xl h-full border-1 p-1 rounded hover:scale-105 duration-100 cursor-pointer
-                            bg-green-400 disabled:opacity-50 text-black "
-                                disabled={isAnimating}
-                                onClick={handleInsert}
-                            >
-                                Insert
-                            </button>
-                            <label htmlFor="value" className="ml-1 text-black">Value</label>
-
-                            <input type="number" name="value" className="border-1 w-[54px] ml-3 text-[16px] p-1
-                            outline-none text-black"
-                                max={999}
-                                value={insertVal}
-                                onChange={(e) => setInsertVal(Number(e.target.value))}
-                                disabled={isAnimating} />
-
-
-                            <label htmlFor="index" className="ml-1 text-black">Index</label>
-                            <input type="number" name="index"
-                                className="border-1 w-[54px] text-[16px] ml-2 p-1
-                            outline-none text-black "
-                                min={0}
-                                disabled={isAnimating}
-                                value={insertIndex}
-                                onChange={(e) => setInsertIndex(Number(e.target.value))}
-                                max={rects - 1}
-                            />
-
-
-                        </div>
-
-                        <div className="w-[80%] h-[40%]  items-center flex">
-                            <button className="text-2xl h-full border-1 p-1 rounded hover:scale-105 duration-100 cursor-pointer
-                            bg-red-500 disabled:opacity-50 text-black"
-                                disabled={isAnimating}
-                                onClick={handleRemoveIndex}
-                            >
-                                Remove
-                            </button>
-                            <label htmlFor="indexR" className="ml-1 text-black">Index</label>
-
-                            <input type="number" className="border-1 w-[54px] ml-3 text-[16px] p-1
-                                    outline-none text-black"
-                                min={0}
-                                max={rects - 1}
-                                value={removeIndex}
-                                onChange={(e) => setRemoveIndex(Number(e.target.value))}
-                                name="indexr"
-                                disabled={isAnimating}
-                            />
-
-                        </div>
-                    </div>
-
-                    <div className="w-[10%] h-full border-1 flex justify-center items-center border-black">
-                        <ArrowLeft color="black" />
-                    </div>
-                </div>
-
-            </div>
 
         </div>
 
@@ -494,3 +431,121 @@ export default function BubbleSort() {
 
     </main>
 }
+
+
+
+
+
+
+//<div className="w-[95%] h-[120px] flex items-center justify-around mb-3 border-black">
+//
+//                <div className="w-[35%] h-full border-1 flex flex-col border-black">
+//
+//                    <div className="w-full h-1/2 flex justify-around items-center border-b-1 border-black">
+//
+//                        <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
+//                        cursor-pointer hover:scale-105 duration-150 text-black"
+//                            disabled={isAnimating}
+//                            onClick={handleAdd}
+//                        >
+//                            Add
+//                        </button>
+//
+//                        <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
+//                        cursor-pointer hover:scale-105 duration-150 text-black"
+//                            disabled={isAnimating}
+//                            onClick={handlePop}
+//                        >
+//                            Pop
+//                        </button>
+//
+//                        <button className="text-2xl border-1  h-[36px] w-[64px] disabled:opacity-50 rounded
+//                        cursor-pointer hover:scale-105 duration-150 text-black"
+//                            disabled={isAnimating}
+//                            onClick={handleNewBoxes}
+//                        >
+//                            New
+//                        </button>
+//
+//                    </div>
+//
+//
+//                    <div className="w-full h-[50%] flex items-center justify-center">
+//                        <button className="text-3xl border-1 w-[130px] rounded bg-green-400
+//                        disabled:opacity-50 cursor-pointer hover:scale-105 duration-150 text-black"
+//                            onClick={animateBubbleSort}
+//                            disabled={isAnimating}>
+//                            Animate
+//                        </button>
+//                    </div>
+//                </div>
+//
+//
+//                <div className="w-[440px] h-full  border-black
+//                        flex items-center justify-end cursor-pointer gap-2 bg-white">
+//
+//                    <div className="w-[90%] h-full border-1 flex flex-col items-center
+//                            justify-center gap-2 border-black">
+//
+//                        <div className="w-[80%] h-[40%] flex items-center">
+//
+//                            <button className="text-2xl h-full border-1 p-1 rounded hover:scale-105 duration-100 cursor-pointer
+//                            bg-green-400 disabled:opacity-50 text-black "
+//                                disabled={isAnimating}
+//                                onClick={handleInsert}
+//                            >
+//                                Insert
+//                            </button>
+//                            <label htmlFor="value" className="ml-1 text-black">Value</label>
+//
+//                            <input type="number" name="value" className="border-1 w-[54px] ml-3 text-[16px] p-1
+//                            outline-none text-black"
+//                                max={999}
+//                                value={insertVal}
+//                                onChange={(e) => setInsertVal(Number(e.target.value))}
+//                                disabled={isAnimating} />
+//
+//
+//                            <label htmlFor="index" className="ml-1 text-black">Index</label>
+//                            <input type="number" name="index"
+//                                className="border-1 w-[54px] text-[16px] ml-2 p-1
+//                            outline-none text-black "
+//                                min={0}
+//                                disabled={isAnimating}
+//                                value={insertIndex}
+//                                onChange={(e) => setInsertIndex(Number(e.target.value))}
+//                                max={rects - 1}
+//                            />
+//
+//
+//                        </div>
+//
+//                        <div className="w-[80%] h-[40%]  items-center flex">
+//                            <button className="text-2xl h-full border-1 p-1 rounded hover:scale-105 duration-100 cursor-pointer
+//                            bg-red-500 disabled:opacity-50 text-black"
+//                                disabled={isAnimating}
+//                                onClick={handleRemoveIndex}
+//                            >
+//                                Remove
+//                            </button>
+//                            <label htmlFor="indexR" className="ml-1 text-black">Index</label>
+//
+//                            <input type="number" className="border-1 w-[54px] ml-3 text-[16px] p-1
+//                                    outline-none text-black"
+//                                min={0}
+//                                max={rects - 1}
+//                                value={removeIndex}
+//                                onChange={(e) => setRemoveIndex(Number(e.target.value))}
+//                                name="indexr"
+//                                disabled={isAnimating}
+//                            />
+//
+//                        </div>
+//                    </div>
+//
+//                    <div className="w-[10%] h-full border-1 flex justify-center items-center border-black">
+//                        <ArrowLeft color="black" />
+//                    </div>
+//                </div>
+//
+//            </div>

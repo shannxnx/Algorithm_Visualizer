@@ -17,6 +17,8 @@ type ButtonV1Props = {
         remove: () => void,
         animate?: () => void,
 
+        animateForBubbleSort?: () => void,
+
         setInsertValue?: (val: number) => void,
         setIndexValue?: (val: number) => void,
         setRemoveIndex?: (val: number) => void,
@@ -106,7 +108,7 @@ export default function ButtonV1({ showButton, actions, states }: ButtonV1Props)
                                         states?.isAnimating === "animating" ||
                                             states?.isAnimating === "done" ? true : false
                                     }
-                                    onClick={actions?.animate}>
+                                    onClick={actions?.animate || actions?.animateForBubbleSort}>
                                     <Play /> Animate
                                 </button>
                             </div>
