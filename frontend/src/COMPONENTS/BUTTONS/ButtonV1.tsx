@@ -11,10 +11,10 @@ type ButtonV1Props = {
     };
     actions?: {
         add: () => void,
-        pop: () => void,
-        new: () => void,
-        insert: () => void,
-        remove: () => void,
+        pop?: () => void,
+        new?: () => void,
+        insert?: () => void,
+        remove?: () => void,
         animate?: () => void,
 
         animateForBubbleSort?: () => void,
@@ -39,7 +39,7 @@ type ButtonV1Props = {
 export default function ButtonV1({ showButton, actions, states }: ButtonV1Props) {
 
 
-    console.log("Array length (ButtonV1): ", states?.arrayLength);
+    //console.log("Array length (ButtonV1): ", states?.arrayLength);
 
 
     return <div className="w-[95%] lg:h-[120px] h-[15%] flex items-center rounded mb-3 border-black border">

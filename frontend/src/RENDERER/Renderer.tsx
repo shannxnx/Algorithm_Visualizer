@@ -28,6 +28,8 @@ type rectArrayRenderProps = {
 
 export function RectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef, opacity = 1 }: rectArrayRenderProps &
 { groupRef?: React.RefObject<Konva.Group | null> }) {
+    console.log("Array (renderer): ", array);
+
     return (<Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
         {
             array.map((r, id) => (

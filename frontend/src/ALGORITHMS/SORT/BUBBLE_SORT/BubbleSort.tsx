@@ -5,7 +5,7 @@ import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "react-toastify";
 import { sortStore } from "../../../STATE/sortingStore";
-import type { SortKit } from "../../../INTERFACES/sortInterface";
+import type { SortKit } from "../../../INTERFACES && TYPES/sortInterface";
 import ButtonV1 from "../../../COMPONENTS/BUTTONS/ButtonV1";
 
 const div_x = 400;

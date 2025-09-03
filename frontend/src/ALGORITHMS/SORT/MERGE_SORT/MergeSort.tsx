@@ -4,7 +4,7 @@ import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { ArrowLeft, Space } from "lucide-react";
 import { toast } from "react-toastify";
 import { sortStore } from "../../../STATE/sortingStore";
-import type { SortKit } from "../../../INTERFACES/sortInterface";
+import type { SortKit } from "../../../INTERFACES && TYPES/sortInterface";
 import { MergeSortKonva } from "./MergeSortKonva";
 import { mergeStore } from "./STORE/mergeStore";
 import useMeasure from "react-use-measure";
@@ -149,7 +149,7 @@ export default function MergeSort() {
             boxesInfo.push(rect);
             copyBoxes.push(copyRect);
         }
-        setCopyArray(copyBoxes);
+
         return boxesInfo;
     };
 
@@ -414,7 +414,9 @@ export default function MergeSort() {
 
     };
 
-    console.log("Array Length: ", rectsArray.length);
+
+
+
 
     return <main className="w-screen h-screen flex gap-5 overflow-x-hidden p-2 bg-black">
 
