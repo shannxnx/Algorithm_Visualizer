@@ -7,9 +7,19 @@ import type { rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 import useMeasure from "react-use-measure";
 import React from "react";
 import { QuickSortKonva } from "./QuickSortKonva";
+import toast from "react-hot-toast";
+
+
 
 type animation = "idle" | "animating" | "done";
-
+type KonvaProps = {
+    boxesInfo: rectInfo[];
+    isAnimating?: animation;
+    setIsAnimating?: (animate: animation) => void;
+    animationControllerRef?: React.RefObject<{ shouldStop: boolean }>;
+    konvaWidth?: number;
+    konvaHeight?: number;
+}
 
 export default function QuickSort() {
 
@@ -20,7 +30,12 @@ export default function QuickSort() {
     const [task, setTask] = useState<string>('');
     const [ref, bounds] = useMeasure();
 
-    const [animating, setIsAnimating] = useState<string>("idle");
+    const [isAnimating, setIsAnimating] = useState<animation>("idle");
+
+    const [insertVal, setInsertVal] = useState<number>(0);
+    const [insertIndex, setInsertIndex] = useState<number>(0);
+    const [removeIndex, setRemoveIndex] = useState<number>(0);
+
 
     const [rectsArray, setRectsArray] = useState<rectInfo[]>([]);
 
@@ -32,10 +47,40 @@ export default function QuickSort() {
         }
     };
 
-    const showButton = {
-        value: showButtons,
-        action: (val: boolean) => setShowButtons(val)
+    const handleInsert = () => {
+        if (bounds.width >= 650 && rectsArray.length >= 9) {
+            return toast("Max array reached!");
+        }
+        else if (bounds.width < 400 && rectsArray.length > 6) {
+            return toast("Max array reached!");
+        }
+
+        if (insertIndex <= rectsArray.length && rectsArray.length < 10) {
+            setTask('insert');
+        }
+
     };
+
+    const handlePop = () => {
+        if (rectsArray.length > 1) {
+            setTask('pop');
+
+        }
+    };
+
+    const handleRemoveIndex = () => {
+        if (rectsArray.length > 1 && removeIndex < rectsArray.length) {
+            setTask("removeIndex");
+        }
+    }
+
+    const handleNewBoxes = () => {
+        setRectsArray(generateBoxesInfo(rectsArray.length));
+        setIsAnimating("idle");
+
+    };
+
+
 
 
 
@@ -51,14 +96,7 @@ export default function QuickSort() {
 
     };
 
-    type KonvaProps = {
-        boxesInfo: rectInfo[];
-        isAnimating?: animation;
-        setIsAnimating?: (animate: animation) => void;
-        animationControllerRef?: React.RefObject<{ shouldStop: boolean }>;
-        konvaWidth?: number;
-        konvaHeight?: number;
-    }
+
 
     const QuickSortKonvaProps: KonvaProps = {
         boxesInfo: rectsArray,
@@ -78,17 +116,15 @@ export default function QuickSort() {
 
     const generateBoxesInfo = (count: number): Array<rectInfo> => {
         const boxesInfo: Array<rectInfo> = [];
-        const copyBoxes: Array<rectInfo> = [];
         const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
         const konvaWidth: number = bounds.width;
 
-        console.log("Konva width (generate qs): ", konvaWidth);
         const rectWidth = konvaWidth >= 700 ? count > 6 ? 40 : 45 : count > 6 ? 25 : 30;
         const spacing = 5;
         const totalWidth = count * rectWidth + (count - 1) * spacing
         const startX = (konvaWidth / 2) - (totalWidth / 2);
 
-        console.log("StartX: ", startX)
+
         for (let i = 0; i < count; i++) {
 
             const rect: rectInfo = {
@@ -157,20 +193,129 @@ export default function QuickSort() {
                     setRectsArray(centeredArray);
 
                     break;
+                case "insert":
+
+
+                    const insertColors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
+                    const insertRect: rectInfo = {
+                        width: rectWidth,
+                        height: rectWidth,
+                        x: 0,
+                        y: 0,
+                        number: insertVal,
+                        id: insertIndex,
+                        color: insertColors[insertIndex % insertColors.length]
+                    };
+
+                    insertArray.splice(insertIndex, 0, insertRect);
+
+                    const updatedIArr = insertArray.map((r, index) => ({
+                        ...r,
+                        width: rectWidth,
+                        height: rectWidth,
+                        y: -45,
+                        x: startX + index * (rectWidth + spacing),
+                        id: index,
+                        color: insertColors[index % insertColors.length]
+                    }));
+
+                    setRectsArray(updatedIArr);
+                    break;
+                case "removeIndex":
+                    const removeArray = [...rectsArray];
+
+                    if (removeIndex - 1 < removeArray.length) {
+                        removeArray.splice(removeIndex, 1);
+
+                        const rmLength = removeArray.length;
+                        const rmKonvaWidth = bounds.width;
+                        const rmSpacing = 5;
+                        const rmRectWidth = rmLength > 6 ? 40 : 45;
+
+                        const rmTotalWidth = rmLength * rmRectWidth + (rmLength - 1) * rmSpacing;
+
+
+                        const rmStartX = (rmKonvaWidth / 2) - (rmTotalWidth / 2);
+
+
+                        const removeColors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
+                        const updatedRArr = removeArray.map((r, index) => ({
+                            ...r,
+                            width: rmRectWidth,
+                            height: rmRectWidth,
+                            x: rmStartX + index * (rmRectWidth + rmSpacing),
+                            id: index,
+                            color: removeColors[index % removeColors.length]
+                        }));
+                        setRectsArray(updatedRArr);
+
+                    } else {
+                        alert("Index out of bounds!");
+                    }
+                    break;
+                case "pop":
+                    const poppedArray = [...rectsArray];
+                    poppedArray.pop();
+
+                    const newLength = poppedArray.length;
+                    const newKonvaWidth = bounds.width;
+                    const newSpacing = 5;
+                    const newRectWidth = newLength > 6 ? 40 : 45;
+
+                    const newTotalWidth = newLength * newRectWidth + (newLength - 1) * newSpacing;
+                    const newStartX = (newKonvaWidth / 2) - (newTotalWidth / 2);
+
+                    const updatedArr = poppedArray.map((r, index) => ({
+                        ...r,
+                        width: newRectWidth,
+                        height: newRectWidth,
+                        x: newStartX + index * (newRectWidth + newSpacing),
+                        y: -45,
+                        id: index,
+                    }));
+
+                    setRectsArray(updatedArr);
+                    break;
 
             }
             setTask("");
         }
     }, [rectsArray, task]);
 
+
+
+    const showButton = {
+        value: showButtons,
+        action: (val: boolean) => setShowButtons(val)
+    };
+
+    const stateProps = {
+        isAnimating: isAnimating,
+        insertValue: insertVal,
+        insertIndex: insertIndex,
+        removeIndex: removeIndex,
+        arrayLength: Number(rectsArray.length)
+
+    };
+
     const actionProps = {
-        add: handleAdd
+        add: handleAdd,
+        insert: handleInsert,
+        pop: handlePop,
+        new: handleNewBoxes,
+        remove: handleRemoveIndex,
+        animate: () => setIsAnimating("animating"),
+
+
+        setInsertValue: (val: number) => setInsertVal(val),
+        setIndexValue: (val: number) => setInsertIndex(val),
+        setRemoveIndex: (val: number) => setRemoveIndex(val),
     }
 
 
 
     console.log("Array (Quick Sort): ", rectsArray);
-    console.log("Task (Quick Sort): ", task);
+
 
     return <main className="w-screen h-screen flex gap-5 overflow-x-hidden p-2 bg-black">
 
@@ -191,7 +336,7 @@ export default function QuickSort() {
             </div>
 
 
-            <ButtonV1 showButton={showButton} actions={actionProps} />
+            <ButtonV1 showButton={showButton} actions={actionProps} states={stateProps} />
 
 
 
