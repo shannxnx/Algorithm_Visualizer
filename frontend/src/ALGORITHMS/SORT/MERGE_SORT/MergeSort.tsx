@@ -134,7 +134,7 @@ export default function MergeSort() {
                 height: rectWidth,
                 id: i,
                 number: Math.floor(Math.random() * 100),
-                color: colors[i % colors.length]
+                color: "blue"                         //colors[rectArrayLen % colors.length]
             }
 
             const copyRect: rectInfo = {
@@ -206,7 +206,7 @@ export default function MergeSort() {
                         y: -45,
                         number: Math.floor(Math.random() * 10),
                         id: rectArrayLen,
-                        color: colors[rectArrayLen % colors.length]
+                        color: "blue"                         //colors[rectArrayLen % colors.length]
                     };
 
                     updatedArray.push(newRect);
@@ -233,7 +233,7 @@ export default function MergeSort() {
                         y: 0,
                         number: insertVal,
                         id: insertIndex,
-                        color: insertColors[insertIndex % insertColors.length]
+                        color: "blue"                         //colors[rectArrayLen % colors.length]
                     };
 
                     insertArray.splice(insertIndex, 0, insertRect);
@@ -245,7 +245,7 @@ export default function MergeSort() {
                         y: -45,
                         x: startX + index * (rectWidth + spacing),
                         id: index,
-                        color: insertColors[index % insertColors.length]
+                        color: "blue"                         //colors[rectArrayLen % colors.length]
                     }));
 
                     setRectsArray(updatedIArr);
@@ -275,7 +275,7 @@ export default function MergeSort() {
                             height: rmRectWidth,
                             x: rmStartX + index * (rmRectWidth + rmSpacing),
                             id: index,
-                            color: removeColors[index % removeColors.length]
+                            color: "blue"                         //colors[rectArrayLen % colors.length]
                         }));
                         setRectsArray(updatedRArr);
 

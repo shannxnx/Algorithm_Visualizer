@@ -12,13 +12,14 @@ import toast from "react-hot-toast";
 
 
 type animation = "idle" | "animating" | "done";
-type KonvaProps = {
+type QuickPayload = {
     boxesInfo: rectInfo[];
     isAnimating?: animation;
     setIsAnimating?: (animate: animation) => void;
     animationControllerRef?: React.RefObject<{ shouldStop: boolean }>;
     konvaWidth?: number;
     konvaHeight?: number;
+    setBoxesInfo: (array: rectInfo[]) => void;
 }
 
 export default function QuickSort() {
@@ -77,6 +78,7 @@ export default function QuickSort() {
     const handleNewBoxes = () => {
         setRectsArray(generateBoxesInfo(rectsArray.length));
         setIsAnimating("idle");
+        toast("clicked new boxes");
 
     };
 
@@ -98,17 +100,18 @@ export default function QuickSort() {
 
 
 
-    const QuickSortKonvaProps: KonvaProps = {
+    const QuickSortKonvaProps: QuickPayload = {
         boxesInfo: rectsArray,
-        isAnimating: "idle",
+        isAnimating: isAnimating,
         setIsAnimating: setIsAnimating,
         konvaWidth: Math.floor(bounds.width),
-        konvaHeight: 420
+        konvaHeight: 420,
+        setBoxesInfo: (array: rectInfo[]) => setRectsArray(array)
     };
 
     useEffect(() => {
         if (bounds.width && bounds.height > 0) {
-            setRectsArray(generateBoxesInfo(3));
+            setRectsArray(generateBoxesInfo(5));
         }
 
     }, [bounds.width]);
@@ -134,7 +137,7 @@ export default function QuickSort() {
                 height: rectWidth,
                 id: i,
                 number: Math.floor(Math.random() * 100),
-                color: colors[i % colors.length]
+                color: "blue"                             //colors[i % colors.length]
             }
             boxesInfo.push(rect);
 
@@ -176,7 +179,7 @@ export default function QuickSort() {
                         y: -45,
                         number: Math.floor(Math.random() * 10),
                         id: rectArrayLen,
-                        color: colors[rectArrayLen % colors.length]
+                        color: "blue"                         //colors[rectArrayLen % colors.length]
                     };
 
                     updatedArray.push(newRect);
@@ -204,7 +207,7 @@ export default function QuickSort() {
                         y: 0,
                         number: insertVal,
                         id: insertIndex,
-                        color: insertColors[insertIndex % insertColors.length]
+                        color: "blue"                         //colors[rectArrayLen % colors.length]
                     };
 
                     insertArray.splice(insertIndex, 0, insertRect);
@@ -216,7 +219,7 @@ export default function QuickSort() {
                         y: -45,
                         x: startX + index * (rectWidth + spacing),
                         id: index,
-                        color: insertColors[index % insertColors.length]
+                        ccolor: "blue"                         //colors[rectArrayLen % colors.length]
                     }));
 
                     setRectsArray(updatedIArr);
@@ -245,7 +248,7 @@ export default function QuickSort() {
                             height: rmRectWidth,
                             x: rmStartX + index * (rmRectWidth + rmSpacing),
                             id: index,
-                            color: removeColors[index % removeColors.length]
+                            color: "blue"                         //colors[rectArrayLen % colors.length]
                         }));
                         setRectsArray(updatedRArr);
 
@@ -310,11 +313,12 @@ export default function QuickSort() {
         setInsertValue: (val: number) => setInsertVal(val),
         setIndexValue: (val: number) => setInsertIndex(val),
         setRemoveIndex: (val: number) => setRemoveIndex(val),
+
     }
 
+    console.log("Is Animating: ", isAnimating);
 
 
-    console.log("Array (Quick Sort): ", rectsArray);
 
 
     return <main className="w-screen h-screen flex gap-5 overflow-x-hidden p-2 bg-black">

@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, BetweenVerticalStart, Delete, Play, Plus, Scissors, Shuffle } from "lucide-react";
+import type { rectInfo } from "../../INTERFACES && TYPES/sortInterface";
 
 
 
@@ -22,6 +23,8 @@ type ButtonV1Props = {
         setInsertValue?: (val: number) => void,
         setIndexValue?: (val: number) => void,
         setRemoveIndex?: (val: number) => void,
+
+
 
 
     },
