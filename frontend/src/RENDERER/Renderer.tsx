@@ -37,10 +37,12 @@ export function RectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef, o
                     ref={(node) => { if (node) r.node = node }}
                     opacity={opacity}
                     key={`group-${id}`}
-                    x={r.x}
-                    y={r.y}
+                    x={r.x + r.width / 2}
+                    y={r.y + r.height / 2}
                     scaleX={r.scaleX ?? 1}
                     scaleY={r.scaleY ?? 1}
+                    offsetX={r.width / 2}
+                    offsetY={r.height / 2}
                 >
                     <Rect
 

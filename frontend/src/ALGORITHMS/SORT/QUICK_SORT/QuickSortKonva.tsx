@@ -6,7 +6,6 @@ import Konva from "konva";
 
 
 type animation = "idle" | "animating" | "done";
-
 type QuickPayload = {
     boxesInfo: Array<rectInfo>;
     isAnimating?: animation;
@@ -16,15 +15,29 @@ type QuickPayload = {
     konvaHeight?: number,
     setBoxesInfo: (array: rectInfo[]) => void;
 };
-
 interface QuickSortProps {
     props: QuickPayload
 }
+function delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+interface destination {
+    x: number,
+    y: number
+}
+interface origin {
+    originX: number,
+    originY: number
+}
 
 
-function animateTo(node: Konva.Node | null,
-    { x, y }: { x?: number; y?: number }, duration: number,
-    { originX, originY }: { originX?: number, originY?: number }): Promise<void> {
+function animateTo(
+    node: Konva.Node | null,
+    { x, y }: destination,
+    duration: number,
+    { originX, originY }: origin
+): Promise<void> {
 
 
     return new Promise((resolve) => {
@@ -57,24 +70,44 @@ function animateTo(node: Konva.Node | null,
     });
 };
 
-function delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+
+function animationScaleSmooth(node: Konva.Node, scaleUp: number = 1.05, duration: number = 0.3): Promise<void> {
+    return new Promise((resolve) => {
+        const tween = new Konva.Tween({
+            node,
+            scaleX: scaleUp,
+            scaleY: scaleUp,
+            duration,
+            easing: Konva.Easings.EaseInOut,
+            onFinish: resolve
+        });
+        tween.play();
+
+    })
 }
+
+
+
 
 async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) => void) {
     let arrayCopy = [...array];
-    let delayCount = 600;
-    for (let i = 0; i < array.length; i++) {
-        arrayCopy[i] = { ...arrayCopy[i], scaleX: 1.05, scaleY: 1.05 };
-        action([...arrayCopy]);
-        await delay(delayCount);
 
-        arrayCopy[i] = { ...arrayCopy[i], scaleX: 1, scaleY: 1 };
-        if (i === array.length - 1) arrayCopy[i] = { ...arrayCopy[i], color: "red" };
-        action([...arrayCopy])
-        await delay(delayCount);
+
+    for (let i = 0; i < arrayCopy.length; i++) {
+        const node = arrayCopy[i].node;
+
+        if (node) {
+            await animationScaleSmooth(node, 1.1, 0.5); // scaling up
+            await animationScaleSmooth(node, 1, 0.5);   // scaling down
+        }
+
+        if (i === arrayCopy.length - 1) {
+            arrayCopy[i] = { ...arrayCopy[i], color: "red" };
+            action([...arrayCopy]);
+        }
 
     }
+
 }
 
 
@@ -82,18 +115,13 @@ async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) => void
 
 
 export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
-
-
-
     const mainArrayRef = useRef<Konva.Group>(null);
-
-
 
 
     useEffect(() => {
         if (props.isAnimating === "animating") {
             (async () => {
-                animateScale(props.boxesInfo, props.setBoxesInfo);
+                await animateScale(props.boxesInfo, props.setBoxesInfo);
 
                 props.setIsAnimating?.("done");
             })();
