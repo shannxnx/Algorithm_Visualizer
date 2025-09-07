@@ -18,17 +18,125 @@ import type { rectInfo } from "../INTERFACES && TYPES/sortInterface";
 
 type rectArrayRenderProps = {
     array: Array<rectInfo>;
-    offsetX: number,
-    offsetY: number,
-    opacity?: number,
+    offsetX: number;
+    offsetY: number;
+    opacity?: number;
 
 
 };
 
 
+type singleGroupRectProps = {
+    rectInfo: rectInfo,
+    groupRef?: React.RefObject<Konva.Group | null>,
+    offsetX: number,
+    offsetY: number
+}
+
+export function SingleRectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef, opacity = 1 }: rectArrayRenderProps &
+{ groupRef?: React.RefObject<Konva.Group | null> }) {
+
+
+    return (<Group ref={groupRef} x={groupRef ? -326 : offsetX} y={groupRef ? -326 : offsetY}>
+        {
+            array.map((r, id) => (
+                <Group
+                    ref={(node) => { if (node) r.node = node }}
+                    opacity={opacity}
+                    key={`group-${id}`}
+                    x={r.x}
+                    y={r.y}
+                >
+                    <Rect
+
+                        width={r.width}
+                        height={r.height}
+                        fill={r.color}
+                        cornerRadius={5}
+
+
+                    />
+                    <Text
+
+                        text={`${r.number}`}
+                        width={r.width}
+                        height={r.height}
+                        align="center"
+                        verticalAlign="middle"
+                        fill="white"
+                        fontSize={20}
+
+
+                    />
+
+
+
+                </Group>
+
+
+            ))
+        }
+    </Group>
+    )
+}
+
+
+
+
 export function RectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef, opacity = 1 }: rectArrayRenderProps &
 { groupRef?: React.RefObject<Konva.Group | null> }) {
-    console.log("Array (renderer): ", array);
+
+
+    return (<Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
+        {
+            array.map((r, id) => (
+                <Group
+                    ref={(node) => { if (node) r.node = node }}
+                    opacity={opacity}
+                    key={`group-${id}`}
+                    x={r.x}
+                    y={r.y}
+
+                >
+                    <Rect
+
+                        width={r.width}
+                        height={r.height}
+                        fill={r.color}
+                        cornerRadius={5}
+
+
+                    />
+                    <Text
+
+                        text={`${r.number}`}
+                        width={r.width}
+                        height={r.height}
+                        align="center"
+                        verticalAlign="middle"
+                        fill="white"
+                        fontSize={20}
+
+
+                    />
+
+
+
+                </Group>
+
+
+            ))
+        }
+    </Group>
+    )
+}
+
+
+
+//this function is for array animation that need scaling or pulsing effect
+export function RectangleRendererScale({ array, offsetX = 0, offsetY = 0, groupRef, opacity = 1 }: rectArrayRenderProps &
+{ groupRef?: React.RefObject<Konva.Group | null> }) {
+
 
     return (<Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
         {
@@ -77,6 +185,10 @@ export function RectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef, o
     )
 }
 
+
+
+
+//this is for array that need to be sorted or will be use in sorting animation
 export function SortRectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef, opacity = 1 }: rectArrayRenderProps
     & { groupRef: React.RefObject<Konva.Group | null> }
 ) {
@@ -84,7 +196,7 @@ export function SortRectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRe
 
 
 
-    return <Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY} opacity={opacity}>
+    return <Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY} opacity={opacity} >
         {
             array.map((r, id) => (
                 <Group key={`group-${id}`} x={r.x} y={r.y} ref={(node) => { if (node) r.node = node }}>
