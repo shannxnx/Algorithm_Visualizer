@@ -3,7 +3,7 @@ import type React from "react";
 import { useEffect, useRef, useState, } from "react";
 import Konva from "konva";
 import { RectangleRenderer, SortRectangleRenderer } from "../../../RENDERER/Renderer";
-import { mergeStore } from "./STORE/mergeStore";
+import { mergeStore } from "./STORE/merge.store";
 
 
 

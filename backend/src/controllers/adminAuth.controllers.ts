@@ -42,9 +42,11 @@ export const Signup = async (req: Request, res: Response) => {
 
 
 
-    } catch (error: any) {
-        console.log("Error in signup : ", error.message);
-        res.status(500).json({ message: "Internal Server Error!" });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Error in signup: ", error.message);
+            res.status(500).json({ message: "Internal Server Error!" });
+        }
     }
 }
 
@@ -59,7 +61,6 @@ export const AdminLogin = async (req: Request, res: Response) => {
 
         const user = await AdminAuth.findOne({ email });
         if (!user) return res.status(400).json({ message: "No such thing exists!" });
-
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
         if (!isPasswordCorrect) return res.status(400).json({ message: "Invalid Credentials!!" });
@@ -70,10 +71,12 @@ export const AdminLogin = async (req: Request, res: Response) => {
 
 
 
+    } catch (error: unknown) {
+        if (error instanceof Error) {
 
-    } catch (error: any) {
-        console.log("Error in admin login: ", error.message);
-        res.status(500).json({ message: "Internal Server Error!" });
+            console.log("Error in admin login: ", error.message);
+            res.status(500).json({ message: "Internal Server Error!" });
+        }
     }
 };
 
@@ -93,9 +96,12 @@ export const Logout = async (req: Request, res: Response) => {
             res.status(200).json({ message: "Logged out successfully" });
         };
 
-    } catch (error: any) {
-        console.log("Error in logout: ", error.message);
-        res.status(500).json({ message: "Internal Server Error!" });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+
+            console.log("Error in logout: ", error.message);
+            res.status(500).json({ message: "Internal Server Error!" });
+        }
     }
 };
 
@@ -116,9 +122,11 @@ export const checkAuth = async (req: Request, res: Response) => {
         res.status(200).json(user);
 
 
-    } catch (error: any) {
-        console.log("Error in checking auth: ", error.message);
-        res.status(500).json({ message: "Internal Server Error!" })
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Error in checkAuth: ", error.message);
+            res.status(500).json({ message: "Internal Server Error!" });
+        }
 
     }
 }

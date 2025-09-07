@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit } from "../../../INTERFACES && TYPES/sortInterface";
 import { MergeSortKonva } from "./MergeSortKonva";
-import { mergeStore } from "./STORE/mergeStore";
+import { mergeStore } from "./STORE/merge.store";
 import useMeasure from "react-use-measure";
 import ButtonV1 from "../../../COMPONENTS/BUTTONS/ButtonV1";
 import { animate } from "framer-motion";

@@ -4,17 +4,6 @@ import { useEffect, useRef, useState, type AriaAttributes, type Ref, type RefObj
 import Konva from "konva";
 import type { rectInfo } from "../INTERFACES && TYPES/sortInterface";
 
-//interface rectInfo {
-//    x: number,
-//    y: number,
-//    width: number,
-//    height: number,
-//    number?: number,
-//    id: number,
-//    color?: string,
-//    node?: Konva.Node
-//};
-
 
 type rectArrayRenderProps = {
     array: Array<rectInfo>;
