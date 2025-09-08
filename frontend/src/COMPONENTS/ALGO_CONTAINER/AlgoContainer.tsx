@@ -23,8 +23,8 @@ export default function AlgoContainer({ myRef }: Props) {
     const Admin = authStore((state: any) => state.Admin);
 
 
-    console.log("Algo category : ", algoCategory);
-    console.log("Current Array : ", currentArray)
+    //console.log("Algo category : ", algoCategory);
+    //console.log("Current Array : ", currentArray)
 
 
 

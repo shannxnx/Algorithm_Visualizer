@@ -12,6 +12,7 @@ import { authStore } from './STATE/authStore'
 import QuickSort from './ALGORITHMS/SORT/QUICK_SORT/QuickSort'
 import RollingButtons from './TEST_SITE/RollingButtons'
 import InsertionSort from './ALGORITHMS/SORT/INSERTION_SORT/InsertionSort'
+import SelectionSort from './ALGORITHMS/SORT/SELECTION_SORT/SelectionSort'
 
 
 
@@ -41,7 +42,7 @@ function App() {
         <Route path='/sort/merge' element={<MergeSort />} />
         <Route path='/sort/quick' element={<QuickSort />} />
         <Route path='/sort/insertion' element={<InsertionSort />} />
-
+        <Route path='/sort/selection' element={<SelectionSort />} />
 
         <Route path='/secret/login' element={clickCount != 13 ? <Navigate to="/" replace /> : <AdminLogin />} />
 

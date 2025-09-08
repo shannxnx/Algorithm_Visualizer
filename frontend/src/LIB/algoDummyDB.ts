@@ -33,12 +33,12 @@ export const sortingArray = [
             algoLink: "sort/selection",
         }
     },
-    {
-        algoInfo: {
-            name: "Timsort",
-            algoLink: "sort/timsort",
-        }
-    }
+    //{
+    //    algoInfo: {
+    //        name: "Timsort",
+    //        algoLink: "sort/timsort",
+    //    }
+    //}
 
 ];
 
