@@ -4,15 +4,11 @@ import { useEffect, useRef, useState, } from "react";
 import Konva from "konva";
 import { RectangleRenderer, SortRectangleRenderer } from "../../../RENDERER/Renderer";
 import { mergeStore } from "./STORE/merge.store";
-
-
+import { animateTo, animateSort } from "../HELPER_FUNCTION/animation.helper";
+import type { rectInfo, animation } from "../../../INTERFACES && TYPES/sortInterface";
 
 const middle_x = window.innerWidth / 2;
 const middle_y = window.innerHeight / 2;
-
-type animation = "idle" | "animating" | "done";
-
-
 
 
 type KonvaProps = {
@@ -29,18 +25,6 @@ type KonvaProps = {
 
 }
 
-interface rectInfo {
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    number?: number,
-    id: number,
-    color?: string,
-    node?: Konva.Node
-};
-
-
 //const konvaWidth: number = 655;
 const konvaHeight: number = 420;
 
@@ -53,87 +37,15 @@ type rectArrayRenderProps = {
 
 };
 
-
-
 function splitHalf(array: rectInfo[], side: "left" | "right") {
     const mid = Math.floor(array.length / 2);
     return side === "left" ? array.slice(0, mid) : array.slice(mid);
 }
 
 
-
-
-function animateTo(node: Konva.Node | null,
-    { x, y }: { x?: number; y?: number }, duration: number,
-    { originX, originY }: { originX?: number, originY?: number }): Promise<void> {
-
-
-    return new Promise((resolve) => {
-        const startX = originX || node!.x();
-        const startY = originY || node!.y();
-
-
-
-        const anim = new Konva.Animation((frame) => {
-            if (!frame) return;
-            const progress = Math.min(frame.time / duration, 1);
-
-            if (x !== undefined) {
-                const newX = startX + (x - startX) * progress;
-
-                node!.x(newX);
-            }
-            if (y !== undefined) {
-                const newY = startY + (y - startY) * progress;
-                node!.y(newY);
-            }
-
-            if (progress >= 1) {
-                anim.stop();
-                resolve();
-            }
-        }, node!.getLayer());
-
-        anim.start();
-    });
-};
-
-async function animateSort(array: rectInfo[], duration: number = 500) {
-    const arr = [...array];
-
-    for (let i = 0; i < arr.length; i++) {
-        for (let j = 0; j < arr.length - i - 1; j++) {
-            if (arr[j].number! > arr[j + 1].number!) {
-                const nodeA = arr[j].node;
-                const nodeB = arr[j + 1].node;
-
-
-                if (!nodeA || !nodeB) continue;
-
-                const xA = nodeA.x();
-                const xB = nodeB.x();
-
-
-                await Promise.all([
-                    animateTo(nodeA, { x: xB }, duration, { originX: xA }),
-                    animateTo(nodeB, { x: xA }, duration, { originX: xB }),
-                ]);
-
-
-                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-            }
-        }
-    }
-
-    return arr;
-}
-
-
-
 function mergeArray(array1: rectInfo[], array2: rectInfo[]) {
     return [...array1, ...array2];
 }
-
 
 
 async function fadeEffect(func: (num: number) => void, steps = 30, action: "in" | "out"): Promise<void> {

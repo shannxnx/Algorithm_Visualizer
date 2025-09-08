@@ -88,7 +88,7 @@ export default function MergeSort() {
 
     useEffect(() => {
         if (bounds.width && bounds.height > 0) {
-            setRectsArray(generateBoxesInfo(2, bounds));
+            setRectsArray(generateBoxesInfo(5, bounds));
             getMergeSort();
         }
 

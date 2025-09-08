@@ -30,3 +30,6 @@ export const generateBoxesInfo = (count: number, bounds: RectReadOnly): Array<re
 
     return boxesInfo;
 };
+
+
+
