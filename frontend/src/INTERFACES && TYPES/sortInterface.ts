@@ -25,3 +25,4 @@ export interface rectInfo {
     scaleY?: number
 };
 
+export type animation = "idle" | "animating" | "done";

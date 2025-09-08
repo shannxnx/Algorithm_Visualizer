@@ -4,13 +4,14 @@ import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { ArrowLeft, Space } from "lucide-react";
 import { toast } from "react-toastify";
 import { sortStore } from "../../../STATE/sortingStore";
-import type { SortKit } from "../../../INTERFACES && TYPES/sortInterface";
+import type { SortKit, animation } from "../../../INTERFACES && TYPES/sortInterface";
 import { MergeSortKonva } from "./MergeSortKonva";
 import { mergeStore } from "./STORE/merge.store";
-import useMeasure from "react-use-measure";
+import useMeasure, { type RectReadOnly } from "react-use-measure";
 import ButtonV1 from "../../../COMPONENTS/BUTTONS/ButtonV1";
 import { animate } from "framer-motion";
-
+import { generateBoxesInfo } from "../HELPER_FUNCTION/helpter";
+import { type rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 
 const div_x = 400;
 const div_y = 50;
@@ -20,7 +21,7 @@ const gap = 5;
 let rectCount = 8;
 
 
-type animation = "idle" | "animating" | "done";
+
 
 
 
@@ -29,8 +30,6 @@ export default function MergeSort() {
     const setLeft = mergeStore((state: any) => state.setLeft);
     const left = mergeStore((state: any) => state.left);
     const right = mergeStore((state: any) => state.right);
-
-
 
 
     const animationControllerRef = useRef<{ shouldStop: boolean }>({ shouldStop: false });
@@ -52,13 +51,8 @@ export default function MergeSort() {
     const toBeSortedRightH1 = mergeStore((state: any) => state.toBeSortedRightH1);
     const toBeSortedRightH2 = mergeStore((state: any) => state.toBeSortedRightH2);
 
-
-
     const konvaDivRef = useRef<HTMLDivElement | null>(null);
     const [konvaDivWidth, setKonvaDivWidth] = useState<number>(0);
-
-
-
 
 
     const mainRef = useRef<HTMLElement>(null);
@@ -93,70 +87,18 @@ export default function MergeSort() {
         setIsAnimating(animate);
     }
 
-    interface rectInfo {
-        x: number,
-        y: number,
-        width: number,
-        height: number,
-        number: number
-        id: number
-        color?: string
-    };
+
 
     const [ref, bounds] = useMeasure();
 
     console.log("Ref width: ", bounds.width);
 
-    const generateBoxesInfo = (count: number): Array<rectInfo> => {
-        const boxesInfo: Array<rectInfo> = [];
-        const copyBoxes: Array<rectInfo> = [];
-        const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
-        const konvaWidth: number = Math.floor(bounds.width);
 
-
-        const rectWidth = konvaWidth >= 700 ? count > 6 ? 40 : 45 : count > 6 ? 25 : 30;
-        const spacing = 5;
-        const totalWidth = count * rectWidth + (count - 1) * spacing
-        const startX = (konvaWidth / 2) - (totalWidth / 2);
-
-        const spacing2 = 20;
-        const totalWidth2 = count * rectWidth + (count - 1) * spacing2;
-        const startX2 = (konvaWidth / 2) - (totalWidth2 / 2);
-        const startX3 = (konvaWidth / 2) - (totalWidth2 / 2);
-
-        console.log("Total width (7): ", totalWidth);
-        for (let i = 0; i < count; i++) {
-
-            const rect: rectInfo = {
-                x: startX + i * (rectWidth + spacing),
-                y: -45,
-                width: rectWidth,
-                height: rectWidth,
-                id: i,
-                number: Math.floor(Math.random() * 100),
-                color: "blue"                         //colors[rectArrayLen % colors.length]
-            }
-
-            const copyRect: rectInfo = {
-                x: startX2 + i * (rectWidth + spacing2),
-                y: -45,
-                width: rectWidth,
-                height: rectWidth,
-                id: i,
-                number: rect.number
-            }
-
-            boxesInfo.push(rect);
-            copyBoxes.push(copyRect);
-        }
-
-        return boxesInfo;
-    };
 
 
     useEffect(() => {
         if (bounds.width && bounds.height > 0) {
-            setRectsArray(generateBoxesInfo(7));
+            setRectsArray(generateBoxesInfo(2, bounds));
             getMergeSort();
         }
 
@@ -169,8 +111,6 @@ export default function MergeSort() {
         editAlgoInfo: editSortCode
 
     };
-
-
 
 
 
@@ -358,7 +298,7 @@ export default function MergeSort() {
     }
 
     const handleSort = () => {
-        const sortedArray = [...rectsArray].sort((a, b) => a.number - b.number);
+        const sortedArray = [...rectsArray].sort((a, b) => a.number! - b.number!);
         const updatedArray = sortedArray.map((rect, index) => ({
             ...rect,
             x: index * (width + gap) + gap,
@@ -375,7 +315,7 @@ export default function MergeSort() {
             animationControllerRef.current.shouldStop = true;
         }
 
-        const newBoxes = generateBoxesInfo(rectsArray.length);
+        const newBoxes: rectInfo[] = generateBoxesInfo(rectsArray.length, bounds);
         setRectsArray(newBoxes);
         setIsAnimating("idle");
 

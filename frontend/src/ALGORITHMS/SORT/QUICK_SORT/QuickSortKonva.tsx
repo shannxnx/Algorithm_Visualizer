@@ -157,7 +157,7 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
                 await animateTo(pivot1GroupRef.current, { x: -20, y: 100 }, duration, { originX: -20, originY: 50 });
 
                 //pivot 1 going right
-                //await animateTo(pivot1GroupRef.current, { x: centerX, y: 100 }, duration, { originX: 0, originY: 100 })
+                await animateTo(pivot1GroupRef.current, { x: -120, y: 100 }, duration, { originX: 0, originY: 100 })
 
 
 

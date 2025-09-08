@@ -26,7 +26,7 @@ export function SingleRectangleRenderer({ array, offsetX = 0, offsetY = 0, group
 { groupRef?: React.RefObject<Konva.Group | null> }) {
 
 
-    return (<Group ref={groupRef} x={groupRef ? -326 : offsetX} y={groupRef ? -326 : offsetY}>
+    return (<Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
         {
             array.map((r, id) => (
                 <Group
