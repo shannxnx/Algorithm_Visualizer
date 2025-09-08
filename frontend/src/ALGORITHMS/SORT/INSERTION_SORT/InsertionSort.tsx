@@ -3,16 +3,16 @@ import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit } from "../../../INTERFACES && TYPES/sortInterface";
 import ButtonV1 from "../../../COMPONENTS/BUTTONS/ButtonV1";
-import type { rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
+import type { rectInfo, animation } from "../../../INTERFACES && TYPES/sortInterface";
 import useMeasure from "react-use-measure";
 import React from "react";
 import toast from "react-hot-toast";
 import InsertionSortKonva from "./InsertionSortKonva";
+import { generateBoxesInfo } from "../HELPER_FUNCTION/helpter";
 
 
 
-type animation = "idle" | "animating" | "done";
-type QuickPayload = {
+type InsertionPayload = {
     boxesInfo: rectInfo[];
     isAnimating?: animation;
     setIsAnimating?: (animate: animation) => void;
@@ -24,15 +24,15 @@ type QuickPayload = {
 
 export default function InsertionSort() {
 
-    const quickSortInfo = sortStore((state: any) => state.quickSortInfo);
-    const getQuickSort = sortStore((state: any) => state.getQuickSort);
+
+    const insertionSortInfo = sortStore((state: any) => state.insertionSortInfo);
+    const getInsertionSort = sortStore((state: any) => state.getInsertionSort);
+
     const editSortCode = sortStore((state: any) => state.editSortCode);
     const [showButtons, setShowButtons] = useState<boolean>(true);
     const [task, setTask] = useState<string>('');
     const [ref, bounds] = useMeasure();
-
     const [isAnimating, setIsAnimating] = useState<animation>("idle");
-
     const [insertVal, setInsertVal] = useState<number>(0);
     const [insertIndex, setInsertIndex] = useState<number>(0);
     const [removeIndex, setRemoveIndex] = useState<number>(0);
@@ -76,7 +76,7 @@ export default function InsertionSort() {
     }
 
     const handleNewBoxes = () => {
-        setRectsArray(generateBoxesInfo(rectsArray.length));
+        setRectsArray(generateBoxesInfo(rectsArray.length, bounds));
         setIsAnimating("idle");
         toast("clicked new boxes");
 
@@ -87,20 +87,21 @@ export default function InsertionSort() {
 
 
     useEffect(() => {
-        getQuickSort();
+        getInsertionSort();
     }, []);
 
-    const QuickPayload: SortKit = {
-        algoName: quickSortInfo.algoName,
-        algoInfo: quickSortInfo.algoInfo,
-        codes: quickSortInfo.codes,
+    console.log("Insertion sort: ", insertionSortInfo);
+
+    const InsertionPayload: SortKit = {
+        algoName: insertionSortInfo.algoName,
+        algoInfo: insertionSortInfo.algoInfo,
+        codes: insertionSortInfo.codes,
         editAlgoInfo: editSortCode
 
     };
 
 
-
-    const QuickSortKonvaProps: QuickPayload = {
+    const InsertionSortKonvaProps: InsertionPayload = {
         boxesInfo: rectsArray,
         isAnimating: isAnimating,
         setIsAnimating: setIsAnimating,
@@ -111,40 +112,13 @@ export default function InsertionSort() {
 
     useEffect(() => {
         if (bounds.width && bounds.height > 0) {
-            setRectsArray(generateBoxesInfo(5));
+            setRectsArray(generateBoxesInfo(5, bounds));
         }
 
     }, [bounds.width]);
 
 
-    const generateBoxesInfo = (count: number): Array<rectInfo> => {
-        const boxesInfo: Array<rectInfo> = [];
-        const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
-        const konvaWidth: number = bounds.width;
 
-        const rectWidth = konvaWidth >= 700 ? count > 6 ? 40 : 45 : count > 6 ? 25 : 30;
-        const spacing = 5;
-        const totalWidth = count * rectWidth + (count - 1) * spacing
-        const startX = (konvaWidth / 2) - (totalWidth / 2);
-
-
-        for (let i = 0; i < count; i++) {
-
-            const rect: rectInfo = {
-                x: startX + i * (rectWidth + spacing),
-                y: -45,
-                width: rectWidth,
-                height: rectWidth,
-                id: i,
-                number: Math.floor(Math.random() * 100),
-                color: "blue"                             //colors[i % colors.length]
-            }
-            boxesInfo.push(rect);
-
-        }
-
-        return boxesInfo;
-    };
 
     useEffect(() => {
         if (rectsArray.length > 0 && task) {
@@ -316,7 +290,6 @@ export default function InsertionSort() {
 
     }
 
-    console.log("Is Animating: ", isAnimating);
 
 
 
@@ -343,7 +316,7 @@ export default function InsertionSort() {
         </div >
 
 
-        <AlgoInfo algoInfo={QuickPayload} />
+        <AlgoInfo algoInfo={InsertionPayload} />
 
 
 

@@ -1,15 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { algoStore } from "../../../STATE/algoStore";
 import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
-import { ArrowLeft, Space } from "lucide-react";
 import { toast } from "react-toastify";
 import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit, animation } from "../../../INTERFACES && TYPES/sortInterface";
 import { MergeSortKonva } from "./MergeSortKonva";
 import { mergeStore } from "./STORE/merge.store";
-import useMeasure, { type RectReadOnly } from "react-use-measure";
+import useMeasure from "react-use-measure";
 import ButtonV1 from "../../../COMPONENTS/BUTTONS/ButtonV1";
-import { animate } from "framer-motion";
 import { generateBoxesInfo } from "../HELPER_FUNCTION/helpter";
 import { type rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 
@@ -76,22 +74,14 @@ export default function MergeSort() {
     const totalWidth = (width + gap) * rects;
 
 
-    const [mergeArray, setMergeArray] = useState<Array<rectInfo>>([]);
-    const [copyArray, setCopyArray] = useState<Array<rectInfo>>([]);
-
-
     const [showButton, setShowButton] = useState<boolean>(true);
-
-
-    const handleAnimating = (animate: animation) => {
-        setIsAnimating(animate);
-    }
-
 
 
     const [ref, bounds] = useMeasure();
 
-    console.log("Ref width: ", bounds.width);
+    const handleAnimating = (animate: animation) => {
+        setIsAnimating(animate);
+    }
 
 
 
@@ -377,7 +367,6 @@ export default function MergeSort() {
                             y={height}
                             boxesInfo={rectsArray}
                             rectCount={rectCount}
-                            copyArray={copyArray}
                             isAnimating={isAnimating}
                             setIsAnimating={handleAnimating}
                             animationControllerRef={animationControllerRef}

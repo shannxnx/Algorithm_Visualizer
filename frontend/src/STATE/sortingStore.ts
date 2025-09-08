@@ -97,7 +97,8 @@ export const sortStore = create<StoreState>((set, get) => ({
     getInsertionSort: async () => {
         try {
             const res = await AxiosInstance.get("/sort/insertion-sort");
-            set({ quickSortInfo: res.data });
+            set({ insertionSortInfo: res.data });
+            console.log("Response data : ", res.data);
         } catch (error: any) {
             console.log("Error in getting algo store: ", error.message);
         }
@@ -115,7 +116,7 @@ export const sortStore = create<StoreState>((set, get) => ({
     getSelectionSort: async () => {
         try {
             const res = await AxiosInstance.get("/sort/selection-sort");
-            set({ quickSortInfo: res.data });
+            set({ selectionSortInfo: res.data });
         } catch (error: any) {
             console.log("Error in getting algo store: ", error.message);
         }

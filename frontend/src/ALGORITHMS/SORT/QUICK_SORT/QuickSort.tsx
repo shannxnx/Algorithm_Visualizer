@@ -4,7 +4,7 @@ import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit, animation } from "../../../INTERFACES && TYPES/sortInterface";
 import ButtonV1 from "../../../COMPONENTS/BUTTONS/ButtonV1";
 import type { rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
-import useMeasure, { type RectReadOnly } from "react-use-measure";
+import useMeasure from "react-use-measure";
 import React from "react";
 import { QuickSortKonva } from "./QuickSortKonva";
 import toast from "react-hot-toast";

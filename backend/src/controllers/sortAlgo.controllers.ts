@@ -114,7 +114,7 @@ export const getQuickSortInfo = async (req: Request, res: Response) => {
 
 export const getInsertionSortInfo = async (req: Request, res: Response) => {
     try {
-        const mergeSortInfo = await AlgorithmInfo.findOne({ algoName: "Inserion Sort" });
+        const mergeSortInfo = await AlgorithmInfo.findOne({ algoName: "Insertion Sort" });
         if (!mergeSortInfo) return res.status(400).json({ messagee: "No such thing exist!" });
 
 
