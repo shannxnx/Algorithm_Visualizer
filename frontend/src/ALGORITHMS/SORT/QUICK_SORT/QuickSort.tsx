@@ -107,7 +107,7 @@ export default function QuickSort() {
 
     useEffect(() => {
         if (bounds.width && bounds.height > 0) {
-            setRectsArray(generateBoxesInfo(2, bounds));
+            setRectsArray(generateBoxesInfo(4, bounds));
         }
 
     }, [bounds.width]);

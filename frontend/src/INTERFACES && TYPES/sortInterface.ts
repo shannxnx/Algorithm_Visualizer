@@ -17,7 +17,7 @@ export interface rectInfo {
     y: number,
     width: number,
     height: number,
-    number?: number,
+    number: number,
     id?: number,
     color?: string,
     node?: Konva.Node,

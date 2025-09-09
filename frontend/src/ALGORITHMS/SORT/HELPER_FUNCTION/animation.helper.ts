@@ -57,23 +57,6 @@ export function animateTo(
     });
 };
 
-
-export function animationScaleSmooth(node: Konva.Node, scaleUp: number = 1.05, duration: number = 0.3): Promise<void> {
-    return new Promise((resolve) => {
-        const tween = new Konva.Tween({
-            node,
-            scaleX: scaleUp,
-            scaleY: scaleUp,
-            duration,
-            easing: Konva.Easings.EaseInOut,
-            onFinish: resolve
-        });
-        tween.play();
-
-    })
-}
-
-
 export async function animateSort(array: rectInfo[], duration: number = 500) {
     const arr = [...array];
 
@@ -104,6 +87,21 @@ export async function animateSort(array: rectInfo[], duration: number = 500) {
     return arr;
 }
 
+export function animationScaleSmooth(node: Konva.Node, scaleUp: number = 1.05, duration: number = 0.3): Promise<void> {
+    return new Promise((resolve) => {
+        const tween = new Konva.Tween({
+            node,
+            scaleX: scaleUp,
+            scaleY: scaleUp,
+            duration,
+            easing: Konva.Easings.EaseInOut,
+            onFinish: resolve
+        });
+        tween.play();
+
+    })
+}
+
 
 export async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) => void, setPivot: (rect: rectInfo) => void) {
     let arrayCopy = [...array];
@@ -125,7 +123,7 @@ export async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) 
 
     }
 
-}
+};
 
 
 
