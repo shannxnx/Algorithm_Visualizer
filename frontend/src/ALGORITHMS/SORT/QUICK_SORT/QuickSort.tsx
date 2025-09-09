@@ -22,6 +22,7 @@ type QuickPayload = {
     setBoxesInfo: (array: rectInfo[]) => void;
 }
 
+
 export default function QuickSort() {
 
     const quickSortInfo = sortStore((state: any) => state.quickSortInfo);

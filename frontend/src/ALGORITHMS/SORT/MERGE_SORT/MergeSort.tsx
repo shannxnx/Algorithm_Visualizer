@@ -20,9 +20,6 @@ let rectCount = 8;
 
 
 
-
-
-
 export default function MergeSort() {
 
     const setLeft = mergeStore((state: any) => state.setLeft);

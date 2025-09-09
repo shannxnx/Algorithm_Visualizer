@@ -18,9 +18,35 @@ type rectArrayRenderProps = {
 type singleGroupRectProps = {
     rectInfo: rectInfo,
     groupRef?: React.RefObject<Konva.Group | null>,
-    offsetX: number,
-    offsetY: number
+    offsetX?: number,
+    offsetY?: number,
+    opacity?: number
+};
+
+
+export function RectangleGroup({ rectInfo, offsetX = 0, offsetY = 0, groupRef, opacity = 1 }: singleGroupRectProps) {
+    return <Group ref={groupRef} x={rectInfo.x + offsetX} y={rectInfo.y + offsetY}>
+
+        <Rect width={rectInfo.width} height={rectInfo.height} fill={rectInfo.color} cornerRadius={5} />
+
+        <Text
+            text={`${rectInfo.number}`}
+            width={rectInfo.width}
+            height={rectInfo.height}
+            align="center"
+            verticalAlign="middle"
+            fill="white"
+            fontSize={20}
+        />
+
+    </Group>
 }
+
+
+
+
+
+
 
 export function SingleRectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef, opacity = 1 }: rectArrayRenderProps &
 { groupRef?: React.RefObject<Konva.Group | null> }) {

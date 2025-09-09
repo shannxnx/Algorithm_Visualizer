@@ -105,7 +105,7 @@ export async function animateSort(array: rectInfo[], duration: number = 500) {
 }
 
 
-export async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) => void, setPivot: (rect: rectInfo[]) => void) {
+export async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) => void, setPivot: (rect: rectInfo) => void) {
     let arrayCopy = [...array];
 
 
@@ -119,10 +119,34 @@ export async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) 
 
         if (i === arrayCopy.length - 1) {
             arrayCopy[i] = { ...arrayCopy[i], color: "red" };
-            setPivot([arrayCopy[i]]);
+            setPivot(arrayCopy[i]);
             action([...arrayCopy]);
         }
 
     }
 
 }
+
+
+
+//export async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) => void, setPivot: (rect: rectInfo[]) => void) {
+//    let arrayCopy = [...array];
+//
+//
+//    for (let i = 0; i < arrayCopy.length; i++) {
+//        const node = arrayCopy[i].node;
+//
+//        if (node) {
+//            await animationScaleSmooth(node, 1.1, 0.5); // scaling up
+//            await animationScaleSmooth(node, 1, 0.5);   // scaling down
+//        }
+//
+//        if (i === arrayCopy.length - 1) {
+//            arrayCopy[i] = { ...arrayCopy[i], color: "red" };
+//            setPivot([arrayCopy[i]]);
+//            action([...arrayCopy]);
+//        }
+//
+//    }
+//
+//}
