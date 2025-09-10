@@ -5,7 +5,7 @@ import { generateToken } from "../lib/genToken";
 
 
 export const Signup = async (req: Request, res: Response) => {
-    const { email, password } = req.body
+    const { email, password } = req.body;
 
     try {
         if (!email || !password) return res.status(400).json({ message: "Fill out all details!" });

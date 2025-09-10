@@ -5,6 +5,7 @@ import type { rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 
 
 
+
 interface destination {
     x?: number,
     y?: number
@@ -103,9 +104,11 @@ export function animationScaleSmooth(node: Konva.Node, scaleUp: number = 1.05, d
 }
 
 
-export async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) => void, setPivot: (rect: rectInfo) => void) {
-    let arrayCopy = [...array];
 
+
+export async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) => void, setPivot: (rect: rectInfo) => void): Promise<rectInfo> {
+    let arrayCopy = [...array];
+    let pivot: rectInfo | null = null;
 
     for (let i = 0; i < arrayCopy.length; i++) {
         const node = arrayCopy[i].node;
@@ -117,13 +120,71 @@ export async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) 
 
         if (i === arrayCopy.length - 1) {
             arrayCopy[i] = { ...arrayCopy[i], color: "red" };
+            pivot = arrayCopy[i];
             setPivot(arrayCopy[i]);
             action([...arrayCopy]);
         }
 
     }
 
+    return pivot!;
+
 };
+
+export async function animatePartition(array: rectInfo[], pivot: rectInfo, refs: (Konva.Group | null)[],
+    centerX: number, duration: number) {
+
+    let left: number = 0;
+    let right: number = 0;
+
+    for (let i = 0; i < array.length; i++) {
+        const rect = array[i];
+        const ref = refs[i];
+        if (!ref) continue;
+
+        await animationScaleSmooth(rect.node!, 1.1, 0.7);
+        await animationScaleSmooth(rect.node!, 1, 0.7);
+
+
+        if (rect.number > pivot.number) {
+            right++;
+        } else {
+            left++;
+        }
+
+
+
+        const xOffset = rect.number > pivot.number ? 350 - (right * 50) : -400 + (left * 50);
+
+        await animateTo(ref, { y: 55 }, duration, { originX: 0, originY: 10 });
+        await animateTo(ref, { x: centerX + xOffset }, duration, { originX: 0, originY: 0 });
+
+    }
+}
+
+
+//export async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) => void, setPivot: (rect: rectInfo) => void) {
+//    let arrayCopy = [...array];
+//
+//
+//    for (let i = 0; i < arrayCopy.length; i++) {
+//        const node = arrayCopy[i].node;
+//
+//        if (node) {
+//            await animationScaleSmooth(node, 1.1, 0.5); // scaling up
+//            await animationScaleSmooth(node, 1, 0.5);   // scaling down
+//        }
+//
+//        if (i === arrayCopy.length - 1) {
+//            arrayCopy[i] = { ...arrayCopy[i], color: "red" };
+//            setPivot(arrayCopy[i]);
+//            action([...arrayCopy]);
+//        }
+//
+//    }
+//
+//};
+
 
 
 

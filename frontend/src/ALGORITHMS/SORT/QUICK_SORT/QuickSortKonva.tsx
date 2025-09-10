@@ -9,7 +9,7 @@ import {
     RectangleGroup
 } from "../../../RENDERER/Renderer";
 import Konva from "konva";
-import { animateTo, animateScale, animationScaleSmooth } from "../HELPER_FUNCTION/animation.helper";
+import { animateTo, animateScale, animationScaleSmooth, animatePartition } from "../HELPER_FUNCTION/animation.helper";
 
 
 
@@ -49,20 +49,27 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
     const compare1Ref = useRef<Konva.Group>(null);
     const compare2Ref = useRef<Konva.Group>(null);
+    const compareRefArray = useRef<(Konva.Group | null)[]>([]);
+
 
 
     const [arrayNoPivot, setArrayNoPivot] = useState<rectInfo[]>(props.boxesInfo.slice(0, props.boxesInfo.length - 1));
-
+    console.log("Initial array no pivot: ", arrayNoPivot);
 
     const centerX = Math.floor((props.konvaWidth! / 2) - (props.boxesInfo[0].width / 2));
 
     useEffect(() => {
-        setArrayNoPivot(props.boxesInfo.slice(0, props.boxesInfo.length - 1));
 
-        setCompare1Rect(arrayNoPivot[0]);
-        setCompare2Rect(arrayNoPivot[1]);
+        const noPivot = props.boxesInfo.slice(0, props.boxesInfo.length - 1);
 
-    }, [props.boxesInfo])
+        setArrayNoPivot(noPivot);
+        setCompare1Rect(noPivot[0]);
+        setCompare2Rect(noPivot[1]);
+
+
+    }, [props.boxesInfo]);
+
+
 
     useEffect(() => {
         if (props.isAnimating === "animating") {
@@ -73,23 +80,47 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
 
                 //finding pivot on the first array or the  main array
-                await animateScale(props.boxesInfo, props.setBoxesInfo, setSinglePivot);
-
+                let pivot = await animateScale(props.boxesInfo, props.setBoxesInfo, setSinglePivot);
                 //pivot 1 going down
                 await animateTo(pivot1GroupRef.current, { y: 110 }, duration, { originX: 0, originY: 0 });
-
                 //pivot 1 going right
                 await animateTo(pivot1GroupRef.current, { x: centerX - 20 }, duration, { originY: 100 });
 
+                await animatePartition(arrayNoPivot, pivot, compareRefArray.current, centerX, duration);
+                //await animationScaleSmooth(props.boxesInfo[0].node!, 1.1, 0.7);
+                //await animationScaleSmooth(props.boxesInfo[0].node!, 1, 0.7);
+                //if (compare1Rect.number > pivot.number) {
 
-                await animationScaleSmooth(props.boxesInfo[0].node!, 1.1, 0.7);
-                await animationScaleSmooth(props.boxesInfo[0].node!, 1, 0.7);
+                //    await animateTo(compare1Ref.current, { y: 55 }, duration, { originX: 0, originY: 10 });
+                //    await animateTo(compare1Ref.current, { x: centerX + 300 }, duration, { originX: 0, originY: 0 });
+                //}
+                //else {
+
+                //    await animateTo(compare1Ref.current, { y: 55 }, duration, { originX: 0, originY: 10 });
+                //    await animateTo(compare1Ref.current, { x: centerX - 350 }, duration, { originX: 0, originY: 0 });
+                //}
 
 
-                if (compare1Rect.number > singlePivot.number) {
-                    await animateTo(compare1Ref.current, { y: 55 }, duration, { originX: 0, originY: 10 });
-                    await animateTo(compare1Ref.current, { x: centerX + 100 }, duration, { originX: 0, originY: 0 });
-                }
+
+                //await animationScaleSmooth(props.boxesInfo[1].node!, 1.1, 0.7);
+                //await animationScaleSmooth(props.boxesInfo[1].node!, 1, 0.7);
+                //if (compare2Rect.number > pivot.number) {
+
+                //    //await animateTo(compare2Ref.current, { y: 55 }, duration, { originX: 0, originY: 10 });
+                //    //await animateTo(compare2Ref.current, { x: centerX + 250 }, duration, { originX: 0, originY: 0 });
+
+                //    
+
+                //}
+                //else {
+
+                //    //await animateTo(compare2Ref.current, { y: 55 }, duration, { originX: 0, originY: 10 });
+                //    //await animateTo(compare2Ref.current, { x: centerX - 300 }, duration, { originX: 0, originY: 0 });
+
+
+
+
+                //}
 
 
 
@@ -99,14 +130,17 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
                 props.setIsAnimating?.("done");
             })();
+
+
+
         }
     }, [props.isAnimating]);
 
 
 
-    console.log("Single Pivot: ", singlePivot);
-    console.log("Compare1 : ", compare1Rect);
-    console.log("Compare2 : ", compare2Rect);
+    //console.log("Single Pivot: ", singlePivot);
+    //console.log("Compare1 : ", compare1Rect);
+    //console.log("Compare2 : ", compare2Rect);
     //console.log("Array no Pivot: ", arrayNoPivot);
 
 
@@ -116,12 +150,21 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
             {/*Main array to be sorted */}
             <RectangleRendererScale array={props.boxesInfo} offsetX={-20} offsetY={50} />
-
+            {/*Selected Pivot*/}
             <RectangleGroup rectInfo={singlePivot} groupRef={pivot1GroupRef} offsetX={-20} />
-            <RectangleGroup rectInfo={compare1Rect} groupRef={compare1Ref} offsetX={-20} />
 
-            <RectangleGroup rectInfo={compare2Rect} groupRef={compare2Ref} offsetX={-20} />
 
+            {
+                arrayNoPivot.map((rect, i) => <RectangleGroup rectInfo={rect} groupRef={(el) => { compareRefArray.current[i] = el }} key={i}
+                    offsetX={-20} />)
+            }
+
+
+
+            {/*
+                <RectangleGroup rectInfo={compare1Rect} groupRef={compare1Ref} offsetX={-20} />
+                <RectangleGroup rectInfo={compare2Rect} groupRef={compare2Ref} offsetX={-20} />
+            */}
 
 
         </Layer>
