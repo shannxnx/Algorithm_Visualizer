@@ -8,7 +8,7 @@ import useMeasure from "react-use-measure";
 import React from "react";
 import { QuickSortKonva } from "./QuickSortKonva";
 import toast from "react-hot-toast";
-import { generateBoxesInfo } from "../HELPER_FUNCTION/helpter";
+import { generateBoxesInfo, type desktopSize } from "../HELPER_FUNCTION/helpter";
 
 
 
@@ -43,35 +43,37 @@ export default function QuickSort() {
 
     const handleAdd = () => {
 
-        if (rectsArray.length < 10) {
+        if (rectsArray.length < 7) {
             setTask('add');
 
         }
     };
 
     const handleInsert = () => {
-        if (bounds.width >= 650 && rectsArray.length >= 9) {
+        if (bounds.width >= 650 && rectsArray.length >= 7) {
             return toast("Max array reached!");
         }
         else if (bounds.width < 400 && rectsArray.length > 6) {
             return toast("Max array reached!");
         }
 
-        if (insertIndex <= rectsArray.length && rectsArray.length < 10) {
+        if (insertIndex <= rectsArray.length && rectsArray.length < 7) {
             setTask('insert');
         }
 
     };
 
     const handlePop = () => {
-        if (rectsArray.length > 1) {
+        if (rectsArray.length > 3) {
             setTask('pop');
 
+        } else {
+            return toast("Minimum 3 rectangles! ")
         }
     };
 
     const handleRemoveIndex = () => {
-        if (rectsArray.length > 1 && removeIndex < rectsArray.length) {
+        if (rectsArray.length > 3 && removeIndex < rectsArray.length) {
             setTask("removeIndex");
         }
     }
@@ -105,9 +107,15 @@ export default function QuickSort() {
         setBoxesInfo: (array: rectInfo[]) => setRectsArray(array)
     };
 
+
+    const desktopSize: desktopSize = {
+        d_small: 35,
+        d_medium: 330
+    }
+
     useEffect(() => {
         if (bounds.width && bounds.height > 0) {
-            setRectsArray(generateBoxesInfo(4, bounds));
+            setRectsArray(generateBoxesInfo(7, bounds, { desktop: desktopSize }));
         }
 
     }, [bounds.width]);

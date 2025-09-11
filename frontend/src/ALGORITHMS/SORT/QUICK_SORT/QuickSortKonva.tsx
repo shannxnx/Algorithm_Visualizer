@@ -9,7 +9,7 @@ import {
     RectangleGroup
 } from "../../../RENDERER/Renderer";
 import Konva from "konva";
-import { animateTo, animateScale, animationScaleSmooth, animatePartition } from "../HELPER_FUNCTION/animation.helper";
+import { animateTo, animateScale, animationScaleSmooth, animatePartition, type partionProps } from "../HELPER_FUNCTION/animation.helper";
 
 
 
@@ -81,51 +81,22 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
                 //finding pivot on the first array or the  main array
                 let pivot = await animateScale(props.boxesInfo, props.setBoxesInfo, setSinglePivot);
+
+
+                const partionProps: partionProps = {
+                    array: arrayNoPivot,
+                    pivot: pivot,
+                    refs: compareRefArray.current,
+                    centerX,
+                    duration
+
+                }
                 //pivot 1 going down
-                await animateTo(pivot1GroupRef.current, { y: 110 }, duration, { originX: 0, originY: 0 });
+                await animateTo(pivot1GroupRef.current, { y: 55 }, duration, { originX: 0, originY: 0 });
                 //pivot 1 going right
                 await animateTo(pivot1GroupRef.current, { x: centerX - 20 }, duration, { originY: 100 });
 
-                await animatePartition(arrayNoPivot, pivot, compareRefArray.current, centerX, duration);
-                //await animationScaleSmooth(props.boxesInfo[0].node!, 1.1, 0.7);
-                //await animationScaleSmooth(props.boxesInfo[0].node!, 1, 0.7);
-                //if (compare1Rect.number > pivot.number) {
-
-                //    await animateTo(compare1Ref.current, { y: 55 }, duration, { originX: 0, originY: 10 });
-                //    await animateTo(compare1Ref.current, { x: centerX + 300 }, duration, { originX: 0, originY: 0 });
-                //}
-                //else {
-
-                //    await animateTo(compare1Ref.current, { y: 55 }, duration, { originX: 0, originY: 10 });
-                //    await animateTo(compare1Ref.current, { x: centerX - 350 }, duration, { originX: 0, originY: 0 });
-                //}
-
-
-
-                //await animationScaleSmooth(props.boxesInfo[1].node!, 1.1, 0.7);
-                //await animationScaleSmooth(props.boxesInfo[1].node!, 1, 0.7);
-                //if (compare2Rect.number > pivot.number) {
-
-                //    //await animateTo(compare2Ref.current, { y: 55 }, duration, { originX: 0, originY: 10 });
-                //    //await animateTo(compare2Ref.current, { x: centerX + 250 }, duration, { originX: 0, originY: 0 });
-
-                //    
-
-                //}
-                //else {
-
-                //    //await animateTo(compare2Ref.current, { y: 55 }, duration, { originX: 0, originY: 10 });
-                //    //await animateTo(compare2Ref.current, { x: centerX - 300 }, duration, { originX: 0, originY: 0 });
-
-
-
-
-                //}
-
-
-
-
-
+                await animatePartition(partionProps);
 
 
                 props.setIsAnimating?.("done");

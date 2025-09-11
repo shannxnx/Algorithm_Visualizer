@@ -131,22 +131,38 @@ export async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) 
 
 };
 
-export async function animatePartition(array: rectInfo[], pivot: rectInfo, refs: (Konva.Group | null)[],
-    centerX: number, duration: number) {
+
+
+export interface partionProps {
+    array: rectInfo[],
+    pivot: rectInfo,
+    refs: (Konva.Group | null)[],
+    centerX: number,
+    duration: number,
+};
+
+
+
+
+//array: rectInfo[], pivot: rectInfo, refs: (Konva.Group | null)[],
+//   centerX: number, duration: number
+
+
+export async function animatePartition({ ...props }: partionProps) {
 
     let left: number = 0;
     let right: number = 0;
 
-    for (let i = 0; i < array.length; i++) {
-        const rect = array[i];
-        const ref = refs[i];
+    for (let i = 0; i < props.array.length; i++) {
+        const rect = props.array[i];
+        const ref = props.refs[i];
         if (!ref) continue;
 
         await animationScaleSmooth(rect.node!, 1.1, 0.7);
         await animationScaleSmooth(rect.node!, 1, 0.7);
 
 
-        if (rect.number > pivot.number) {
+        if (rect.number > props.pivot.number) {
             right++;
         } else {
             left++;
@@ -154,10 +170,10 @@ export async function animatePartition(array: rectInfo[], pivot: rectInfo, refs:
 
 
 
-        const xOffset = rect.number > pivot.number ? 350 - (right * 50) : -400 + (left * 50);
+        const xOffset = rect.number > props.pivot.number ? 340 - (right * 46) : -380 + (left * 46);
 
-        await animateTo(ref, { y: 55 }, duration, { originX: 0, originY: 10 });
-        await animateTo(ref, { x: centerX + xOffset }, duration, { originX: 0, originY: 0 });
+        await animateTo(ref, { y: 55 }, props.duration, { originX: 0, originY: 10 });
+        await animateTo(ref, { x: props.centerX + xOffset }, props.duration, { originX: 0, originY: 0 });
 
     }
 }
