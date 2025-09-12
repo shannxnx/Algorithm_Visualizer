@@ -43,28 +43,62 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
     const pivot1GroupRef = useRef<Konva.Group>(null);
 
     const [singlePivot, setSinglePivot] = useState<rectInfo>(exRect);
-    const [compare1Rect, setCompare1Rect] = useState<rectInfo>(exRect);
-    const [compare2Rect, setCompare2Rect] = useState<rectInfo>(exRect);
 
+    const [leftArray, setLeftArray] = useState<rectInfo[]>([]);
+    const [rightArray, setRightArray] = useState<rectInfo[]>([]);
 
-    const compare1Ref = useRef<Konva.Group>(null);
-    const compare2Ref = useRef<Konva.Group>(null);
     const compareRefArray = useRef<(Konva.Group | null)[]>([]);
-
+    const leftArrayRef = useRef<(Konva.Group | null)[]>([]);
+    const rightArrayRef = useRef<(Konva.Group | null)[]>([]);
 
 
     const [arrayNoPivot, setArrayNoPivot] = useState<rectInfo[]>(props.boxesInfo.slice(0, props.boxesInfo.length - 1));
-    console.log("Initial array no pivot: ", arrayNoPivot);
+    //console.log("Initial array no pivot: ", arrayNoPivot);
 
     const centerX = Math.floor((props.konvaWidth! / 2) - (props.boxesInfo[0].width / 2));
+
+
+
+    const partitionArray = (
+        array: rectInfo[],
+        setLeft: (array: rectInfo[]) => void,
+        setRight: (array: rectInfo[]) => void) => {
+
+        const pivot: rectInfo = array[array.length - 1];
+        const leftArray: rectInfo[] = [];
+        const rightArray: rectInfo[] = [];
+
+        for (let i = 0; i < array.length - 1; i++) {
+
+
+
+            const rect: rectInfo = { ...array[i], node: null };
+
+
+            if (array[i].number > pivot.number) {
+                rightArray.push(rect);
+            } else {
+                leftArray.push(rect);
+            }
+
+
+        };
+
+        setLeft(leftArray);
+        setRight(rightArray);
+
+
+    }
+
 
     useEffect(() => {
 
         const noPivot = props.boxesInfo.slice(0, props.boxesInfo.length - 1);
 
+        partitionArray(props.boxesInfo, setLeftArray, setRightArray);
+
         setArrayNoPivot(noPivot);
-        setCompare1Rect(noPivot[0]);
-        setCompare2Rect(noPivot[1]);
+
 
 
     }, [props.boxesInfo]);
@@ -114,6 +148,20 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
     //console.log("Compare2 : ", compare2Rect);
     //console.log("Array no Pivot: ", arrayNoPivot);
 
+    console.log("Left Array: ", leftArray);
+    console.log("Right Array: ", rightArray);
+
+
+    useEffect(() => {
+        if (props.isAnimating === "done") {
+            compareRefArray.current.map((node, i) => {
+                if (node) {
+                    const pos = node.position();
+                    console.log(`After animation rect[${i}] position: `, pos);
+                }
+            })
+        }
+    }, [props.isAnimating])
 
 
     return (<Stage width={props.konvaWidth} height={props.konvaHeight} className="w-full h-[95%] ">
@@ -132,6 +180,10 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
 
 
+            {
+                leftArray.map((rect, i) => <RectangleGroup rectInfo={rect} groupRef={(el) => { leftArrayRef.current[i] = el }}
+                    key={i} offsetX={-20} offsetY={200} />)
+            }
             {/*
                 <RectangleGroup rectInfo={compare1Rect} groupRef={compare1Ref} offsetX={-20} />
                 <RectangleGroup rectInfo={compare2Rect} groupRef={compare2Ref} offsetX={-20} />
