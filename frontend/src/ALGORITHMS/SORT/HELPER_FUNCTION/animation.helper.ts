@@ -174,10 +174,14 @@ export async function animatePartition({ ...props }: partionProps) {
 
 
 
-        const xOffset = rect.number > props.pivot.number ? 340 - (right * spacing) : -380 + (left * spacing);
+        const xOffset = rect.number > props.pivot.number
+            ? 340 - (right * spacing)
+            : -340 + (left * spacing);
 
-        await animateTo(ref, { y: 55 }, props.duration, { originX: 0, originY: 10 });
-        await animateTo(ref, { x: props.centerX + xOffset }, props.duration, { originX: 0, originY: 0 });
+        const destinationX = Math.round(props.centerX + xOffset);
+
+        await animateTo(ref, { y: 100 }, props.duration, { originX: -5, originY: 50 }); //original destination : 55
+        await animateTo(ref, { x: destinationX }, props.duration, { originX: 0, originY: 0 });
 
     }
 }

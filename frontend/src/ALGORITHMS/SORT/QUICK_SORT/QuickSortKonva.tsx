@@ -77,7 +77,10 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
 
     const [arrayNoPivot, setArrayNoPivot] = useState<rectInfo[]>(props.boxesInfo.slice(0, props.boxesInfo.length - 1));
+
     const [leftArrayNoPivot, setLeftArrayNoPivot] = useState<rectInfo[]>(leftArrayUpdated.slice(0, leftArrayUpdated.length - 1));
+    const [rightArrayNoPivot, setRightArrayNoPivot] = useState<rectInfo[]>(rightArrayUpdated.slice(0, rightArrayUpdated.length - 1));
+
     //console.log("Initial array no pivot: ", arrayNoPivot);
 
     const centerX = Math.floor((props.konvaWidth! / 2) - (props.boxesInfo[0].width / 2));
@@ -143,13 +146,12 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
 
             if (array[i].number > pivot.number) {
-                const xPosition = centerX + (340 - (rightLength * spacing));
+                const xPosition = (centerX + (340 - (rightLength * spacing)));
                 const rect: rectInfo = { ...array[i], node: null, x: xPosition };
                 rightArray.push(rect);
             } else {
-                const xPosition = centerX + (-380 + (leftLength * spacing));
+                const xPosition = (centerX + (-340 + (leftLength * spacing)));
                 const rect: rectInfo = { ...array[i], node: null, x: xPosition };
-
 
                 leftArray.push(rect);
             }
@@ -167,7 +169,7 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
         for (let i = 1; i <= leftLength; i++) {
 
-            const xPosition = centerX + (-380 + (i * spacing));
+            const xPosition = centerX + (-340 + (i * spacing));
             leftXpos.push(xPosition);
         }
 
@@ -188,12 +190,14 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
         const noPivot = props.boxesInfo.slice(0, props.boxesInfo.length - 1);
         const leftNoPivot = leftArrayUpdated.slice(0, leftArrayUpdated.length - 1);
+        const rightNoPivot = rightArrayUpdated.slice(0, rightArrayUpdated.length - 1);
 
         partitionArray(props.boxesInfo, setLeftArray, setRightArray);
         partitionArray(leftArrayUpdated, setLeftH1, setRightH1);
 
         setArrayNoPivot(noPivot);
         setLeftArrayNoPivot(leftNoPivot);
+        setRightArrayNoPivot(rightNoPivot);
 
         getLeftRightPositions(props.boxesInfo, props.boxesInfo[props.boxesInfo.length - 1]);
 
@@ -202,11 +206,7 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
     }, [props.boxesInfo]);
 
-    //console.log("RightXPos: ", rightXpos);
-    //console.log("LeftXPos: ", leftXpos);
-    //console.log("Left array: ", leftArray);
-    console.log("Left array(updated): ", leftArrayUpdated);
-    console.log("Left array no pivot: ", leftArrayNoPivot);
+
 
 
     useEffect(() => {
@@ -236,20 +236,21 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
                 //await animateTo(pivot1GroupRef.current, { y: 55 }, duration, { originX: 0, originY: 0 });
 
 
-                await animateTo(pivot1GroupRef.current, { y: 100 }, duration, { originX: 0, originY: 45 });
+                await animateTo(pivot1GroupRef.current, { y: 100 }, duration, { originX: 0, originY: 50 });
 
                 //pivot 1 going right
                 await animateTo(pivot1GroupRef.current, { x: centerX }, duration, { originY: 100 });
 
+                //partitioning the main array
                 await animatePartition(partionProps);
 
                 await Promise.all(
-                    leftXpos.map((pos, i) => animateTo(leftArrayRef.current[i], { y: 120 }, duration, { originY: 55 }))
+                    leftXpos.map((pos, i) => animateTo(leftArrayRef.current[i], { y: 150 }, duration, { originY: 100, originX: leftArrayUpdated[i].x }))
                 )
 
 
                 await Promise.all(
-                    rightXpos.map((pos, i) => animateTo(rightArrayRef.current[i], { y: 120 }, duration, { originY: 55 }))
+                    rightXpos.map((pos, i) => animateTo(rightArrayRef.current[i], { y: 150 }, duration, { originY: 100 }))
 
                 );
 
@@ -262,7 +263,9 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
                     refs: leftArrayRef.current,
                     centerX,
                     duration
-                }
+                };
+
+                let rightPivot = await animateScale(rightArrayUpdated, setRightArrayUpdated, setRightArrayPivot);
 
                 //await animatePartition(partionLeftH1);
 
@@ -290,7 +293,11 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
                 }
             })
         }
-    }, [props.isAnimating])
+    }, [props.isAnimating]);
+
+
+    console.log("Right array no PIVOT: ", rightArrayUpdated);
+    console.log("Left array no PIVOT: ", leftArrayUpdated);
 
 
 
@@ -301,12 +308,13 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
             {/*Main array to be sorted */}
             <RectangleRendererScale array={props.boxesInfo} offsetX={-20} offsetY={50} />
             {/*Selected Pivot*/}
-            <RectangleGroup rectInfo={singlePivot} groupRef={pivot1GroupRef} offsetX={-20} />
+            <RectangleGroup rectInfo={singlePivot} groupRef={pivot1GroupRef}
+                offsetX={props.boxesInfo.length > 6 ? -2 : 0} />
 
 
             {
                 arrayNoPivot.map((rect, i) => <RectangleGroup rectInfo={rect} groupRef={(el) => { compareRefArray.current[i] = el }} key={i}
-                    offsetX={-20} />)
+                    offsetX={props.boxesInfo.length > 6 ? -2 : 0} />)
             }
 
 
@@ -314,14 +322,17 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
                 leftArrayUpdated.map((rect, i) => <RectangleGroup rectInfo={rect} key={i} offsetX={0} offsetY={0}
                     groupRef={(el) => {
                         leftArrayRef.current[i] = el
-                        if (el) rect.node = el
+                        if (el) rect.node = el;
                     }}
                 />)
             }
 
             {
-                rightArrayUpdated.map((rect, i) => <RectangleGroup rectInfo={rect} groupRef={(el) => { rightArrayRef.current[i] = el }}
-                    key={i} offsetX={0} offsetY={0} />)
+                rightArrayUpdated.map((rect, i) => <RectangleGroup rectInfo={rect} key={i} offsetX={0} offsetY={0}
+                    groupRef={(el) => {
+                        rightArrayRef.current[i] = el;
+                        if (el) rect.node = el;
+                    }} />)
             }
 
 
