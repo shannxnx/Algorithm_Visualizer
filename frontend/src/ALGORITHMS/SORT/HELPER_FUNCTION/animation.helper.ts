@@ -154,7 +154,7 @@ export async function animatePartition({ ...props }: partionProps) {
     let right: number = 0;
     const rectWidth = props.array[0].width;
     const spacing = rectWidth === 40 ? 46 : 40;
-    console.log("Spacing: ", spacing);
+    //console.log("Spacing: ", spacing);
 
     for (let i = 0; i < props.array.length; i++) {
         const rect = props.array[i];
@@ -174,7 +174,7 @@ export async function animatePartition({ ...props }: partionProps) {
 
 
 
-        const xOffset = rect.number > props.pivot.number ? 340 - (right * spacing) : -380 + (left * spacing); //46 for medium
+        const xOffset = rect.number > props.pivot.number ? 340 - (right * spacing) : -380 + (left * spacing);
 
         await animateTo(ref, { y: 55 }, props.duration, { originX: 0, originY: 10 });
         await animateTo(ref, { x: props.centerX + xOffset }, props.duration, { originX: 0, originY: 0 });

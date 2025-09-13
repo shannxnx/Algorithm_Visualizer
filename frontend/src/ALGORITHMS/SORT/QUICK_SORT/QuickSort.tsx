@@ -50,21 +50,21 @@ export default function QuickSort() {
 
     const handleAdd = () => {
 
-        if (rectsArray.length < 7) {
+        if (rectsArray.length < 8) {
             setTask('add');
 
         }
     };
 
     const handleInsert = () => {
-        if (bounds.width >= 650 && rectsArray.length >= 7) {
+        if (bounds.width >= 650 && rectsArray.length >= 8) {
             return toast("Max array reached!");
         }
-        else if (bounds.width < 400 && rectsArray.length > 6) {
+        else if (bounds.width < 400 && rectsArray.length > 8) {
             return toast("Max array reached!");
         }
 
-        if (insertIndex <= rectsArray.length && rectsArray.length < 7) {
+        if (insertIndex <= rectsArray.length && rectsArray.length < 8) {
             setTask('insert');
         }
 

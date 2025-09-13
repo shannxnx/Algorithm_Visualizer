@@ -31,8 +31,17 @@ type singleGroupRectProps = {
     offsetY?: number,
     opacity?: number
 };
+
 export function RectangleGroup({ rectInfo, offsetX = 0, offsetY = 0, groupRef, opacity = 1 }: singleGroupRectProps) {
-    return <Group ref={groupRef} x={rectInfo.x + offsetX} y={rectInfo.y + offsetY}>
+    return <Group ref={groupRef}
+        x={rectInfo.x + offsetX + rectInfo.width / 2}
+        y={rectInfo.y + offsetY + rectInfo.height / 2}
+        scaleX={rectInfo.scaleX ?? 1}
+        scaleY={rectInfo.scaleY ?? 1}
+        offsetX={rectInfo.width / 2}
+        offsetY={rectInfo.height / 2}
+
+    >
 
         <Rect width={rectInfo.width} height={rectInfo.height} fill={rectInfo.color} cornerRadius={5} />
 
@@ -48,6 +57,33 @@ export function RectangleGroup({ rectInfo, offsetX = 0, offsetY = 0, groupRef, o
 
     </Group>
 }
+
+
+//-------------MAIN VERSION--------------------------
+//export function RectangleGroup({ rectInfo, offsetX = 0, offsetY = 0, groupRef, opacity = 1 }: singleGroupRectProps) {
+//    return <Group ref={groupRef}
+//        x={rectInfo.x + offsetX}
+//        y={rectInfo.y + offsetY}
+//        scaleX={rectInfo.scaleX ?? 1}
+//        scaleY={rectInfo.scaleY ?? 1}
+//        
+//        >
+//
+//        <Rect width={rectInfo.width} height={rectInfo.height} fill={rectInfo.color} cornerRadius={5} />
+//
+//        <Text
+//            text={`${rectInfo.number}`}
+//            width={rectInfo.width}
+//            height={rectInfo.height}
+//            align="center"
+//            verticalAlign="middle"
+//            fill="white"
+//            fontSize={20}
+//        />
+//
+//    </Group>
+//}
+
 
 
 
