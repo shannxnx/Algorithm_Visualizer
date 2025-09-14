@@ -137,8 +137,11 @@ export interface partionProps {
     array: rectInfo[],
     pivot: rectInfo,
     refs: (Konva.Group | null)[],
-    centerX: number,
     duration: number,
+    destinationY: number,
+    destinationX: number,
+    spacingLeft: number,
+    spacingRight: number
 };
 
 
@@ -156,6 +159,10 @@ export async function animatePartition({ ...props }: partionProps) {
     const spacing = rectWidth === 40 ? 46 : 40;
     //console.log("Spacing: ", spacing);
 
+
+
+    //console.log("Array length to be partioned: ", props.array.length);
+    console.log("Array to be partioned: ", props.array);
     for (let i = 0; i < props.array.length; i++) {
         const rect = props.array[i];
         const ref = props.refs[i];
@@ -175,13 +182,13 @@ export async function animatePartition({ ...props }: partionProps) {
 
 
         const xOffset = rect.number > props.pivot.number
-            ? 340 - (right * spacing)
-            : -340 + (left * spacing);
+            ? props.spacingRight - (right * spacing)
+            : -props.spacingLeft + (left * spacing);
 
-        const destinationX = Math.round(props.centerX + xOffset);
+        const finalDestinationX = Math.round(props.destinationX + xOffset);
 
-        await animateTo(ref, { y: 100 }, props.duration, { originX: -5, originY: 50 }); //original destination : 55
-        await animateTo(ref, { x: destinationX }, props.duration, { originX: 0, originY: 0 });
+        await animateTo(ref, { y: props.destinationY }, props.duration, { originX: -5, originY: 50 }); //original destination : 55
+        await animateTo(ref, { x: finalDestinationX }, props.duration, { originX: 0, originY: 0 });
 
     }
 }
