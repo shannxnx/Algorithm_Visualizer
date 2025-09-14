@@ -56,4 +56,14 @@ export const generateBoxesInfo = (count: number, bounds: RectReadOnly,
 };
 
 
+export function getArrayCenterX(array: rectInfo[]): number {
+    if (array.length === 0) return 0;
+    const first = array[0];
+    const last = array[array.length - 1];
+    const leftEdge = first.x;
+    const rightEdge = last.x + last.width;
+    return (leftEdge + rightEdge) / 2;
+
+}
+
 

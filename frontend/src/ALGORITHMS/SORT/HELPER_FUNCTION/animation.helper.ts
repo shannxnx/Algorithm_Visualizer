@@ -141,7 +141,9 @@ export interface partionProps {
     destinationY: number,
     destinationX: number,
     spacingLeft: number,
-    spacingRight: number
+    spacingRight: number,
+    originY?: number,
+    originX?: number
 };
 
 
@@ -187,7 +189,7 @@ export async function animatePartition({ ...props }: partionProps) {
 
         const finalDestinationX = Math.round(props.destinationX + xOffset);
 
-        await animateTo(ref, { y: props.destinationY }, props.duration, { originX: -5, originY: 50 }); //original destination : 55
+        await animateTo(ref, { y: props.destinationY }, props.duration, { originX: -5, originY: props.originY ? props.originY : 50 }); //original destination : 55
         await animateTo(ref, { x: finalDestinationX }, props.duration, { originX: 0, originY: 0 });
 
     }
