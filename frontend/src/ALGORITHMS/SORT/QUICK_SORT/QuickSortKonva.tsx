@@ -9,7 +9,7 @@ import {
     RectangleGroup
 } from "../../../RENDERER/Renderer";
 import Konva from "konva";
-import { animateTo, animateScale, animationScaleSmooth, animatePartition, type partionProps } from "../HELPER_FUNCTION/animation.helper";
+import { animateTo, animateScale, animationScaleSmooth, animatePartition, type partionProps, animatePartition2, animatePartition3 } from "../HELPER_FUNCTION/animation.helper";
 import type { Vector2d } from "konva/lib/types";
 import { getArrayCenterX } from "../HELPER_FUNCTION/helpter";
 
@@ -326,7 +326,7 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
 
                 await Promise.all(
-                    rightXpos.map((pos, i) => animateTo(rightArrayRef.current[i], { y: 150 }, duration, { originY: 100 }))
+                    rightXpos.map((pos, i) => animateTo(rightArrayRef.current[i], { y: 200 }, duration, { originY: 100 }))
 
                 );
 
@@ -335,60 +335,54 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
                 console.log("---------------------------------------------");
                 console.log("leftArrayNoPivot in Props: ", leftArrayNoPivot);
-                console.log("---------------------------------------------  ")
+                console.log("---------------------------------------------")
 
 
                 //this is for when all rects are less than the pivot!
+                const middleLeft = Math.floor(compareRefArray.current.length / 2);
                 const partionLeftH1: partionProps = {
-                    array: leftArrayNoPivot,
+                    array: leftArrayUpdated,
                     pivot: leftPivot,
                     refs: leftArrayRef.current,
                     duration,
                     destinationY: 150,
-                    destinationX: centerX,
-                    spacingLeft: 280,
-                    spacingRight: 120,
-                    originY: 200
+                    destinationX: 200,
+                    spacingLeft: 20,
+                    spacingRight: 20,
+                    originY: 200,
+                    pivotDestinationX: 250,
+                    pivotDestinationY: 150,
+                    fromWhere: "Right",
+                    spacing: 10
                 };
 
+
+
                 let rightPivot = await animateScale(rightArrayUpdated, setRightArrayUpdated, setRightArrayPivot);
-                const leftCenterX = getArrayCenterX(leftArrayNoPivot);
-                console.log("LeftCenterX : ", leftCenterX);
-
-
-                //right array pivot going down
-                await animateTo(rightArrayPivotRef.current, { y: 200 }, duration, { originX: 0, originY: 150 });
-
-                //left array pivot going down {y : 200}
-                //left array pivot going up {y : 150}
-                await animateTo(leftArrayPivotRef.current, { y: 150 }, duration, { originX: 0, originY: 200 });
-
-                //left array pivot going right
-                const middleLeft = Math.floor(compareRefArray.current.length / 2);
-
-
-                await animateTo(leftArrayPivotRef.current, { x: compareRefArray.current[middleLeft]!.x() }, duration, { originX: 0, originY: 150 })
-
 
                 if (leftArrayNoPivot.length >= 1) {
-                    await animatePartition(partionLeftH1);
+                    await animatePartition3(partionLeftH1);
                 }
 
                 const partionRightH1: partionProps = {
-                    array: rightArrayNoPivot,
+                    array: rightArrayUpdated,
                     pivot: rightPivot,
                     refs: rightArrayRef.current,
                     duration,
-                    destinationY: 200,
-                    destinationX: centerX,
-                    spacingLeft: 100,
-                    spacingRight: 70,
-                    originY: 200
+                    destinationY: 150,
+                    destinationX: 200,
+                    spacingLeft: 20,
+                    spacingRight: 20,
+                    originY: 200,
+                    pivotDestinationX: 250,
+                    pivotDestinationY: 150,
+                    fromWhere: "Left",
+                    spacing: 10
                 };
 
-                //if (rightArrayNoPivot.length >= 1) {
-                //    await animatePartition(partionRightH1)
-                //}
+                if (rightArrayNoPivot.length >= 1) {
+                    await animatePartition3(partionRightH1)
+                }
 
 
 
@@ -402,23 +396,23 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
 
     //this is for debug only i think just to show me the absolute position of each rect node.
-    useEffect(() => {
+    //useEffect(() => {
 
-        if (props.isAnimating === "done") {
-
-
-            compareRefArray.current.map((node, i) => {
-                if (node) {
-                    const pos = node.position();
-                    console.log(`After animation rect[${i}] position: `, pos);
-                }
-            })
-        }
-    }, [props.isAnimating]);
+    //    if (props.isAnimating === "done") {
 
 
+    //        compareRefArray.current.map((node, i) => {
+    //            if (node) {
+    //                const pos = node.position();
+    //                console.log(`After animation rect[${i}] position: `, pos);
+    //            }
+    //        })
+    //    }
+    //}, [props.isAnimating]);
 
 
+
+    //console.log("Left array: ", leftArrayUpdated);
 
     return (<Stage width={props.konvaWidth} height={props.konvaHeight} className="w-full h-[95%] ">
         <Layer>
