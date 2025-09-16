@@ -180,8 +180,8 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
         };
 
 
-        let distanceLeft = leftLength > 4 ? 290 : 340;
-        let distanceRight = rightLength > 4 ? 290 : 340;
+        let distanceLeft = leftLength > 4 ? 290 : 300; //og 340
+        let distanceRight = rightLength > 4 ? 290 : 300; //340
 
 
 
@@ -265,8 +265,18 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
     }, [props.boxesInfo]);
 
 
-    //console.log("Main array no PIVOT: ", arrayNoPivot);
-    //console.log("Left array no PIVOT: ", leftArrayNoPivot);
+
+
+    const minRightX = Math.min(...rightArrayUpdated.map((r) => r.x));
+    const maxRightX = Math.max(...rightArrayUpdated.map((r) => r.x));
+    const rightCenterX = (minRightX + maxRightX) / 2;
+
+    const minLeftX = Math.min(...leftArrayUpdated.map((r) => r.x));
+    const maxLeftX = Math.max(...leftArrayUpdated.map((r) => r.x));
+
+    const leftCenterX = (minLeftX + maxLeftX) / 2;
+
+    console.log("RightArrayUpdated: ", rightArrayUpdated);
 
     useEffect(() => {
         if (props.isAnimating === "animating") {
@@ -286,8 +296,8 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
                     duration,
                     destinationY: 100,
                     destinationX: centerX,
-                    spacingLeft: leftArrayNoPivot.length >= 4 ? 290 : 340,                    //og value 340
-                    spacingRight: rightArrayNoPivot.length >= 4 ? 290 : 340                    //og value 340
+                    spacingLeft: leftArrayNoPivot.length >= 4 ? 290 : 300,                    //og value 340
+                    spacingRight: rightArrayNoPivot.length >= 4 ? 290 : 300                    //og value 340
                 };
                 //pivot 1 going down
                 //await animateTo(pivot1GroupRef.current, { y: 55 }, duration, { originX: 0, originY: 0 });
@@ -339,7 +349,7 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
 
                 //this is for when all rects are less than the pivot!
-                const middleLeft = Math.floor(compareRefArray.current.length / 2);
+
                 const partionLeftH1: partionProps = {
                     array: leftArrayUpdated,
                     pivot: leftPivot,
@@ -350,7 +360,7 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
                     spacingLeft: 20,
                     spacingRight: 20,
                     originY: 200,
-                    pivotDestinationX: 250,
+                    pivotDestinationX: leftCenterX,
                     pivotDestinationY: 150,
                     fromWhere: "Right",
                     spacing: 10
@@ -359,6 +369,9 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
 
                 let rightPivot = await animateScale(rightArrayUpdated, setRightArrayUpdated, setRightArrayPivot);
+
+                console.log("RightArrayX[0]: ", rightArrayUpdated[0]?.x);
+                console.log("RghtArrayX[last]: ", rightArrayUpdated[rightArrayUpdated.length - 1]?.x);
 
                 if (leftArrayNoPivot.length >= 1) {
                     await animatePartition3(partionLeftH1);
@@ -374,7 +387,7 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
                     spacingLeft: 20,
                     spacingRight: 20,
                     originY: 200,
-                    pivotDestinationX: 250,
+                    pivotDestinationX: rightArrayUpdated.length > 1 ? rightCenterX : rightArrayUpdated[0].x,
                     pivotDestinationY: 150,
                     fromWhere: "Left",
                     spacing: 10

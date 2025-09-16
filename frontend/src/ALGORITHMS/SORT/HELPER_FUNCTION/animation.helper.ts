@@ -372,6 +372,7 @@ export async function animatePartition3({ ...props }: partionProps) {
     switch (props.fromWhere) {
         case "Left":
             let pivotOccurence1: boolean = false;
+            console.log("Props rightArray: ", props.array);
             for (let i = props.array.length - 1; i >= 0; i--) {
                 const rect = props.array[i];
                 const ref = props.refs[i];
@@ -401,17 +402,17 @@ export async function animatePartition3({ ...props }: partionProps) {
                 if (rect.number > props.pivot.number) {
                     right++;
                     xOffset = (props.pivotDestinationX! + (right * spacing)) + props.spacingRight;
-                    console.log("Left OffsetX: ", xOffset);
+
                 }
 
                 else if (rect.number <= props.pivot.number) {
                     left++;
                     xOffset = (props.pivotDestinationX! - (left * spacing)) - props.spacingLeft;
-                    console.log("Left OffsetX: ", xOffset);
+
                 }
 
                 const finalDestinationX = Math.round(xOffset);
-                console.log("FinalDestinationX: ", finalDestinationX);
+
 
                 await animateTo(ref, { y: props.destinationY }, props.duration, {
                     originX: -5,
@@ -426,6 +427,7 @@ export async function animatePartition3({ ...props }: partionProps) {
 
         case "Right":
             let pivotOccurence2: boolean = false;
+            console.log("Props LeftArray: ", props.array);
             for (let i = props.array.length - 1; i >= 0; i--) {
                 const rect = props.array[i];
                 const ref = props.refs[i];
@@ -455,16 +457,16 @@ export async function animatePartition3({ ...props }: partionProps) {
                 if (rect.number > props.pivot.number) {
                     right++;
                     xOffset = (props.pivotDestinationX! + right * spacing) + props.spacingRight;
-                    console.log("Hello right");
+
 
                 } else if (rect.number <= props.pivot.number) {
                     left++;
                     xOffset = props.pivotDestinationX! - (left * spacing) - props.spacingLeft;
-                    console.log("Hello left");
+
                 }
 
                 const finalDestinationX = Math.round(xOffset);
-                console.log("FinalDestinationX: ", finalDestinationX);
+
 
                 await animateTo(ref, { y: props.destinationY }, props.duration, {
                     originX: -5,

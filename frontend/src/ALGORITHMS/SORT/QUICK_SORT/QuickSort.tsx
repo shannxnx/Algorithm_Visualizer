@@ -158,7 +158,7 @@ export default function QuickSort() {
                         height: rectWidth,
                         x: 0,
                         y: -45,
-                        number: Math.floor(Math.random() * 10),
+                        number: Math.floor(Math.random() * 100),
                         id: rectArrayLen,
                         color: "blue"                         //colors[rectArrayLen % colors.length]
                     };
