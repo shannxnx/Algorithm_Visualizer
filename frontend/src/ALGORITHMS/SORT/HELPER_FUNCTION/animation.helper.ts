@@ -369,10 +369,33 @@ export async function animatePartition3({ ...props }: partionProps) {
     const rectWidth = props.array[0].width;
     const spacing = rectWidth === 40 ? 46 : 40;
 
+    if (props.array.length === 1) {
+        const rect = props.array[0];
+        const ref = props.refs[0];
+        if (ref) {
+            // pulse animation (keep consistency)
+            await animationScaleSmooth(rect.node!, 1.1, 0.7);
+            await animationScaleSmooth(rect.node!, 1, 0.7);
+
+            await animateTo(ref, { y: props.pivotDestinationY }, props.duration, {
+                originX: -5,
+                originY: props.originY ?? 50,
+            });
+            await animateTo(ref, { x: props.pivotDestinationX ?? rect.x }, props.duration, {
+                originX: 0,
+                originY: 0,
+            });
+        }
+        return;
+    }
+
+
     switch (props.fromWhere) {
         case "Left":
             let pivotOccurence1: boolean = false;
             console.log("Props rightArray: ", props.array);
+
+
             for (let i = props.array.length - 1; i >= 0; i--) {
                 const rect = props.array[i];
                 const ref = props.refs[i];
