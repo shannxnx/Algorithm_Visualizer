@@ -226,7 +226,7 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
             for (let i = 0; i < props.boxesInfo.length - 1; i++) {
                 const rect: rectInfo = { ...props.boxesInfo[i], node: null };
-                if (pivot.number > rect.number) {
+                if (pivot.number > rect.number || pivot.number === rect.number) {
                     leftArrayV1.push(rect)
                 } else {
                     rightArrayV1.push(rect);
@@ -256,24 +256,53 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
         getLeftRightPositions(props.boxesInfo, props.boxesInfo[props.boxesInfo.length - 1]);
 
         //testing GROUND
-        const lH1: rectInfo[] = [];
-        const lH2: rectInfo[] = [];
-        const leftPvt: number = leftNoPivot.length || 0;
+        //fix this tom (fixing now)
 
+        const { lH1, lH2 } = (() => {
+            // pivot = last element of leftNoPivot
+            const pivot = leftArray[leftArray.length - 1];
+            const lH1Raw: rectInfo[] = [];
+            const lH2Raw: rectInfo[] = [];
 
-        for (let i = 0; i < leftNoPivot.length; i++) {
-            const rect: rectInfo = { ...leftNoPivot[i], node: null };
-            console.log("PivotH's: ", leftNoPivot[leftPvt]?.number);
-            if (rect.number > leftNoPivot[leftPvt]?.number) {
-                lH2.push(rect);
-            } else {
-                lH1.push(rect);
+            let pivotFirstOccurence: boolean = true;
+            for (let i = 0; i < leftArray.length; i++) {
+                const rect: rectInfo = { ...leftArray[i], node: null };
+                if (rect.number === pivot.number && pivotFirstOccurence === true) {
+                    pivotFirstOccurence = false;
+                    continue;
+                }
+
+                if (rect.number < pivot.number || rect.number === pivot.number && pivotFirstOccurence === false) {
+                    lH1Raw.push(rect);
+                }
+                else if (rect.number > pivot.number) {
+                    lH2Raw.push(rect);
+                }
             }
-        };
 
+            // if you want to also attach refs, just like your reference code
+            const lH1: rectInfo[] = lH1Raw.map((rect, i) => ({
+                ...rect,
+                node: leftH1Ref.current[i]
+            }));
+
+            const lH2: rectInfo[] = lH2Raw.map((rect, i) => ({
+                ...rect,
+                node: leftH2Ref.current[i]
+            }));
+
+            return { lH1, lH2 };
+        })();
+
+        console.log("LH1: ", lH1);
+        console.log("LH2: ", lH2);
 
         setLeftH1(lH1);
         setLeftH2(lH2);
+
+
+
+
 
 
 
@@ -366,9 +395,9 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
                 let leftPivot = await animateScale(leftArrayUpdated, setLeftArrayUpdated, setLeftArrayPivot);
 
-                console.log("---------------------------------------------");
-                console.log("leftArrayNoPivot in Props: ", leftArrayNoPivot);
-                console.log("---------------------------------------------")
+                //console.log("---------------------------------------------");
+                //console.log("leftArrayNoPivot in Props: ", leftArrayNoPivot);
+                //console.log("---------------------------------------------")
 
 
                 //this is for when all rects are less than the pivot!
@@ -383,7 +412,7 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
                     spacingLeft: 10,
                     spacingRight: 10,
                     originY: 200,
-                    pivotDestinationX: leftCenterX,
+                    pivotDestinationX: leftH1.length < 5 ? leftCenterX : leftCenterX + 50,
                     pivotDestinationY: 150,
                     fromWhere: "Right",
                     spacing: 10
@@ -409,7 +438,7 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
                     spacingLeft: 10,
                     spacingRight: 10,
                     originY: 200,
-                    pivotDestinationX: rightArrayUpdated.length > 1 ? rightCenterX : rightArrayUpdated[0]?.x,
+                    pivotDestinationX: rightH1.length < 5 ? rightCenterX : rightCenterX + 50,
                     pivotDestinationY: 150,
                     fromWhere: "Left",
                     spacing: 10
@@ -417,7 +446,27 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
                 if (rightArrayUpdated.length >= 1) {
                     await animatePartition3(partionRight)
-                }
+                };
+
+
+
+                const partionLeftH1: partionProps = {
+                    array: leftH1,
+                    pivot: leftH1[leftH1.length - 1],
+                    refs: leftH1Ref.current,
+                    duration,
+                    destinationY: 250,
+                    destinationX: 200,
+                    spacingLeft: 10,
+                    spacingRight: 10,
+                    originY: 200,
+                    pivotDestinationX: leftH1.length < 5 ? leftCenterX : leftCenterX + 50,
+                    pivotDestinationY: 150,
+                    fromWhere: "Right",
+                    spacing: 10
+                };
+
+                await animatePartition3(partionLeftH1)
 
 
 
@@ -478,6 +527,14 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
                 rightArrayUpdated.map((rect, i) => <RectangleGroup rectInfo={rect} key={i} offsetX={0} offsetY={0}
                     groupRef={(el) => {
                         rightArrayRef.current[i] = el;
+                        if (el) rect.node = el;
+                    }} />)
+            }
+
+            {
+                leftH1.map((rect, i) => <RectangleGroup rectInfo={rect} key={i} offsetX={0} offsetY={0}
+                    groupRef={(el) => {
+                        leftH1Ref.current[i] = el;
                         if (el) rect.node = el;
                     }} />)
             }
