@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, BetweenVerticalStart, Delete, Play, Plus, Scissors, Shuffle } from "lucide-react";
+import React from "react";
 import type { rectInfo } from "../../INTERFACES && TYPES/sortInterface";
 
 
@@ -39,7 +40,7 @@ type ButtonV1Props = {
 }
 
 
-export default function ButtonV1({ showButton, actions, states }: ButtonV1Props) {
+function ButtonV1({ showButton, actions, states }: ButtonV1Props) {
 
 
     //console.log("Array length (ButtonV1): ", states?.arrayLength);
@@ -208,3 +209,5 @@ export default function ButtonV1({ showButton, actions, states }: ButtonV1Props)
 }
 
 
+
+export default React.memo(ButtonV1);

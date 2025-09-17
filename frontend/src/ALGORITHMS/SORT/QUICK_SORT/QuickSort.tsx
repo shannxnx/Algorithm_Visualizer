@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit, animation } from "../../../INTERFACES && TYPES/sortInterface";
@@ -48,15 +48,15 @@ export default function QuickSort() {
 
     const [rectsArray, setRectsArray] = useState<rectInfo[]>([]);
 
-    const handleAdd = () => {
 
+
+    const handleAdd = useCallback(() => {
         if (rectsArray.length < 8) {
             setTask('add');
-
         }
-    };
+    }, [rectsArray.length])
 
-    const handleInsert = () => {
+    const handleInsert = useCallback(() => {
         if (bounds.width >= 650 && rectsArray.length >= 8) {
             return toast("Max array reached!");
         }
@@ -68,29 +68,30 @@ export default function QuickSort() {
             setTask('insert');
         }
 
-    };
+    }, [bounds.width, rectsArray.length, insertIndex]);
 
-    const handlePop = () => {
+
+    const handlePop = useCallback(() => {
         if (rectsArray.length > 3) {
             setTask('pop');
 
         } else {
             return toast("Minimum 3 rectangles! ")
         }
-    };
+    }, [rectsArray.length]);
 
-    const handleRemoveIndex = () => {
+    const handleRemoveIndex = useCallback(() => {
         if (rectsArray.length > 3 && removeIndex < rectsArray.length) {
             setTask("removeIndex");
         }
-    }
+    }, [rectsArray.length, removeIndex])
 
-    const handleNewBoxes = () => {
+    const handleNewBoxes = useCallback(() => {
         setRectsArray(generateBoxesInfo(rectsArray.length, bounds, { desktop: desktopSize }));
         setIsAnimating("idle");
         toast("clicked new boxes");
 
-    };
+    }, [rectsArray.length, bounds]);
 
 
     useEffect(() => {

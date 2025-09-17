@@ -323,12 +323,19 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
     const leftCenterX = (minLeftX + maxLeftX) / 2;
 
-    //console.log("RightArrayUpdated: ", rightArrayUpdated);
-    console.log("Right Array no Pivot: ", rightArrayNoPivot);
-    console.log("Left Array no Pivot: ", leftArrayNoPivot);
 
-    console.log("LeftH1: ", leftH1);
-    console.log("LeftH2: ", leftH2);
+    const minLeftH1X = Math.min(...leftH1.map((r) => r.x));
+    const maxLeftH1X = Math.max(...leftH1.map((r) => r.x));
+
+    const leftH1CenterX = (minLeftH1X + maxLeftH1X) / 2;
+
+
+    //console.log("RightArrayUpdated: ", rightArrayUpdated);
+    //console.log("Right Array no Pivot: ", rightArrayNoPivot);
+    //console.log("Left Array no Pivot: ", leftArrayNoPivot);
+
+    //console.log("LeftH1: ", leftH1);
+    //console.log("LeftH2: ", leftH2);
 
     useEffect(() => {
         if (props.isAnimating === "animating") {
@@ -460,8 +467,8 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
                     spacingLeft: 10,
                     spacingRight: 10,
                     originY: 200,
-                    pivotDestinationX: leftH1.length < 5 ? leftCenterX : leftCenterX + 50,
-                    pivotDestinationY: 150,
+                    pivotDestinationX: leftH1.length < 5 ? leftH1CenterX : leftH1CenterX + 50,
+                    pivotDestinationY: 200,
                     fromWhere: "Right",
                     spacing: 10
                 };
@@ -496,7 +503,7 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
 
 
-
+    console.log("Main array: ", props.boxesInfo);
 
     return (<Stage width={props.konvaWidth} height={props.konvaHeight} className="w-full h-[95%] ">
         <Layer>
