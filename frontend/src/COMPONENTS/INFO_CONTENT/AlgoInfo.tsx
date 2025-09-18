@@ -1,6 +1,6 @@
 import { ArrowRight, Check, Edit } from "lucide-react"
 import { Editor } from "@monaco-editor/react"
-import { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { authStore } from "../../STATE/authStore";
 import { algoStore } from "../../STATE/algoStore";
 import { sortStore } from "../../STATE/sortingStore";
@@ -16,6 +16,27 @@ type props = {
     editAlgoInfo: (data: any) => void
 }
 
+
+
+interface buttonProps {
+    setCurrent: (lang: string) => void,
+    language: string,
+    currLanguage: string,
+    languageId: string,
+
+};
+
+
+const LanguageButton = React.memo(({ setCurrent, language, currLanguage, languageId }: buttonProps) => {
+
+    return <button className={`border  px-1 p-2 ${language === "JavaScript" ? 'w-[80px]' : 'w-[70px]'} cursor-pointer text-black 
+            ${currLanguage === `${languageId}` ? "bg-green-400" : "bg-white"}`}
+        onClick={() => setCurrent(`${languageId}`)}>
+
+        {language}
+
+    </button>
+})
 
 export default function AlgoInfo({ algoInfo }: { algoInfo: props, }) {
 
@@ -34,15 +55,15 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props, }) {
     }, [currLanguage, algoInfo.codes]);
 
 
-    //console.log("code: ", code);
-    console.log("Curr lang: ", currLanguage);
+
+    //  console.log("Curr lang: ", currLanguage);
 
 
 
 
-    const handleChangeLang = (lang: string) => {
+    const handleChangeLang = useCallback((lang: string) => {
         setCurrLanguage(lang);
-    };
+    }, [currLanguage]);
 
     const handleCodeChange = (newCode: string | undefined) => {
         if (newCode !== undefined) {
@@ -111,41 +132,28 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props, }) {
                     }} />
 
 
-
-
             </div>
         }
 
 
         <div className="w-[90%] h-[45px] flex items-center gap-[2px] border-black">
 
-            <button className={`border border-black px-1 p-2 w-[70px] cursor-pointer text-black `}
-                onClick={() => handleChangeLang('cpp')}>
-                C++
-            </button>
+            <LanguageButton language="C++" setCurrent={handleChangeLang} currLanguage={currLanguage} languageId="cpp" />
 
-            <button className={`border border-black px-1 p-2 w-[70px] cursor-pointer text-black`}
-                onClick={() => handleChangeLang('c')}>C</button>
+            <LanguageButton language="C" setCurrent={handleChangeLang} currLanguage={currLanguage} languageId="c" />
 
-            <button className={`border border-black px-1 p-2 w-[70px] cursor-pointer text-black`}
-                onClick={() => handleChangeLang('java')}>Java</button>
+            <LanguageButton language="Java" setCurrent={handleChangeLang} currLanguage={currLanguage} languageId="java" />
 
-            <button className={`border border-black px-1 p-2 w-[80px] cursor-pointer text-black`}
-                onClick={() => handleChangeLang('javascript')}>JavaScript</button>
+            <LanguageButton language="JavaScript" setCurrent={handleChangeLang} currLanguage={currLanguage} languageId="javascript" />
 
-            <button className={`border border-black px-1 p-2 w-[70px] cursor-pointer text-black`}
-                onClick={() => handleChangeLang('python')}>Python</button>
+            <LanguageButton language="Python" setCurrent={handleChangeLang} currLanguage={currLanguage} languageId="python" />
 
-            <button className={`border border-black px-1 p-2 w-[70px] cursor-pointer text-black`}
-                onClick={() => handleChangeLang('php')}>PHP</button>
+            <LanguageButton language="Php" setCurrent={handleChangeLang} currLanguage={currLanguage} languageId="php" />
 
-            <button className={`border border-black px-1 p-2 w-[70px] cursor-pointer text-black`}
-                onClick={() => handleChangeLang('csharp')}>C#</button>
+            <LanguageButton language="C#" setCurrent={handleChangeLang} currLanguage={currLanguage} languageId="csharp" />
+
+
         </div>
-
-
-
-
 
 
         <div className="w-[90%] h-[25%] mt-2 border-1 flex p-2 overflow-y-scroll border-black

@@ -147,31 +147,21 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
 
         for (let i = 0; i < array.length - 1; i++) {
-
-
-
             if (array[i].number > pivot.number) {
                 rightLength++;
             } else {
                 leftLength++;
             };
-
-
             if (array[i].number > pivot.number) {
                 //---------------------ORIGINAL VALUE------------------
                 //const xPosition = (centerX + (340 - (rightLength * spacing)));
                 //const rect: rectInfo = { ...array[i], node: null, x: xPosition };
                 const rect: rectInfo = { ...array[i], node: null };
                 rightArray.push(rect);
-
-
             } else {
-
                 //---------------------ORIGINAL VALUE------------------
                 //const xPosition = (centerX + (-340 + (leftLength * spacing)));
                 //const rect: rectInfo = { ...array[i], node: null, x: xPosition };
-
-
                 const rect: rectInfo = { ...array[i], node: null };
                 leftArray.push(rect);
 
@@ -473,8 +463,9 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
                     spacing: 10
                 };
 
-                await animatePartition3(partionLeftH1)
-
+                if (leftH1.length >= 1) {
+                    await animatePartition3(partionLeftH1)
+                }
 
 
                 props.setIsAnimating?.("done");
