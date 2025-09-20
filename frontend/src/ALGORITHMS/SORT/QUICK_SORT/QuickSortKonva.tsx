@@ -131,7 +131,7 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
 
 
 
-    function getLeftRightPositions(array: rectInfo[], pivot: rectInfo) {
+    function getLeftRightPositions(array: rectInfo[], pivot: rectInfo): { left: rectInfo[], right: rectInfo[] } {
 
         let leftLength = 0;
         let rightLength = 0;
@@ -194,9 +194,16 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
         const updatedLA: rectInfo[] = leftArray.map((rect, i) => ({ ...rect, x: leftXpos[i] }));
         const updatedRA: rectInfo[] = rightArray.map((rect, i) => ({ ...rect, x: rightXpos[i] }));
 
+        const retThis = {
+            left: updatedLA,
+            right: updatedRA
+        };
+
+
         setLeftArrayUpdated(updatedLA);
         setRightArrayUpdated(updatedRA);
 
+        return retThis;
 
     }
 
