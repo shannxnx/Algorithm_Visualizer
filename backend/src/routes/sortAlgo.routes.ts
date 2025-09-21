@@ -4,7 +4,7 @@ import {
     postQuickSort,
     postSortAlgorithm
 } from "../controllers/sortAlgo.controllers";
-import { protectRoute } from "../middleware/protectRoute";
+import { protectRoute } from "../middleware/protect.route";
 
 
 const router = express.Router();

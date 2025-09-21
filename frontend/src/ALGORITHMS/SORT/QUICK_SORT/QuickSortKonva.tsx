@@ -200,8 +200,8 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
         };
 
 
-        setLeftArrayUpdated(updatedLA);
-        setRightArrayUpdated(updatedRA);
+        //setLeftArrayUpdated(updatedLA);
+        //setRightArrayUpdated(updatedRA);
 
         return retThis;
 
@@ -250,7 +250,12 @@ export const QuickSortKonva: React.FC<QuickSortProps> = ({ props }) => {
         setLeftArrayNoPivot(leftNoPivot);
         setRightArrayNoPivot(rightNoPivot);
 
-        getLeftRightPositions(props.boxesInfo, props.boxesInfo[props.boxesInfo.length - 1]);
+
+
+
+        const { left: leftUpdated, right: rightUpdated } = getLeftRightPositions(props.boxesInfo, props.boxesInfo[props.boxesInfo.length - 1]);
+        setLeftArrayUpdated(leftUpdated);
+        setRightArrayUpdated(rightUpdated);
 
         //testing GROUND
         //fix this tom (fixing now)
