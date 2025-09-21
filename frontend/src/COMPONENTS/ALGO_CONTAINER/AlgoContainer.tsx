@@ -4,7 +4,7 @@ import { algoStore } from "../../STATE/algoStore";
 import { sortingArray, searchingArray, graphAlgoArray, backtrackingArray } from "../../LIB/algoDummyDB";
 import { authStore } from "../../STATE/authStore";
 import { useEffect } from "react";
-
+import { motion } from "framer-motion";
 
 
 
@@ -70,9 +70,10 @@ export default function AlgoContainer({ myRef }: Props) {
 
         <h1 className="text-3xl mt-10 mb-10 text-black">ALGORITHMS</h1>
 
-        <div className="w-screen grid lg:grid-cols-3 lg:grid-rows-2 p-4 
-        place-items-center gap-y-5 grid-cols-1 grid-rows-4 overflow-x-hidden  border-black"
-            style={{ scrollbarWidth: "none" }}>
+        <motion.div className="w-screen grid lg:grid-cols-3 lg:grid-rows-2 p-4 
+        place-items-center gap-y-5 grid-cols-1 grid-rows-4 overflow-x-hidden "
+
+        >
 
 
             {
@@ -82,7 +83,7 @@ export default function AlgoContainer({ myRef }: Props) {
 
 
 
-        </div>
+        </motion.div>
     </div>
 
 

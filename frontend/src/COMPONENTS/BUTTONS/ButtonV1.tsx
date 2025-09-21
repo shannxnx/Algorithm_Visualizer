@@ -46,7 +46,7 @@ function ButtonV1({ showButton, actions, states }: ButtonV1Props) {
     //console.log("Array length (ButtonV1): ", states?.arrayLength);
 
 
-    return <div className="w-[95%] lg:h-[120px] h-[15%] flex items-center rounded mb-3 border-black border">
+    return <div className="w-[95%] lg:h-[120px] h-[15%] flex items-center rounded mb-3 border-black border dark:border-black">
         <div className="h-full w-full flex justify-end">
 
             <AnimatePresence>
@@ -61,26 +61,39 @@ function ButtonV1({ showButton, actions, states }: ButtonV1Props) {
                     >
 
                         {/* (Add / Pop / New + Animate) */}
-                        <div className="lg:w-[40%] w-[45%] h-full">
+                        <div className="lg:w-[40%] w-[45%] h-full dark:border-black" >
                             {/* Add / Pop / New */}
-                            <div className="w-full h-1/2 border-r flex justify-center items-center">
-                                <div className="w-[90%] gap-1 h-[70%] flex justify-center items-center">
+                            <div className="w-full h-1/2 border-r flex justify-center items-center dark:border-black">
+                                <div className="w-[90%] gap-1 h-[70%] flex justify-center items-center dark:border-black">
 
-                                    <button className="w-[33%] border lg:h-full h-[80%] rounded cursor-pointer 
+                                    <button className={`w-[33%] border lg:h-full h-[80%] rounded cursor-pointer 
                                     hover:scale-105 duration-150 active:scale-100 text-[0px] lg:text-[16px] 
-                                    flex justify-center items-center"
+                                    flex justify-center items-center 
+                                    ${states?.isAnimating === 'done' ||
+                                            states?.isAnimating === 'animating'
+                                            ? "dark:text-gray-300 text-gray-300"
+                                            : "dark:text-black text-black"}`
+                                    }
+
                                         disabled={
                                             states?.isAnimating === "animating" ||
                                                 states?.isAnimating === "done" ? true : false
                                         }
-                                        onClick={actions?.add}>
+                                        onClick={actions?.add}
+                                    >
                                         <Plus /> Add
+
                                     </button>
 
-                                    <button className="w-[33%] border 
+                                    <button className={`w-[33%] border 
                                     lg:h-full h-[80%] rounded cursor-pointer 
                                     hover:scale-105 duration-150 active:scale-100 text-[0px] 
-                                    lg:text-[16px] flex justify-center items-center"
+                                    lg:text-[16px] flex justify-center items-center 
+                                    ${states?.isAnimating === 'done' ||
+                                            states?.isAnimating === 'animating'
+                                            ? "dark:text-gray-300 text-gray-300"
+                                            : "dark:text-black text-black"}
+                                    `}
                                         onClick={actions?.pop}
                                         disabled={
                                             states?.isAnimating === "animating" ||
@@ -90,10 +103,14 @@ function ButtonV1({ showButton, actions, states }: ButtonV1Props) {
                                         <Delete /> Pop
                                     </button>
 
-                                    <button className="w-[33%] border lg:h-full 
+                                    <button className={`w-[33%] border lg:h-full 
                                     h-[80%] rounded cursor-pointer hover:scale-105 
                                     duration-150 active:scale-100 text-[0px] lg:text-[16px] 
-                                    flex justify-center items-center"
+                                    flex justify-center items-center  dark:text-black
+                                    ${states?.isAnimating === 'animating'
+                                            ? "dark:text-gray-300 text-gray-300"
+                                            : "dark:text-black text-black"}
+                                     `}
                                         onClick={actions?.new}
                                         disabled={
                                             states?.isAnimating === "animating"
@@ -104,10 +121,16 @@ function ButtonV1({ showButton, actions, states }: ButtonV1Props) {
                             </div>
 
                             {/* Animate Button */}
-                            <div className="w-full h-1/2 border-t border-r flex items-center justify-center">
-                                <button className="border text-[18px] lg:text-3xl p-1 rounded cursor-pointer 
-                                hover:scale-105 duration-150 active:scale-100 flex 
-                                items-center"
+                            <div className="w-full h-1/2 border-t border-r flex items-center justify-center dark:border-black">
+                                <button className={`border text-[18px] lg:text-3xl p-1 rounded cursor-pointer 
+                                hover:scale-105 duration-150 active:scale-100 flex  items-center
+                                ${states?.isAnimating === 'done' ||
+                                        states?.isAnimating === 'animating'
+                                        ? "dark:text-gray-300 text-gray-300"
+                                        : "dark:text-black text-black"}`
+                                }
+
+
                                     disabled={
                                         states?.isAnimating === "animating" ||
                                             states?.isAnimating === "done" ? true : false
@@ -119,12 +142,18 @@ function ButtonV1({ showButton, actions, states }: ButtonV1Props) {
                         </div>
 
                         {/*(Insert and Remove buttons) */}
-                        <div className="lg:w-[60%] w-[55%] h-full flex flex-col items-center">
+                        <div className="lg:w-[60%] w-[55%] h-full flex flex-col items-center dark:border-black">
                             {/* Insert */}
                             <div className="w-full h-1/2 flex p-1 items-center">
-                                <button className="border text-[0px] p-1 rounded 
+                                <button className={`border text-[0px] p-1 rounded 
                                 cursor-pointer hover:scale-105 duration-150 lg:text-[24px] 
-                                flex items-center justify-center"
+                                flex items-center justify-center
+                                ${states?.isAnimating === 'done' ||
+                                        states?.isAnimating === 'animating'
+                                        ? "dark:text-gray-300 text-gray-300"
+                                        : "dark:text-black text-black"}
+                                `}
+
                                     onClick={actions?.insert}
                                     disabled={
                                         states?.isAnimating === "animating" ||
@@ -134,11 +163,13 @@ function ButtonV1({ showButton, actions, states }: ButtonV1Props) {
                                     <BetweenVerticalStart /> Insert
 
                                 </button>
-                                <label htmlFor="value" className="w-[12%] overflow-x-hidden lg:ml-2"
+                                <label htmlFor="value" className="w-[12%] overflow-x-hidden lg:ml-2 dark:text-black"
                                 >
                                     Value
                                 </label>
-                                <input type="number" className="w-[22%] ml-1 border-b" name="value"
+                                <input type="number" className="w-[22%] ml-1 border-b dark:text-black
+                                  "
+                                    name="value"
                                     max={999}
                                     value={states?.insertValue}
                                     onChange={(val) => actions?.setInsertValue!(Number(val.target.value))}
@@ -149,11 +180,11 @@ function ButtonV1({ showButton, actions, states }: ButtonV1Props) {
 
 
 
-                                <label htmlFor="index" className="w-[12%] overflow-x-hidden lg:ml-2">
+                                <label htmlFor="index" className="w-[12%] overflow-x-hidden lg:ml-2 dark:text-black">
                                     Index
                                 </label>
 
-                                <input type="number" className="w-[22%] ml-1 border-b" name="index"
+                                <input type="number" className="w-[22%] ml-1 border-b dark:text-black" name="index"
                                     min={0}
                                     max={states?.arrayLength! - 1}
                                     value={states?.insertIndex}
@@ -167,10 +198,14 @@ function ButtonV1({ showButton, actions, states }: ButtonV1Props) {
                             </div>
 
                             {/* Remove button */}
-                            <div className="w-full h-1/2 border-t flex p-1 items-center">
-                                <button className="border text-[0px] p-1 rounded cursor-pointer hover:scale-105 
+                            <div className="w-full h-1/2 border-t flex p-1 items-center dark:border-black">
+                                <button className={`border text-[0px] p-1 rounded cursor-pointer hover:scale-105 
                                 duration-150 lg:text-[24px] flex 
-                                items-center justify-center"
+                                ${states?.isAnimating === 'done' ||
+                                        states?.isAnimating === 'animating'
+                                        ? "dark:text-gray-300 text-gray-300"
+                                        : "dark:text-black text-black"}                                                                
+                                items-center justify-center`}
                                     onClick={actions?.remove}
                                     disabled={
                                         states?.isAnimating === "animating" ||
@@ -179,9 +214,9 @@ function ButtonV1({ showButton, actions, states }: ButtonV1Props) {
                                     <Scissors /> Remove
                                 </button>
 
-                                <label htmlFor="indexR" className="ml-2" >index</label>
+                                <label htmlFor="indexR" className="ml-2 dark:text-black" >index</label>
 
-                                <input type="number" className="w-[25%] ml-1 border-b" name="indexR"
+                                <input type="number" className="w-[25%] ml-1 border-b dark:text-black dark:border-black" name="indexR"
                                     min={0}
                                     max={states?.arrayLength! - 1}
                                     value={states?.removeIndex}
@@ -198,7 +233,7 @@ function ButtonV1({ showButton, actions, states }: ButtonV1Props) {
 
 
             <button
-                className="lg:w-[5%] w-[10%] border-l h-full flex items-center justify-center cursor-pointer"
+                className="lg:w-[5%] w-[10%] border-l h-full flex items-center justify-center cursor-pointer dark:border-black dark:text-black"
                 onClick={() => showButton.action(!showButton.value)}
             >
                 {showButton.value ? <ArrowRight /> : <ArrowLeft />}

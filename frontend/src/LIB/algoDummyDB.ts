@@ -4,33 +4,36 @@ export const sortingArray = [
     {
         algoInfo: {
             name: "Bubble",
-            algoLink: "sort/bubble"
+            algoLink: "sort/bubble",
+            img: ""
         }
     },
     {
         algoInfo: {
             name: "Merge",
             algoLink: "sort/merge",
-
+            img: ""
         }
     },
     {
         algoInfo: {
             name: "Quick",
             algoLink: "sort/quick",
-
+            img: ""
         }
     },
     {
         algoInfo: {
             name: "Insertion",
             algoLink: "sort/insertion",
+            img: ""
         }
     },
     {
         algoInfo: {
             name: "Selection",
             algoLink: "sort/selection",
+            img: ""
         }
     },
     //{
@@ -46,32 +49,38 @@ export const sortingArray = [
 export const searchingArray = [
     {
         algoInfo: {
-            name: "Binary Search"
+            name: "Binary Search",
+            img: ""
         }
     },
     {
         algoInfo: {
-            name: "Linear Search"
+            name: "Linear Search",
+            img: ""
         }
     },
     {
         algoInfo: {
-            name: "Interpolation Search"
+            name: "Interpolation Search",
+            img: ""
         }
     },
     {
         algoInfo: {
-            name: "Jump Search"
+            name: "Jump Search",
+            img: ""
         }
     },
     {
         algoInfo: {
-            name: "Exponential Search"
+            name: "Exponential Search",
+            img: ""
         }
     },
     {
         algoInfo: {
-            name: "Ternary Search"
+            name: "Ternary Search",
+            img: ""
         }
     },
 ]
