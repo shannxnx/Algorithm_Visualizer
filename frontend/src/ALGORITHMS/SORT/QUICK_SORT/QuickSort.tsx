@@ -9,7 +9,7 @@ import React from "react";
 import { QuickSortKonva } from "./QuickSortKonva";
 import toast from "react-hot-toast";
 import { generateBoxesInfo, type desktopSize } from "../HELPER_FUNCTION/helpter";
-
+import type { Dispatch, SetStateAction } from "react";
 
 
 type QuickPayload = {
@@ -19,7 +19,8 @@ type QuickPayload = {
     animationControllerRef?: React.RefObject<{ shouldStop: boolean }>;
     konvaWidth?: number;
     konvaHeight?: number;
-    setBoxesInfo: (array: rectInfo[]) => void;
+    setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>
+    //setBoxesInfo: (array: rectInfo[]) => void;
 };
 
 
@@ -112,7 +113,8 @@ export default function QuickSort() {
         setIsAnimating: setIsAnimating,
         konvaWidth: Math.floor(bounds.width),
         konvaHeight: 420,
-        setBoxesInfo: (array: rectInfo[]) => setRectsArray(array)
+        //setBoxesInfo : React.Dispatch<React.SetStateAction<rectInfo[]>>
+        setBoxesInfo: setRectsArray
     };
 
 
