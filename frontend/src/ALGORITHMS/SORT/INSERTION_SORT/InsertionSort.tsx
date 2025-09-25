@@ -12,16 +12,16 @@ import { generateBoxesInfo } from "../HELPER_FUNCTION/helpter";
 
 
 
-type InsertionPayload = {
-    boxesInfo: rectInfo[];
+
+
+type InsertionSortPayload = {
+    boxesInfo: Array<rectInfo>;
     isAnimating?: animation;
     setIsAnimating?: (animate: animation) => void;
-    animationControllerRef?: React.RefObject<{ shouldStop: boolean }>;
     konvaWidth?: number;
     konvaHeight?: number;
-    setBoxesInfo: (array: rectInfo[]) => void;
+    setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>;
 }
-
 export default function InsertionSort() {
 
 
@@ -90,7 +90,7 @@ export default function InsertionSort() {
         getInsertionSort();
     }, []);
 
-    console.log("Insertion sort: ", insertionSortInfo);
+
 
     const InsertionPayload: SortKit = {
         algoName: insertionSortInfo.algoName,
@@ -101,13 +101,13 @@ export default function InsertionSort() {
     };
 
 
-    const InsertionSortKonvaProps: InsertionPayload = {
+    const InsertionSortKonvaProps: InsertionSortPayload = {
         boxesInfo: rectsArray,
         isAnimating: isAnimating,
         setIsAnimating: setIsAnimating,
         konvaWidth: Math.floor(bounds.width),
         konvaHeight: 420,
-        setBoxesInfo: (array: rectInfo[]) => setRectsArray(array)
+        setBoxesInfo: setRectsArray
     };
 
     useEffect(() => {
@@ -304,7 +304,10 @@ export default function InsertionSort() {
              flex items-center justify-center rounded-[8px] duration-200 bg-white/70 backdrop-blur-sm shadow-xl m-4 
              overflow-x-scroll border-black">
 
-
+                {
+                    rectsArray.length > 0 ? <InsertionSortKonva props={InsertionSortKonvaProps} />
+                        : null
+                }
 
             </div>
 

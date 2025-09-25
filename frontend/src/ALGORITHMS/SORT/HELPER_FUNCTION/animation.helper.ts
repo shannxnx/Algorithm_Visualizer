@@ -4,12 +4,29 @@ import type { rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 
 
 
-
+export interface partionProps {
+    array: rectInfo[],
+    pivot: rectInfo,
+    refs: (Konva.Group | null)[],
+    duration: number,
+    destinationY: number,
+    destinationX: number,
+    spacingLeft: number,
+    spacingRight: number,
+    originY?: number,
+    originX?: number,
+    pivotDestinationX?: number,
+    pivotDestinationY?: number,
+    fromWhere?: string,
+    spacing?: number,
+};
 
 interface destination {
     x?: number,
     y?: number
 }
+
+
 interface origin {
     originX?: number,
     originY?: number
@@ -88,6 +105,98 @@ export async function animateSort(array: rectInfo[], duration: number = 500) {
     return arr;
 }
 
+
+//export async function InsertionSortAnimation(arr: rectInfo[], duration: number = 500) {
+//    const array = [...arr];
+//    const arraySize = array.length;
+//
+//    for (let i = 1; i < arraySize; i++) {
+//        let key = { ...array[i], node: array[i].node };
+//        let j = i - 1;
+//
+//
+//        let targetX = key.node?.x();
+//
+//        while (j >= 0 && array[j].number > key.number) {
+//            const nodeB = array[j].node;
+//            const nodeA = array[j + 1].node;
+//            if (!nodeA || !nodeB) break;
+//
+//            const xA = nodeA.x();
+//            const xB = nodeB.x();
+//
+//
+//            await animateTo(nodeB, { x: xA }, duration, { originX: xB });
+//
+//
+//            array[j + 1] = array[j];
+//
+//
+//            targetX = xB;
+//
+//            j--;
+//        }
+//
+//
+//        array[j + 1] = key;
+//
+//
+//        if (key.node && targetX !== undefined) {
+//            await animateTo(key.node, { x: targetX }, duration, { originX: key.node.x() });
+//        }
+//    }
+//}
+
+
+// `slotX(i)` is a function that returns the x-coordinate for index i
+function slotX(index: number, arraySize: number, stageWidth: number, spacing: number) {
+    const totalWidth = (arraySize - 1) * spacing;
+    return stageWidth / 2 - totalWidth / 2 + index * spacing;
+}
+
+
+export async function InsertionSortAnimation(
+    arr: rectInfo[],
+    duration: number = 500,
+    stageWidth: number = 800,
+    spacing: number = 60
+) {
+    const array = arr.map(r => ({ ...r, node: r.node }));
+    const n = array.length;
+
+    // helper to get the centered slot
+    function slotX(index: number) {
+        const totalWidth = (n - 1) * spacing;
+        return stageWidth / 2 - totalWidth / 2 + index * spacing;
+    }
+
+    for (let i = 1; i < n; i++) {
+        let key = { ...array[i], node: array[i].node };
+        let j = i - 1;
+
+        while (j >= 0 && array[j].number > key.number) {
+            // shift element at j to j+1
+            array[j + 1] = array[j];
+            if (array[j].node) {
+                await animateTo(array[j].node!, { x: slotX(j + 1) }, duration, { originX: array[j].node!.x() });
+            }
+            j--;
+        }
+
+        // place the key at j+1
+        array[j + 1] = key;
+        if (key.node) {
+            await animateTo(key.node, { x: slotX(j + 1) }, duration, { originX: array[j].node!.x() });
+        }
+    }
+
+    return array;
+}
+
+
+
+
+
 export function animationScaleSmooth(node: Konva.Node, scaleUp: number = 1.05, duration: number = 0.3): Promise<void> {
     return new Promise((resolve) => {
         const tween = new Konva.Tween({
@@ -132,33 +241,6 @@ export async function animateScale(array: rectInfo[], action: (arr: rectInfo[]) 
 };
 
 
-
-export interface partionProps {
-    array: rectInfo[],
-    pivot: rectInfo,
-    refs: (Konva.Group | null)[],
-    duration: number,
-    destinationY: number,
-    destinationX: number,
-    spacingLeft: number,
-    spacingRight: number,
-    originY?: number,
-    originX?: number,
-    pivotDestinationX?: number,
-    pivotDestinationY?: number,
-    fromWhere?: string,
-    spacing?: number,
-};
-
-
-
-
-
-
-
-
-
-
 export async function animatePartition({ ...props }: partionProps) {
 
     let left: number = 0;
@@ -201,167 +283,9 @@ export async function animatePartition({ ...props }: partionProps) {
     }
 }
 
-export async function animatePartition2({ ...props }: partionProps) {
-
-    let left: number = 0;
-    let right: number = 0;
-    const rectWidth = props.array[0].width;
-    const spacing = rectWidth === 40 ? 46 : 40;
-    //console.log("Spacing: ", spacing);
-
-
-    switch (props.fromWhere) {
-        case "Left":
-            for (let i = 0; i < props.array.length; i++) {
-                const rect = props.array[i];
-                const ref = props.refs[i];
-                if (!ref) continue;
-
-                await animationScaleSmooth(rect.node!, 1.1, 0.7);
-                await animationScaleSmooth(rect.node!, 1, 0.7);
-
-                if (rect === props.pivot) {
-                    await animateTo(ref, { y: props.pivotDestinationY }, props.duration, { originX: -5, originY: props.originY ? props.originY : 50 });
-                    await animateTo(ref, { x: props.pivotDestinationX }, props.duration, { originX: 0, originY: 0 });
-                    continue;
-                }
-
-                const xOffset = rect.number > props.pivot.number
-                    ? props.spacingRight - (right * spacing)
-                    : -props.spacingLeft + (left * spacing);
-
-                const finalDestinationX = Math.round(props.destinationX + xOffset);
-
-                await animateTo(ref, { y: props.destinationY }, props.duration, { originX: -5, originY: props.originY ? props.originY : 50 });
-                await animateTo(ref, { x: finalDestinationX }, props.duration, { originX: 0, originY: 0 });
-
-                if (rect.number > props.pivot.number) {
-                    right++;
-                } else {
-                    left++;
-                }
-            }
-            break;
-
-        case "Right":
-            for (let i = props.array.length - 1; i >= 0; i--) {
-                const rect = props.array[i];
-                const ref = props.refs[i];
-                if (!ref) continue;
-
-                await animationScaleSmooth(rect.node!, 1.1, 0.7);
-                await animationScaleSmooth(rect.node!, 1, 0.7);
-
-                if (rect === props.pivot) {
-                    await animateTo(ref, { y: props.pivotDestinationY }, props.duration, { originX: -5, originY: props.originY ? props.originY : 50 });
-                    await animateTo(ref, { x: props.pivotDestinationX }, props.duration, { originX: 0, originY: 0 });
-                    continue;
-                }
-
-                const xOffset = rect.number > props.pivot.number
-                    ? props.spacingLeft - (right * spacing)
-                    : -props.spacingRight + (left * spacing);
-
-                const finalDestinationX = Math.round(props.destinationX + xOffset);
-
-                await animateTo(ref, { y: props.destinationY }, props.duration, { originX: -5, originY: props.originY ? props.originY : 50 });
-                await animateTo(ref, { x: finalDestinationX }, props.duration, { originX: 0, originY: 0 });
-
-                if (rect.number > props.pivot.number) {
-                    right++;
-                } else {
-                    left++;
-                }
-            }
-            break;
-    }
 
 
 
-    //switch (props.fromWhere) {
-    //    case "Left":
-    //        console.log("Array to be partioned: ", props.array);
-    //        for (let i = 0; i < props.array.length; i++) {
-    //            const rect = props.array[i];
-    //            const ref = props.refs[i];
-    //            if (!ref) continue;
-
-    //            await animationScaleSmooth(rect.node!, 1.1, 0.7);
-    //            await animationScaleSmooth(rect.node!, 1, 0.7);
-
-
-    //            if (rect.number > props.pivot.number) {
-    //                right++;
-    //            } else {
-    //                left++;
-    //            }
-
-    //            if (rect === props.pivot) {
-    //                await animateTo(ref, { y: props.pivotDestinationY }, props.duration, { originX: -5, originY: props.originY ? props.originY : 50 });
-    //                await animateTo(ref, { x: props.pivotDestinationX }, props.duration, { originX: 0, originY: 0 });
-    //                continue;
-    //            }
-
-
-    //            const xOffset = rect.number > props.pivot.number
-    //                ? props.spacingRight - (right * spacing)
-    //                : -props.spacingLeft + (left * spacing);
-
-    //            const finalDestinationX = Math.round(props.destinationX + xOffset);
-
-    //            await animateTo(ref, { y: props.destinationY }, props.duration, { originX: -5, originY: props.originY ? props.originY : 50 }); //original destination : 55
-    //            await animateTo(ref, { x: finalDestinationX }, props.duration, { originX: 0, originY: 0 });
-
-    //        }
-    //        break;
-
-    //    case "Right":
-    //        console.log("Array to be partioned: ", props.array);
-    //        for (let i = props.array.length - 1; i >= 0; i--) {
-    //            const rect = props.array[i];
-    //            const ref = props.refs[i];
-    //            if (!ref) continue;
-
-    //            await animationScaleSmooth(rect.node!, 1.1, 0.7);
-    //            await animationScaleSmooth(rect.node!, 1, 0.7);
-
-
-    //            if (rect.number > props.pivot.number) {
-    //                right++;
-    //            } else {
-    //                left++;
-    //            }
-
-    //            if (rect === props.pivot) {
-    //                await animateTo(ref, { y: props.pivotDestinationY }, props.duration, { originX: -5, originY: props.originY ? props.originY : 50 });
-    //                await animateTo(ref, { x: props.pivotDestinationX }, props.duration, { originX: 0, originY: 0 });
-    //                continue;
-    //            }
-
-
-    //            const xOffset = rect.number > props.pivot.number
-    //                ? props.spacingRight - (right * spacing)
-    //                : -props.spacingLeft + (left * spacing);
-
-    //            const finalDestinationX = Math.round(props.destinationX + xOffset);
-
-    //            await animateTo(ref, { y: props.destinationY }, props.duration, { originX: -5, originY: props.originY ? props.originY : 50 }); //original destination : 55
-    //            await animateTo(ref, { x: finalDestinationX }, props.duration, { originX: 0, originY: 0 });
-
-    //        }
-
-    //        break;
-
-    //}
-
-
-
-}
-
-
-// Assumes partionProps includes at least:
-// array, pivot, refs, duration, destinationX, destinationY, pivotDestinationX?, pivotDestinationY?, spacing?,
-// originY? (optional)
 
 export async function animatePartition3({ ...props }: partionProps) {
     let left = 0;
@@ -503,3 +427,9 @@ export async function animatePartition3({ ...props }: partionProps) {
             break;
     }
 }
+
+
+
+
+
+
