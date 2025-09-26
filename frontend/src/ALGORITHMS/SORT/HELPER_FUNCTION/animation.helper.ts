@@ -119,61 +119,6 @@ export function computeSlotX(
     return startX + index * spacing;
 }
 
-// assumes computeSlotX(index, totalCount, stageWidth, spacing) exists
-
-
-
-
-
-//export async function InsertionSortAnimation(
-//    arr: rectInfo[],
-//    duration: number = 500,
-//    setRects: React.Dispatch<React.SetStateAction<rectInfo[]>>,
-//    stageWidth: number,
-//    spacing: number = 0
-//) {
-//    const array = [...arr];
-//    const n = array.length;
-//
-//    for (let i = 1; i < n; i++) {
-//        let key = array[i];
-//
-//        // 🔹 highlight key
-//        await animationScaleSmooth(key.node!, 1.2, 0.3);
-//        await animationScaleSmooth(key.node!, 1, 0.3);
-//
-//        // check if movement is needed
-//        if (key.number >= array[i - 1].number) continue;
-//
-//        // 🔹 lift key
-//        if (key.node) {
-//            await animateTo(key.node, { y: key.y - 80 }, duration / 2, { originX: key.node.x(), originY: key.y });
-//        }
-//
-//        let j = i - 1;
-//        while (j >= 0 && array[j].number > key.number) {
-//            const newX = computeSlotX(j + 1, n, stageWidth, spacing);
-//            if (array[j].node) {
-//                await animateTo(array[j].node!, { x: newX }, duration, { originX: key.node!.x() });
-//                array[j + 1] = { ...array[j], x: newX, node: array[j].node };
-//            }
-//            j--;
-//        }
-//
-//        // 🔹 place key into its slot
-//        const newX = computeSlotX(j + 1, n, stageWidth, spacing);
-//        if (key.node) {
-//            await animateTo(key.node, { x: newX }, duration, { originX: key.node!.x() });
-//            await animateTo(key.node, { y: key.y }, duration / 2, { originX: key.node!.x() }); // drop down
-//            key.x = newX;
-//        }
-//
-//        array[j + 1] = key;
-//        //setRects([...array]);
-//        await delay(300);
-//    }
-//}
-
 
 
 export async function InsertionSortAnimation(

@@ -248,13 +248,62 @@ export function RectangleRendererIS({ array, offsetX = 0, offsetY = 0, groupRef,
 
 
 
+
                 </Group>
 
 
             ))
+
+
         }
+
+
     </Group>
     )
+}
+
+export function RectangleIndex({ array, offsetX = 0, offsetY = 0, opacity = 1, }: rectArrayRenderProps) {
+    return (<Group x={offsetX} y={offsetY}>
+        {
+            array.map((r, id) => (
+                <Group
+
+                    opacity={opacity}
+                    key={`group-${id}`}
+                    x={r.x}
+                    y={r.y + r.height / 2}
+                    scaleX={r.scaleX ?? 1}
+                    scaleY={r.scaleY ?? 1}
+                    offsetX={r.width / 2}
+                    offsetY={r.height / 2}
+                >
+
+                    <Text
+
+                        text={`${id}`}
+                        width={r.width}
+                        height={r.height}
+                        y={r.width + 5}
+                        align="center"
+                        verticalAlign="middle"
+                        fill="black"
+                        fontSize={20}
+
+
+                    />
+
+
+
+
+
+                </Group>
+
+
+            ))
+
+
+        }
+    </Group>)
 }
 
 

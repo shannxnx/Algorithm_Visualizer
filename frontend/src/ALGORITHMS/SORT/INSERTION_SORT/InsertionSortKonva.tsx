@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { rectInfo, animation } from "../../../INTERFACES && TYPES/sortInterface"
 import { Layer, Stage } from "react-konva";
-import Konva from "konva";
-import { RectangleRendererIS, RectangleRendererScale } from "../../../RENDERER/Renderer";
-import { animateTo, InsertionSortAnimation } from "../HELPER_FUNCTION/animation.helper";
+import { RectangleIndex, RectangleRendererIS } from "../../../RENDERER/Renderer";
+import { InsertionSortAnimation } from "../HELPER_FUNCTION/animation.helper";
 
 type InsertionSortPayload = {
     boxesInfo: Array<rectInfo>;
@@ -39,24 +38,20 @@ const InsertionSortKonva: React.FC<InsertionSortProps> = ({ props }) => {
 
             (async () => {
 
-                //await InsertionSortAnimation(props.boxesInfo, 500, props.setBoxesInfo, props.konvaWidth!, 100);
                 await InsertionSortAnimation(array, 500, props.setBoxesInfo);
-
-
-
-
 
             })()
             props.setIsAnimating!("done");
         }
     }, [props.isAnimating]);
 
-    console.log("Array info: ", props.boxesInfo);
+
 
 
     return <Stage width={props.konvaWidth} height={props.konvaHeight} className="w-full h-[95%]">
         <Layer>
             <RectangleRendererIS array={array} offsetX={-20} offsetY={middleY} />
+            <RectangleIndex array={array} offsetX={-20} offsetY={middleY} />
         </Layer>
     </Stage>
 }
