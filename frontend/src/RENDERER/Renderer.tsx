@@ -3,6 +3,7 @@ import type React from "react";
 import { useEffect, useRef, useState, type AriaAttributes, type Ref, type RefObject } from "react";
 import Konva from "konva";
 import type { rectInfo } from "../INTERFACES && TYPES/sortInterface";
+import { computeSlotX } from "../ALGORITHMS/SORT/HELPER_FUNCTION/animation.helper";
 
 
 type rectArrayRenderProps = {
@@ -205,6 +206,56 @@ export function RectangleRendererScale({ array, offsetX = 0, offsetY = 0, groupR
     )
 }
 
+export function RectangleRendererIS({ array, offsetX = 0, offsetY = 0, groupRef, opacity = 1, }: rectArrayRenderProps &
+{ groupRef?: React.RefObject<Konva.Group | null> }) {
+
+
+    return (<Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
+        {
+            array.map((r, id) => (
+                <Group
+                    ref={(node) => { if (node) r.node = node }}
+                    opacity={opacity}
+                    key={`group-${id}`}
+                    x={r.x}
+                    y={r.y + r.height / 2}
+                    scaleX={r.scaleX ?? 1}
+                    scaleY={r.scaleY ?? 1}
+                    offsetX={r.width / 2}
+                    offsetY={r.height / 2}
+                >
+                    <Rect
+
+                        width={r.width}
+                        height={r.height}
+                        fill={r.color}
+                        cornerRadius={5}
+
+
+                    />
+                    <Text
+
+                        text={`${r.number}`}
+                        width={r.width}
+                        height={r.height}
+                        align="center"
+                        verticalAlign="middle"
+                        fill="white"
+                        fontSize={20}
+
+
+                    />
+
+
+
+                </Group>
+
+
+            ))
+        }
+    </Group>
+    )
+}
 
 
 

@@ -106,91 +106,139 @@ export async function animateSort(array: rectInfo[], duration: number = 500) {
 }
 
 
-//export async function InsertionSortAnimation(arr: rectInfo[], duration: number = 500) {
+
+// Compute slot position (centered layout)
+export function computeSlotX(
+    index: number,
+    totalCount: number,
+    stageWidth: number,
+    spacing: number
+) {
+    const totalWidth = (totalCount - 1) * spacing;
+    const startX = (stageWidth - totalWidth) / 2;
+    return startX + index * spacing;
+}
+
+// assumes computeSlotX(index, totalCount, stageWidth, spacing) exists
+
+
+
+
+
+//export async function InsertionSortAnimation(
+//    arr: rectInfo[],
+//    duration: number = 500,
+//    setRects: React.Dispatch<React.SetStateAction<rectInfo[]>>,
+//    stageWidth: number,
+//    spacing: number = 0
+//) {
 //    const array = [...arr];
-//    const arraySize = array.length;
+//    const n = array.length;
 //
-//    for (let i = 1; i < arraySize; i++) {
-//        let key = { ...array[i], node: array[i].node };
+//    for (let i = 1; i < n; i++) {
+//        let key = array[i];
+//
+//        // 🔹 highlight key
+//        await animationScaleSmooth(key.node!, 1.2, 0.3);
+//        await animationScaleSmooth(key.node!, 1, 0.3);
+//
+//        // check if movement is needed
+//        if (key.number >= array[i - 1].number) continue;
+//
+//        // 🔹 lift key
+//        if (key.node) {
+//            await animateTo(key.node, { y: key.y - 80 }, duration / 2, { originX: key.node.x(), originY: key.y });
+//        }
+//
 //        let j = i - 1;
-//
-//
-//        let targetX = key.node?.x();
-//
 //        while (j >= 0 && array[j].number > key.number) {
-//            const nodeB = array[j].node;
-//            const nodeA = array[j + 1].node;
-//            if (!nodeA || !nodeB) break;
-//
-//            const xA = nodeA.x();
-//            const xB = nodeB.x();
-//
-//
-//            await animateTo(nodeB, { x: xA }, duration, { originX: xB });
-//
-//
-//            array[j + 1] = array[j];
-//
-//
-//            targetX = xB;
-//
+//            const newX = computeSlotX(j + 1, n, stageWidth, spacing);
+//            if (array[j].node) {
+//                await animateTo(array[j].node!, { x: newX }, duration, { originX: key.node!.x() });
+//                array[j + 1] = { ...array[j], x: newX, node: array[j].node };
+//            }
 //            j--;
 //        }
 //
+//        // 🔹 place key into its slot
+//        const newX = computeSlotX(j + 1, n, stageWidth, spacing);
+//        if (key.node) {
+//            await animateTo(key.node, { x: newX }, duration, { originX: key.node!.x() });
+//            await animateTo(key.node, { y: key.y }, duration / 2, { originX: key.node!.x() }); // drop down
+//            key.x = newX;
+//        }
 //
 //        array[j + 1] = key;
-//
-//
-//        if (key.node && targetX !== undefined) {
-//            await animateTo(key.node, { x: targetX }, duration, { originX: key.node.x() });
-//        }
+//        //setRects([...array]);
+//        await delay(300);
 //    }
 //}
 
-
-// `slotX(i)` is a function that returns the x-coordinate for index i
-function slotX(index: number, arraySize: number, stageWidth: number, spacing: number) {
-    const totalWidth = (arraySize - 1) * spacing;
-    return stageWidth / 2 - totalWidth / 2 + index * spacing;
-}
 
 
 export async function InsertionSortAnimation(
     arr: rectInfo[],
     duration: number = 500,
-    stageWidth: number = 800,
-    spacing: number = 60
+    setRects: React.Dispatch<React.SetStateAction<rectInfo[]>>
 ) {
-    const array = arr.map(r => ({ ...r, node: r.node }));
+    const array = [...arr];
     const n = array.length;
 
-    // helper to get the centered slot
-    function slotX(index: number) {
-        const totalWidth = (n - 1) * spacing;
-        return stageWidth / 2 - totalWidth / 2 + index * spacing;
-    }
-
     for (let i = 1; i < n; i++) {
-        let key = { ...array[i], node: array[i].node };
-        let j = i - 1;
+        let key = array[i];
 
+
+        await animationScaleSmooth(key.node!, 1.2, 0.3);
+        await animationScaleSmooth(key.node!, 1, 0.3);
+
+
+        if (key.number >= array[i - 1].number) continue;
+
+
+        if (key.node) {
+            await animateTo(key.node, { y: key.y - 50 }, duration, { originX: key.node!.x(), originY: key.y });
+            key.color = "red";
+        }
+
+        let j = i - 1;
         while (j >= 0 && array[j].number > key.number) {
-            // shift element at j to j+1
-            array[j + 1] = array[j];
-            if (array[j].node) {
-                await animateTo(array[j].node!, { x: slotX(j + 1) }, duration, { originX: array[j].node!.x() });
+
+
+            const left = array[j];
+            const right = array[j + 1]; //key
+
+            const leftX = left.x!;
+            const rightX = right.x!;
+
+            if (left.node) {
+                await animateTo(left.node, { x: rightX }, duration, { originX: left.node!.x() });
+                left.x = rightX;
             }
+
+            if (right.node) {
+                await animateTo(right.node, { x: leftX }, duration, { originX: right.node!.x() });
+                right.x = leftX;
+            }
+
+
+            array[j + 1] = left;
+            array[j] = right;
+
+
             j--;
         }
 
-        // place the key at j+1
-        array[j + 1] = key;
+
+        const offsetY = array.length > 6 ? 20 : 22.5;
         if (key.node) {
-            await animateTo(key.node, { x: slotX(j + 1) }, duration, { originX: array[j].node!.x() });
+            await animateTo(key.node, { y: key.y + offsetY }, duration, { originX: key.node!.x(), originY: key.y - 50 });
+            key.color = "blue"
         }
+
+        //await delay(300);
     }
 
-    return array;
+
 }
 
 
