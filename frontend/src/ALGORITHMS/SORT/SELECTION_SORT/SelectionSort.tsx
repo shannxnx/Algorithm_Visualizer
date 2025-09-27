@@ -8,6 +8,7 @@ import useMeasure from "react-use-measure";
 import React from "react";
 import toast from "react-hot-toast";
 import { generateBoxesInfo } from "../HELPER_FUNCTION/helpter";
+import SelectionSortKonva from "./SelectionSortKonva";
 
 
 
@@ -18,7 +19,7 @@ type SelectionPayload = {
     animationControllerRef?: React.RefObject<{ shouldStop: boolean }>;
     konvaWidth?: number;
     konvaHeight?: number;
-    setBoxesInfo: (array: rectInfo[]) => void;
+    setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>;
 }
 
 export default function SelectionSort() {
@@ -108,7 +109,7 @@ export default function SelectionSort() {
         setIsAnimating: setIsAnimating,
         konvaWidth: Math.floor(bounds.width),
         konvaHeight: 420,
-        setBoxesInfo: (array: rectInfo[]) => setRectsArray(array)
+        setBoxesInfo: setRectsArray
     };
 
     useEffect(() => {
@@ -305,7 +306,10 @@ export default function SelectionSort() {
              flex items-center justify-center rounded-[8px] duration-200 bg-white/70 backdrop-blur-sm shadow-xl m-4 
              overflow-x-scroll border-black">
 
-
+                {
+                    rectsArray.length > 0 ? <SelectionSortKonva props={SelectionSortKonvaProps} /> :
+                        null
+                }
 
             </div>
 

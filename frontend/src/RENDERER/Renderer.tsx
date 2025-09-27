@@ -4,13 +4,15 @@ import { useEffect, useRef, useState, type AriaAttributes, type Ref, type RefObj
 import Konva from "konva";
 import type { rectInfo } from "../INTERFACES && TYPES/sortInterface";
 import { computeSlotX } from "../ALGORITHMS/SORT/HELPER_FUNCTION/animation.helper";
+import type { indexInterface } from "../ALGORITHMS/SORT/INSERTION_SORT/InsertionSortKonva";
 
 
 type rectArrayRenderProps = {
-    array: Array<rectInfo>;
+    array?: Array<rectInfo>;
     offsetX: number;
     offsetY: number;
     opacity?: number;
+    index?: indexInterface[]
 
 
 };
@@ -60,7 +62,7 @@ export function SingleRectangleRenderer({ array, offsetX = 0, offsetY = 0, group
 
     return (<Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
         {
-            array.map((r, id) => (
+            array!.map((r, id) => (
                 <Group
                     ref={(node) => { if (node) r.node = node }}
                     opacity={opacity}
@@ -110,7 +112,7 @@ export function RectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef, o
 
     return (<Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
         {
-            array.map((r, id) => (
+            array!.map((r, id) => (
                 <Group
                     ref={(node) => { if (node) r.node = node }}
                     opacity={opacity}
@@ -161,7 +163,7 @@ export function RectangleRendererScale({ array, offsetX = 0, offsetY = 0, groupR
 
     return (<Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
         {
-            array.map((r, id) => (
+            array!.map((r, id) => (
                 <Group
                     ref={(node) => { if (node) r.node = node }}
                     opacity={opacity}
@@ -212,7 +214,7 @@ export function RectangleRendererIS({ array, offsetX = 0, offsetY = 0, groupRef,
 
     return (<Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
         {
-            array.map((r, id) => (
+            array!.map((r, id) => (
                 <Group
                     ref={(node) => { if (node) r.node = node }}
                     opacity={opacity}
@@ -262,10 +264,10 @@ export function RectangleRendererIS({ array, offsetX = 0, offsetY = 0, groupRef,
     )
 }
 
-export function RectangleIndex({ array, offsetX = 0, offsetY = 0, opacity = 1, }: rectArrayRenderProps) {
+export function RectangleIndex({ offsetX = 0, offsetY = 0, opacity = 1, index }: rectArrayRenderProps) {
     return (<Group x={offsetX} y={offsetY}>
         {
-            array.map((r, id) => (
+            index!.map((r, id) => (
                 <Group
 
                     opacity={opacity}
@@ -280,7 +282,7 @@ export function RectangleIndex({ array, offsetX = 0, offsetY = 0, opacity = 1, }
 
                     <Text
 
-                        text={`${id}`}
+                        text={`${r.index}`}
                         width={r.width}
                         height={r.height}
                         y={r.width + 5}
@@ -318,7 +320,7 @@ export function SortRectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRe
 
     return <Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY} opacity={opacity} >
         {
-            array.map((r, id) => (
+            array!.map((r, id) => (
                 <Group key={`group-${id}`} x={r.x} y={r.y} ref={(node) => { if (node) r.node = node }}>
                     <Rect
                         width={r.width}
