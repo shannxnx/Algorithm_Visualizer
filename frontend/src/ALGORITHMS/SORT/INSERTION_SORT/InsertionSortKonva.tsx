@@ -35,7 +35,8 @@ const InsertionSortKonva: React.FC<InsertionSortProps> = ({ props }) => {
     const middleY = props.konvaHeight! / 2;
 
     const [array, setArray] = useState([...props.boxesInfo]);
-    const [indexNum, setIndexNum] = useState<indexInterface[]>();
+    const [indexNum, setIndexNum] = useState<indexInterface[]>([]);
+
 
 
 
@@ -71,7 +72,9 @@ const InsertionSortKonva: React.FC<InsertionSortProps> = ({ props }) => {
     }, [props.isAnimating]);
 
 
-    console.log("IndexNum: ", indexNum);
+    //console.log("IndexNum: ", indexNum);
+    console.log("Insertion Rectangle: ", array);
+
 
     return <Stage width={props.konvaWidth} height={props.konvaHeight} className="w-full h-[95%]">
         <Layer>

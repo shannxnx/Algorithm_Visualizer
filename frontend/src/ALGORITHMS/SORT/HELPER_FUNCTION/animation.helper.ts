@@ -181,60 +181,69 @@ export async function InsertionSortAnimation(
             key.color = "blue"
         }
 
-        //await delay(300);
+
     }
 
 
 }
 
 
-export async function SelectionSortAnimation(
-    arr: rectInfo[],
-    duration: number = 500
-) {
-    const array = [...arr];
-    const n = array.length;
-
-    for (let i = 0; i < n - 1; i++) {
-        let minIdx = i;
-        let minimumRect: rectInfo = array[i];
-
-        // Highlight the starting min
-        await animationScaleSmooth(minimumRect.node!, 1.2, 0.3);
-        await animationScaleSmooth(minimumRect.node!, 1, 0.3);
-
-        for (let j = i + 1; j < n; j++) {
-            const currentRect: rectInfo = array[j];
 
 
-            await animationScaleSmooth(currentRect.node!, 1.2, 0.3);
-            await animationScaleSmooth(currentRect.node!, 1, 0.3);
-
-            if (currentRect.number < minimumRect.number) {
-                minIdx = j;
-                minimumRect = currentRect;
-            }
-        }
-
-
-        if (minIdx !== i) {
-            const rectA = array[i];
-            const rectB = array[minIdx];
-
-            const xA = rectA.node!.x();
-            const xB = rectB.node!.x();
-
-
-            await animateTo(rectA.node!, { x: xB }, duration, { originX: xA });
-            await animateTo(rectB.node!, { x: xA }, duration, { originX: xB });
-
-
-            [array[i], array[minIdx]] = [array[minIdx], array[i]];
-        }
-    }
-
-    return array;
-}
+//export async function SelectionSortAnimation(
+//    arr: rectInfo[],
+//    duration: number = 500,
+//    setRects: React.Dispatch<React.SetStateAction<rectInfo[]>>
+//) {
+//    const array = [...arr];
+//    const n = array.length;
+//
+//    for (let i = 0; i < n - 1; i++) {
+//        let minIdx = i;
+//        let minimumRect: rectInfo = array[i];
+//
+//        // Highlight the starting min
+//        await animationScaleSmooth(minimumRect.node!, 1.2, 0.3);
+//        await animationScaleSmooth(minimumRect.node!, 1, 0.3);
+//
+//        for (let j = i + 1; j < n; j++) {
+//            const currentRect: rectInfo = array[j];
+//
+//
+//            await animationScaleSmooth(currentRect.node!, 1.2, 0.3);
+//            await animationScaleSmooth(currentRect.node!, 1, 0.3);
+//
+//            if (currentRect.number < minimumRect.number) {
+//                minIdx = j;
+//                minimumRect = currentRect;
+//            }
+//        }
+//
+//
+//        if (minIdx !== i) {
+//            const rectA = array[i];
+//            const rectB = array[minIdx];
+//
+//            const xA = rectA.node!.x();
+//            const xB = rectB.node!.x();
+//
+//
+//            await animateTo(rectA.node!, { y: rectA.y - 50 }, duration, { originY: rectA.y });
+//
+//            await animateTo(rectA.node!, { x: xB }, duration, { originX: xA });
+//            await animateTo(rectB.node!, { x: xA }, duration, { originX: xB });
+//
+//            await animateTo(rectA.node!, { y: rectA.y + 22.5 }, duration, { originY: rectA.y - 50 });
+//
+//
+//            [array[i], array[minIdx]] = [array[minIdx], array[i]];
+//
+//        }
+//    }
+//
+//
+//
+//}
 
 
 

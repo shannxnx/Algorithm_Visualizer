@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit } from "../../../INTERFACES && TYPES/sortInterface";
@@ -42,13 +42,12 @@ export default function SelectionSort() {
 
     const [rectsArray, setRectsArray] = useState<rectInfo[]>([]);
 
-    const handleAdd = () => {
-
+    const handleAdd = useCallback(() => {
         if (rectsArray.length < 10) {
             setTask('add');
 
         }
-    };
+    }, [rectsArray.length, task]);
 
     const handleInsert = () => {
         if (bounds.width >= 650 && rectsArray.length >= 9) {
@@ -77,12 +76,12 @@ export default function SelectionSort() {
         }
     }
 
-    const handleNewBoxes = () => {
+    const handleNewBoxes = useCallback(() => {
         setRectsArray(generateBoxesInfo(rectsArray.length, bounds));
         setIsAnimating("idle");
         toast("clicked new boxes");
 
-    };
+    }, [isAnimating]);
 
 
 
@@ -92,7 +91,7 @@ export default function SelectionSort() {
         getSelectionSort();
     }, []);
 
-    console.log("Insertion sort: ", selectionSortInfo);
+
 
     const SelectionPayload: SortKit = {
         algoName: selectionSortInfo.algoName,

@@ -1,10 +1,10 @@
 import { Group, Layer, Stage } from "react-konva";
 import type { rectInfo, animation } from "../../../INTERFACES && TYPES/sortInterface"
-import { RectangleIndex, RectangleRenderer, RectangleRendererScale } from "../../../RENDERER/Renderer";
+import { RectangleIndex, RectangleRenderer, RectangleRendererIS, RectangleRendererScale } from "../../../RENDERER/Renderer";
 import { useEffect, useState } from "react";
 import { SelectionSortAnimation } from "../HELPER_FUNCTION/animation.helper";
 import type { indexInterface } from "../INSERTION_SORT/InsertionSortKonva";
-
+import React from "react";
 
 type SelectionSortPayload = {
     boxesInfo: Array<rectInfo>;
@@ -17,17 +17,20 @@ type SelectionSortPayload = {
 
 interface SelectionSortProps {
     props: SelectionSortPayload
-}
+};
+
 
 
 
 const SelectionSortKonva: React.FC<SelectionSortProps> = ({ props }) => {
 
     const [array, setArray] = useState([...props.boxesInfo]);
-    const [indexNum, setIndexNum] = useState<indexInterface[]>();
+
+    const [indexNum, setIndexNum] = useState<indexInterface[]>([]);
 
 
     useEffect(() => {
+
         setArray(props.boxesInfo);
         setIndexNum(props.boxesInfo.map((r, i) => {
             const retThis: indexInterface = {
@@ -50,7 +53,11 @@ const SelectionSortKonva: React.FC<SelectionSortProps> = ({ props }) => {
         if (props.isAnimating === "animating") {
 
             (async () => {
-                await SelectionSortAnimation(array);
+
+
+                await SelectionSortAnimation(array, 500, props.setBoxesInfo);
+
+
                 props.setIsAnimating!("done");
             })()
 
@@ -64,8 +71,8 @@ const SelectionSortKonva: React.FC<SelectionSortProps> = ({ props }) => {
 
         <Layer>
 
-            <RectangleRendererScale array={array} offsetX={-20} offsetY={props.konvaHeight! / 2} />
-            <RectangleIndex index={indexNum} offsetX={0} offsetY={props.konvaHeight! / 2} />
+            <RectangleRendererIS array={array} offsetX={-20} offsetY={props.konvaHeight! / 2} />
+            <RectangleIndex index={indexNum} offsetX={-20} offsetY={props.konvaHeight! / 2} />
 
         </Layer>
 
@@ -73,4 +80,4 @@ const SelectionSortKonva: React.FC<SelectionSortProps> = ({ props }) => {
 };
 
 
-export default SelectionSortKonva;
+export default React.memo(SelectionSortKonva);

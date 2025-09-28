@@ -46,7 +46,8 @@ export const generateBoxesInfo = (count: number, bounds: RectReadOnly,
             height: rectWidth,
             id: i,
             number: Math.floor(Math.random() * 100),
-            color: "blue"                             //colors[i % colors.length]
+            color: "blue",                             //colors[i % colors.length],
+
         }
         boxesInfo.push(rect);
 
