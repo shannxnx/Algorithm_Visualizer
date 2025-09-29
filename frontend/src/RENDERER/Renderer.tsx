@@ -3,7 +3,6 @@ import type React from "react";
 import { useEffect, useRef, useState, type AriaAttributes, type Ref, type RefObject } from "react";
 import Konva from "konva";
 import type { rectInfo } from "../INTERFACES && TYPES/sortInterface";
-import { computeSlotX } from "../ALGORITHMS/SORT/HELPER_FUNCTION/animation.helper";
 import type { indexInterface } from "../ALGORITHMS/SORT/INSERTION_SORT/InsertionSortKonva";
 
 

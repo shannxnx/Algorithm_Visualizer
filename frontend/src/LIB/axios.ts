@@ -8,10 +8,15 @@ export const AxiosInstance = axios.create({
 });
 
 
+
+
 export const AxiosInstanceAdmin = axios.create({
     baseURL: "http://localhost:5000/secret/admin",
     withCredentials: true
 })
+
+
+
 
 
 

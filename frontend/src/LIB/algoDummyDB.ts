@@ -36,12 +36,7 @@ export const sortingArray = [
             img: ""
         }
     },
-    //{
-    //    algoInfo: {
-    //        name: "Timsort",
-    //        algoLink: "sort/timsort",
-    //    }
-    //}
+
 
 ];
 
@@ -50,36 +45,42 @@ export const searchingArray = [
     {
         algoInfo: {
             name: "Binary Search",
+            link: "search/binary",
             img: ""
         }
     },
     {
         algoInfo: {
             name: "Linear Search",
+            link: "search/linear",
             img: ""
         }
     },
     {
         algoInfo: {
             name: "Interpolation Search",
+            link: "search/interpolation",
             img: ""
         }
     },
     {
         algoInfo: {
             name: "Jump Search",
+            link: "search/jump",
             img: ""
         }
     },
     {
         algoInfo: {
             name: "Exponential Search",
+            link: "search/exponential",
             img: ""
         }
     },
     {
         algoInfo: {
             name: "Ternary Search",
+            link: "search/ternary",
             img: ""
         }
     },

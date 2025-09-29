@@ -3,7 +3,6 @@ import { AxiosInstance } from "../LIB/axios";
 import { toast } from "react-toastify";
 
 
-
 interface AlgoStructure {
     readonly algoName: string;
     readonly algoInfo: string;
@@ -26,39 +25,21 @@ interface StoreState {
     getInsertionSort: () => void;
     getSelectionSort: () => void;
 
+}
 
-
-
-
+const empty: AlgoStructure = {
+    algoName: "",
+    algoInfo: "",
+    codes: {}
 }
 
 export const sortStore = create<StoreState>((set, get) => ({
 
-    bubbleSortInfo: {
-        algoName: "",
-        algoInfo: "",
-        codes: {}
-    },
-    mergeSortInfo: {
-        algoName: "",
-        algoInfo: "",
-        codes: {}
-    },
-    quickSortInfo: {
-        algoName: "",
-        algoInfo: "",
-        codes: {}
-    },
-    insertionSortInfo: {
-        algoName: "",
-        algoInfo: "",
-        codes: {}
-    },
-    selectionSortInfo: {
-        algoName: "",
-        algoInfo: "",
-        codes: {}
-    },
+    bubbleSortInfo: empty,
+    mergeSortInfo: empty,
+    quickSortInfo: empty,
+    insertionSortInfo: empty,
+    selectionSortInfo: empty,
 
     editSortCode: async (data: any) => {
         try {
@@ -121,7 +102,6 @@ export const sortStore = create<StoreState>((set, get) => ({
             console.log("Error in getting algo store: ", error.message);
         }
     },
-
 
 
 }));

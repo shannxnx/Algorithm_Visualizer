@@ -27,7 +27,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/algorithm/db", SortAlgoRoutes);
 app.use("/secret/admin", AdminRoutes);
-
+//app.use("/search/db", SearchAlgoRoutes);
 
 app.listen(PORT, () => {
     console.log("Connected to this http://localhost:", 5000);

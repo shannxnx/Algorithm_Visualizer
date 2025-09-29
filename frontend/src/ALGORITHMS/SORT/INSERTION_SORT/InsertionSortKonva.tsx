@@ -72,8 +72,7 @@ const InsertionSortKonva: React.FC<InsertionSortProps> = ({ props }) => {
     }, [props.isAnimating]);
 
 
-    //console.log("IndexNum: ", indexNum);
-    console.log("Insertion Rectangle: ", array);
+
 
 
     return <Stage width={props.konvaWidth} height={props.konvaHeight} className="w-full h-[95%]">

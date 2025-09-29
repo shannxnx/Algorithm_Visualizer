@@ -108,17 +108,7 @@ export async function animateSort(array: rectInfo[], duration: number = 500) {
 
 
 
-// Compute slot position (centered layout)
-export function computeSlotX(
-    index: number,
-    totalCount: number,
-    stageWidth: number,
-    spacing: number
-) {
-    const totalWidth = (totalCount - 1) * spacing;
-    const startX = (stageWidth - totalWidth) / 2;
-    return startX + index * spacing;
-}
+
 
 
 
