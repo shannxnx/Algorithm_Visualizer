@@ -19,6 +19,16 @@ type rectArrayRenderProps = {
 };
 
 
+type SelectionPropsRenderer = {
+    array?: Array<rectInfo>;
+    offsetX: number;
+    offsetY: number;
+    opacity?: number;
+    index?: indexInterface[],
+    nodeMapRef?: React.RefObject<Map<number, Konva.Group>>
+
+}
+
 type singleGroupRectProps = {
     rectInfo: rectInfo,
     groupRef: React.Ref<Konva.Group | null>,
@@ -220,6 +230,67 @@ export function RectangleRendererIS({ array, offsetX = 0, offsetY = 0, groupRef,
                     ref={(node) => { if (node) r.node = node }}
                     opacity={opacity}
                     key={`group-${id}`}
+                    x={r.x}
+                    y={r.y + r.height / 2}
+                    scaleX={r.scaleX ?? 1}
+                    scaleY={r.scaleY ?? 1}
+                    offsetX={r.width / 2}
+                    offsetY={r.height / 2}
+                >
+                    <Rect
+
+                        width={r.width}
+                        height={r.height}
+                        fill={r.color}
+                        cornerRadius={5}
+
+
+                    />
+                    <Text
+
+                        text={`${r.number}`}
+                        width={r.width}
+                        height={r.height}
+                        align="center"
+                        verticalAlign="middle"
+                        fill="white"
+                        fontSize={20}
+
+
+                    />
+
+
+
+
+                </Group>
+
+
+            ))
+
+
+        }
+
+
+    </Group>
+    )
+}
+
+
+
+export function RectangleRendererSelection({ array, offsetX = 0, offsetY = 0, groupRef, opacity = 1, nodeMapRef }: SelectionPropsRenderer &
+{ groupRef?: React.RefObject<Konva.Group | null> }) {
+
+
+    return (<Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
+        {
+            array!.map((r, id) => (
+                <Group
+                    ref={(node) => {
+                        if (!node) nodeMapRef!.current.delete(r.id!);
+                        else nodeMapRef!.current.set(r.id!, node);
+                    }}
+                    opacity={opacity}
+                    key={r.id}
                     x={r.x}
                     y={r.y + r.height / 2}
                     scaleX={r.scaleX ?? 1}

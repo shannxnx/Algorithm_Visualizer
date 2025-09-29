@@ -7,7 +7,7 @@ import type { rectInfo, animation } from "../../../INTERFACES && TYPES/sortInter
 import useMeasure from "react-use-measure";
 import React from "react";
 import toast from "react-hot-toast";
-import { generateBoxesInfo } from "../HELPER_FUNCTION/helpter";
+import { generateBoxesInfo, generateBoxesInfoSelection } from "../HELPER_FUNCTION/helpter";
 import SelectionSortKonva from "./SelectionSortKonva";
 
 
@@ -76,12 +76,11 @@ export default function SelectionSort() {
         }
     }
 
-    const handleNewBoxes = useCallback(() => {
-        setRectsArray(generateBoxesInfo(rectsArray.length, bounds));
+    const handleNewBoxes = () => {
+        setRectsArray(generateBoxesInfoSelection(rectsArray.length, bounds));
         setIsAnimating("idle");
         toast("clicked new boxes");
-
-    }, [isAnimating]);
+    }
 
 
 

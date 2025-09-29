@@ -188,62 +188,60 @@ export async function InsertionSortAnimation(
 }
 
 
+// animation.helper.ts
+export async function SelectionSortAnimation(
+    arr: rectInfo[],
+    duration: number,
+    nodeMap: Map<number, Konva.Group>
+) {
+    const array = [...arr];
+    const n = array.length;
+
+    for (let i = 0; i < n - 1; i++) {
+        let minIdx = i;
+        let minimumRect = array[i];
+        let minNode = nodeMap.get(minimumRect.id!)!;
+
+        await animationScaleSmooth(minNode, 1.2, 0.3);
+        await animationScaleSmooth(minNode, 1, 0.3);
+
+        for (let j = i + 1; j < n; j++) {
+            const currentRect = array[j];
+            const currentNode = nodeMap.get(currentRect.id!)!;
+
+            await animationScaleSmooth(currentNode, 1.2, 0.3);
+            await animationScaleSmooth(currentNode, 1, 0.3);
+
+            if (currentRect.number < minimumRect.number) {
+                minIdx = j;
+                minimumRect = currentRect;
+                minNode = currentNode;
+            }
+        }
+
+        if (minIdx !== i) {
+            const rectA = array[i];
+            const rectB = array[minIdx];
+            const nodeA = nodeMap.get(rectA.id!)!;
+            const nodeB = nodeMap.get(rectB.id!)!;
+
+            const xA = nodeA.x();
+            const xB = nodeB.x();
+
+            const offsetY = array.length < 7 ? 22.5 : 20;
+
+            await animateTo(nodeA, { y: rectA.y - 50 }, duration, { originY: rectA.y });
+            await animateTo(nodeA, { x: xB }, duration, { originX: xA });
+            await animateTo(nodeB, { x: xA }, duration, { originX: xB });
+            await animateTo(nodeA, { y: rectA.y + offsetY }, duration, { originY: rectA.y - 50 });
+
+            [array[i], array[minIdx]] = [array[minIdx], array[i]];
+        }
+    }
 
 
-//export async function SelectionSortAnimation(
-//    arr: rectInfo[],
-//    duration: number = 500,
-//    setRects: React.Dispatch<React.SetStateAction<rectInfo[]>>
-//) {
-//    const array = [...arr];
-//    const n = array.length;
-//
-//    for (let i = 0; i < n - 1; i++) {
-//        let minIdx = i;
-//        let minimumRect: rectInfo = array[i];
-//
-//        // Highlight the starting min
-//        await animationScaleSmooth(minimumRect.node!, 1.2, 0.3);
-//        await animationScaleSmooth(minimumRect.node!, 1, 0.3);
-//
-//        for (let j = i + 1; j < n; j++) {
-//            const currentRect: rectInfo = array[j];
-//
-//
-//            await animationScaleSmooth(currentRect.node!, 1.2, 0.3);
-//            await animationScaleSmooth(currentRect.node!, 1, 0.3);
-//
-//            if (currentRect.number < minimumRect.number) {
-//                minIdx = j;
-//                minimumRect = currentRect;
-//            }
-//        }
-//
-//
-//        if (minIdx !== i) {
-//            const rectA = array[i];
-//            const rectB = array[minIdx];
-//
-//            const xA = rectA.node!.x();
-//            const xB = rectB.node!.x();
-//
-//
-//            await animateTo(rectA.node!, { y: rectA.y - 50 }, duration, { originY: rectA.y });
-//
-//            await animateTo(rectA.node!, { x: xB }, duration, { originX: xA });
-//            await animateTo(rectB.node!, { x: xA }, duration, { originX: xB });
-//
-//            await animateTo(rectA.node!, { y: rectA.y + 22.5 }, duration, { originY: rectA.y - 50 });
-//
-//
-//            [array[i], array[minIdx]] = [array[minIdx], array[i]];
-//
-//        }
-//    }
-//
-//
-//
-//}
+}
+
 
 
 
