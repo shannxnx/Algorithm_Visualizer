@@ -232,3 +232,29 @@ export const editSortCode = async (req: Request, res: Response) => {
     }
 };
 
+
+
+export const postAlgorithm = async (req: Request, res: Response) => {
+    const { algoInfo, algoName, codes } = req.body;
+
+
+    try {
+        const existing = await AlgorithmInfo.findOne({ algoName });
+        if (existing) return res.status(400).json({ message: "Error request!" });
+
+        const newAlgo = new AlgorithmInfo({
+            algoInfo,
+            algoName,
+            codes
+        });
+
+        await newAlgo.save();
+
+        res.status(201).json(newAlgo);
+
+
+    } catch (error: any) {
+        console.log("Internal Server Error: ", error.message);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}

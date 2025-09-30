@@ -13,6 +13,7 @@ import QuickSort from './ALGORITHMS/SORT/QUICK_SORT/QuickSort'
 import RollingButtons from './TEST_SITE/RollingButtons'
 import InsertionSort from './ALGORITHMS/SORT/INSERTION_SORT/InsertionSort'
 import SelectionSort from './ALGORITHMS/SORT/SELECTION_SORT/SelectionSort'
+import BinarySearch from './ALGORITHMS/SEARCH/BINARY_SEARCH/BinarySearch'
 
 
 
@@ -43,6 +44,9 @@ function App() {
         <Route path='/sort/quick' element={<QuickSort />} />
         <Route path='/sort/insertion' element={<InsertionSort />} />
         <Route path='/sort/selection' element={<SelectionSort />} />
+
+
+        <Route path='/search/binary' element={<BinarySearch />} />
 
         <Route path='/secret/login' element={clickCount != 13 ? <Navigate to="/" replace /> : <AdminLogin />} />
 

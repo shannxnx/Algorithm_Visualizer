@@ -49,42 +49,42 @@ export const searchingArray = [
     {
         algoInfo: {
             name: "Binary Search",
-            link: "search/binary",
+            algoLink: "search/binary",
             img: ""
         }
     },
     {
         algoInfo: {
             name: "Linear Search",
-            link: "search/linear",
+            algoLink: "search/linear",
             img: ""
         }
     },
     {
         algoInfo: {
             name: "Interpolation Search",
-            link: "search/interpolation",
+            algoLink: "search/interpolation",
             img: ""
         }
     },
     {
         algoInfo: {
             name: "Jump Search",
-            link: "search/jump",
+            algoLink: "search/jump",
             img: ""
         }
     },
     {
         algoInfo: {
             name: "Exponential Search",
-            link: "search/exponential",
+            algoLink: "search/exponential",
             img: ""
         }
     },
     {
         algoInfo: {
             name: "Ternary Search",
-            link: "search/ternary",
+            algoLink: "search/ternary",
             img: ""
         }
     },

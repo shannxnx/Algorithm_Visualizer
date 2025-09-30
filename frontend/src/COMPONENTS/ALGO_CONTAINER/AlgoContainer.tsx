@@ -36,7 +36,7 @@ export default function AlgoContainer({ myRef }: Props) {
         setCurrentArray(sortingArray);
     }, [])
 
-    //console.log("Current Array: ", currentArray);
+    console.log("Current Array: ", currentArray);
 
 
     return <div className={`w-screen overflow-x-hidden flex flex-col justify-center items-center 

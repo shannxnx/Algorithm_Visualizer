@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import dotenv from "dotenv"
 import { ConnectDB } from "./lib/db";
 import SortAlgoRoutes from "../src/routes/sortAlgo.routes";
+import SearchAlgoRoutes from "../src/routes/searchAlgo.routes";
 import AdminRoutes from "../src/routes/adminAuth.routes";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -27,7 +28,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/algorithm/db", SortAlgoRoutes);
 app.use("/secret/admin", AdminRoutes);
-//app.use("/search/db", SearchAlgoRoutes);
+app.use("/algorithm/db/search", SearchAlgoRoutes);
 
 app.listen(PORT, () => {
     console.log("Connected to this http://localhost:", 5000);

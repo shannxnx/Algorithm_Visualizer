@@ -18,6 +18,9 @@ let pinkHex = "#DB8C8C";
 
 export default function AlgoCard({ algoName, algoLink, index, algoImg }: props,) {
 
+
+    console.log("Algo Link: ", algoLink)
+
     return <motion.a href={`${algoLink}`} className="border border-black w-[85%] h-[400px] rounded-[8px] cursor-pointer 
     bg-white"
         initial={{ opacity: 0, y: 100, scale: 0.95 }}
