@@ -23,8 +23,7 @@ export default function AlgoContainer({ myRef }: Props) {
     const Admin = authStore((state: any) => state.Admin);
 
 
-    //console.log("Algo category : ", algoCategory);
-    //console.log("Current Array : ", currentArray)
+
 
 
 
@@ -37,7 +36,7 @@ export default function AlgoContainer({ myRef }: Props) {
         setCurrentArray(sortingArray);
     }, [])
 
-
+    //console.log("Current Array: ", currentArray);
 
 
     return <div className={`w-screen overflow-x-hidden flex flex-col justify-center items-center 
@@ -77,7 +76,8 @@ export default function AlgoContainer({ myRef }: Props) {
 
 
             {
-                currentArray && Array.isArray(currentArray) && currentArray?.map((a: any, id: any) => <AlgoCard key={id} algoName={a.algoInfo.name} algoLink={a.algoInfo.algoLink} index={id} />)
+                currentArray && Array.isArray(currentArray) && currentArray?.map((a: any, id: any) =>
+                    <AlgoCard key={id} algoName={a.algoInfo.name} algoLink={a.algoInfo.algoLink} index={id} algoImg={a.algoInfo.img} />)
 
             }
 

@@ -1,5 +1,5 @@
 import { Stage, Layer, Rect, Text, Group } from "react-konva"
-import { testArray } from "../../../LIB/algoDummyDB";
+
 import type React from "react";
 
 

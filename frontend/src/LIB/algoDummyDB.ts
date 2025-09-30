@@ -1,39 +1,43 @@
-
+import BubbleSortImg from "../../img/sorting/Bubble_Sort.png";
+import MergeSortImg from "../../img/sorting/Merge_Sort.png";
+import QuickSortImg from "../../img/sorting/Quick_Sort.png";
+import InsertionSortImg from "../../img/sorting/Insertion_Sort.png";
+import SelectionSortImg from "../../img/sorting/Selection_Sort.jpg";
 
 export const sortingArray = [
     {
         algoInfo: {
             name: "Bubble",
             algoLink: "sort/bubble",
-            img: ""
+            img: BubbleSortImg
         }
     },
     {
         algoInfo: {
             name: "Merge",
             algoLink: "sort/merge",
-            img: ""
+            img: MergeSortImg
         }
     },
     {
         algoInfo: {
             name: "Quick",
             algoLink: "sort/quick",
-            img: ""
+            img: QuickSortImg
         }
     },
     {
         algoInfo: {
             name: "Insertion",
             algoLink: "sort/insertion",
-            img: ""
+            img: InsertionSortImg
         }
     },
     {
         algoInfo: {
             name: "Selection",
             algoLink: "sort/selection",
-            img: ""
+            img: SelectionSortImg
         }
     },
 
@@ -175,41 +179,8 @@ export const rectInfo = [
     }
 ]
 
-/*
-prevX + 30
-prev_y - 25
-height + 25
-
-*/
-interface rectangle {
-    x_pos: number,
-    y_pos: number,
-    width: number,
-    height: number,
-    color: string
-}
 
 
-export const testArray: Array<rectangle> = [];
-for (let i = 0; i < 8; i++) {
-    const gap = 5;
-    const width = 35;
-    const height = 25 + (i * width);
-    const x_pos = (window.innerWidth / 2) + (i * (width + gap));
-    const y_pos = (window.innerHeight / 2) - (i * width);
-
-
-    const rectInfo = {
-        x_pos,
-        y_pos,
-        width,
-        height,
-        color: 'red'
-    }
-
-    testArray.push(rectInfo);
-
-}
 
 
 
