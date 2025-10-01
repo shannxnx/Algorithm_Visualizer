@@ -1,7 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { searchStore } from "../../../STATE/searchStore"
-import type { SortKit } from "../../../INTERFACES && TYPES/sortInterface";
+import type { animation, rectInfo, SortKit } from "../../../INTERFACES && TYPES/sortInterface";
 import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
+import BinaryButton from "../../../COMPONENTS/BUTTONS/SearchButton";
+import useMeasure from "react-use-measure";
+import BinarySearchKonva from "./BinarySearchKonva";
+import { generateBoxesInfo } from "../../SORT/HELPER_FUNCTION/helpter";
+
+
+
+type BinarySearchPayload = {
+
+    boxesInfo: Array<rectInfo>;
+    isAnimating?: animation;
+    setIsAnimating?: (animate: animation) => void;
+    konvaWidth?: number;
+    konvaHeight?: number;
+    setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>;
+}
+
 
 
 export default function BinarySearch() {
@@ -11,13 +28,36 @@ export default function BinarySearch() {
     const editSortCode = searchStore((state: any) => state.editSortCode);
 
 
+    const [array, setArray] = useState();
+    const [arraySize, setArraySize] = useState<number>(1);
+    const [rectToSearch, setRectToSearch] = useState<rectInfo | null>(null);
+
+    const [ref, bounds] = useMeasure();
+    const [rectsArray, setRectsArray] = useState<rectInfo[]>([]);
+
+
+
+
+
+
+    const [isAnimating, setIsAnimating] = useState<animation>("idle");
+    const [searchValue, setSearchValue] = useState<number>(0);
+    const [sizeValue, setSizeValue] = useState<number>(1);
+
     useEffect(() => {
 
         getBinarySearch();
 
     }, []);
 
-    console.log("Binary Search Info: ", binarySearchInfo);
+
+    useEffect(() => {
+        if (bounds.width && bounds.height > 0) {
+            setRectsArray(generateBoxesInfo(6, bounds));
+        }
+
+    }, [bounds.width]);
+
 
     const BinaryPayload: SortKit = {
         algoInfo: binarySearchInfo.algoInfo,
@@ -27,11 +67,41 @@ export default function BinarySearch() {
     };
 
 
-    return <main className="w-screen h-screen flex gap-5 overflow-x-hidden p-2 bg-black">
+
+    const BinaryKonvaPayload: BinarySearchPayload = {
+        boxesInfo: rectsArray,
+        isAnimating: isAnimating,
+        setIsAnimating: setIsAnimating,
+        konvaWidth: Math.floor(bounds.width),
+        konvaHeight: 420,
+        setBoxesInfo: setRectsArray
+    }
+
+
+    const actionsProps = {
+        size: (val: number) => setSizeValue(val),
+        search: (data: rectInfo) => setRectToSearch(data),
+        testSearch: (val: number) => setSearchValue(val)
+
+    };
+
+    const stateProps = {
+        isAnimating: isAnimating,
+        searchValue: searchValue,
+        sizeValue: sizeValue
+
+    }
+
+
+    console.log("Search Value: ", searchValue);
+    console.log("Array Size: ", sizeValue);
+    console.log("Array: ", rectsArray);
+
+    return <main className="w-screen h-screen flex  gap-5 overflow-x-hidden p-2 bg-black ">
 
 
         <div className="w-[60%] h-full border-1 relative flex flex-col rounded bg-white
-        items-center">
+        items-center" ref={ref}>
 
 
 
@@ -39,11 +109,16 @@ export default function BinarySearch() {
              flex items-center justify-center rounded-[8px] duration-200 bg-white/70 backdrop-blur-sm shadow-xl m-4 
              overflow-x-scroll border-black">
 
+                {
+                    rectsArray.length > 0 ? <BinarySearchKonva props={BinaryKonvaPayload} />
+                        : null
+                }
+
             </div>
 
 
             {/*<ButtonV1 showButton={showButtonProps} actions={actionsProps} states={stateProps} />*/}
-
+            <BinaryButton actions={actionsProps} states={stateProps} />
 
         </div>
 
