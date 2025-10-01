@@ -13,6 +13,7 @@ type BinaryButtonProps = {
         size: (val: number) => void,
         search: (data: rectInfo) => void,
         testSearch?: (val: number) => void
+        create?: () => void,
 
 
 
@@ -50,7 +51,7 @@ function BinaryButton({ actions, states }: BinaryButtonProps) {
                 >
                     <div className="w-full h-1/2 flex gap-2 items-center ">
                         <button className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl
-                    border-black h-[80%]" >
+                    border-black h-[80%]" onClick={actions?.create}>
                             Create
                         </button>
                         <label htmlFor="create" className="lg:text-[20px]">Size</label>

@@ -6,6 +6,8 @@ import BinaryButton from "../../../COMPONENTS/BUTTONS/SearchButton";
 import useMeasure from "react-use-measure";
 import BinarySearchKonva from "./BinarySearchKonva";
 import { generateBoxesInfo } from "../../SORT/HELPER_FUNCTION/helpter";
+import { create } from "zustand";
+import { div } from "framer-motion/client";
 
 
 
@@ -53,7 +55,7 @@ export default function BinarySearch() {
 
     useEffect(() => {
         if (bounds.width && bounds.height > 0) {
-            setRectsArray(generateBoxesInfo(6, bounds));
+            setRectsArray(generateBoxesInfo(sizeValue, bounds));
         }
 
     }, [bounds.width]);
@@ -78,12 +80,19 @@ export default function BinarySearch() {
     }
 
 
+    const handleNewBoxes = () => {
+        setRectsArray(generateBoxesInfo(sizeValue, bounds));
+    }
+
     const actionsProps = {
         size: (val: number) => setSizeValue(val),
         search: (data: rectInfo) => setRectToSearch(data),
-        testSearch: (val: number) => setSearchValue(val)
+        testSearch: (val: number) => setSearchValue(val),
+        create: handleNewBoxes
 
     };
+
+
 
     const stateProps = {
         isAnimating: isAnimating,
@@ -107,7 +116,7 @@ export default function BinarySearch() {
 
             <div className="w-[95%] h-[75%] border-1
              flex items-center justify-center rounded-[8px] duration-200 bg-white/70 backdrop-blur-sm shadow-xl m-4 
-             overflow-x-scroll border-black">
+             overflow-x-scroll border-black" style={{ scrollbarGutter: "stable" }}>
 
                 {
                     rectsArray.length > 0 ? <BinarySearchKonva props={BinaryKonvaPayload} />

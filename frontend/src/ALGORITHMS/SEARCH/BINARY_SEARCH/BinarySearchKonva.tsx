@@ -65,7 +65,7 @@ const BinarySearchKonva: React.FC<BinarySearchProps> = ({ props }) => {
 
 
 
-    return <Stage width={props.konvaWidth} height={props.konvaHeight} className="w-full h-[95%] ">
+    return <Stage width={props.konvaWidth} height={props.konvaHeight} className="w-full h-[95%]">
         <Layer>
             <RectangleRendererIS array={array} offsetX={0} offsetY={middleY} />
             <RectangleIndex index={indexNum} offsetX={0} offsetY={middleY} />
