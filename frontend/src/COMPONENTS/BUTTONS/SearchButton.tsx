@@ -14,7 +14,7 @@ type BinaryButtonProps = {
         search: (data: rectInfo) => void,
         testSearch?: (val: number) => void
         create?: () => void,
-
+        start: () => void
 
 
 
@@ -61,7 +61,7 @@ function BinaryButton({ actions, states }: BinaryButtonProps) {
 
                     <div className="w-full lg:h-1/2 flex gap-2 items-center">
                         <button className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl
-                    border-black h-[80%]">
+                    border-black h-[80%]" onClick={actions?.start}>
                             Start
                         </button>
                         <label htmlFor="find">Search number</label>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { rectInfo, animation } from "../../../INTERFACES && TYPES/sortInterface"
 import { Layer, Stage } from "react-konva";
 import { RectangleIndex, RectangleRendererIS } from "../../../RENDERER/Renderer";
+import { changeColor } from "../../SORT/HELPER_FUNCTION/searchAnimation.helper";
 
 
 type BinarySearchPayload = {
@@ -12,6 +13,7 @@ type BinarySearchPayload = {
     konvaWidth?: number;
     konvaHeight?: number;
     setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>;
+    searchValue?: number
 }
 
 interface BinarySearchProps {
@@ -56,12 +58,28 @@ const BinarySearchKonva: React.FC<BinarySearchProps> = ({ props }) => {
 
             return retThis
         }));
-    }, [props.boxesInfo])
+    }, [props.boxesInfo]);
+
+
+    console.log("Is Animating: ", props.isAnimating);
+    useEffect(() => {
+
+        if (props.isAnimating === "animating") {
+            console.log("Hello conva");
+
+            (async () => {
+                await changeColor(props.boxesInfo, props.searchValue!, props.setBoxesInfo);
+            })()
+
+        }
+
+
+    }, [props.isAnimating])
 
 
 
 
-
+    console.log("search value: ", props.searchValue);
 
 
 

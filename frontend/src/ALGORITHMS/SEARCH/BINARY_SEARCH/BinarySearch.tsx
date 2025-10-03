@@ -5,9 +5,10 @@ import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import BinaryButton from "../../../COMPONENTS/BUTTONS/SearchButton";
 import useMeasure from "react-use-measure";
 import BinarySearchKonva from "./BinarySearchKonva";
-import { generateBoxesInfo } from "../../SORT/HELPER_FUNCTION/helpter";
+import { generateBoxesInfo, generateSortedBoxesInfo } from "../../SORT/HELPER_FUNCTION/helpter";
 import { create } from "zustand";
 import { div } from "framer-motion/client";
+import { changeColor } from "../../SORT/HELPER_FUNCTION/searchAnimation.helper";
 
 
 
@@ -19,6 +20,7 @@ type BinarySearchPayload = {
     konvaWidth?: number;
     konvaHeight?: number;
     setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>;
+    searchValue?: number
 }
 
 
@@ -76,19 +78,28 @@ export default function BinarySearch() {
         setIsAnimating: setIsAnimating,
         konvaWidth: Math.floor(bounds.width),
         konvaHeight: 420,
-        setBoxesInfo: setRectsArray
+        setBoxesInfo: setRectsArray,
+        searchValue: searchValue,
     }
 
 
     const handleNewBoxes = () => {
-        setRectsArray(generateBoxesInfo(sizeValue, bounds));
+        setRectsArray(generateSortedBoxesInfo(sizeValue, bounds));
+        setIsAnimating("idle");
+    }
+
+
+    const changeColorFunc = async () => {
+        //await changeColor(rectsArray, sizeValue);
+        setIsAnimating("animating");
     }
 
     const actionsProps = {
         size: (val: number) => setSizeValue(val),
         search: (data: rectInfo) => setRectToSearch(data),
         testSearch: (val: number) => setSearchValue(val),
-        create: handleNewBoxes
+        create: handleNewBoxes,
+        start: () => setIsAnimating("animating")
 
     };
 
@@ -126,7 +137,7 @@ export default function BinarySearch() {
             </div>
 
 
-            {/*<ButtonV1 showButton={showButtonProps} actions={actionsProps} states={stateProps} />*/}
+
             <BinaryButton actions={actionsProps} states={stateProps} />
 
         </div>
