@@ -13,8 +13,8 @@ interface AlgoStructure {
 
 interface StoreState {
     BinarySearchInfo: AlgoStructure;
-    LinearSearcInfo: AlgoStructure;
-    InterpolationSearchinfo: AlgoStructure;
+    LinearSearchInfo: AlgoStructure;
+    InterpolationSearchInfo: AlgoStructure;
     JumpSearchinfo: AlgoStructure;
     ExponentialSearchInfo: AlgoStructure;
     TernarySearchInfo: AlgoStructure
@@ -22,10 +22,7 @@ interface StoreState {
     editSortCode: (data: any) => void;
     getBinarySearch: () => void;
     getLinearSearch: () => void;
-    //getMergeSort: () => void;
-    //getQuickSort: () => void;
-    //getInsertionSort: () => void;
-    //getSelectionSort: () => void;
+    getInterpolationSearch: () => void;
 
 };
 
@@ -37,8 +34,8 @@ const empty: AlgoStructure = {
 
 export const searchStore = create<StoreState>((set) => ({
     BinarySearchInfo: empty,
-    LinearSearcInfo: empty,
-    InterpolationSearchinfo: empty,
+    LinearSearchInfo: empty,
+    InterpolationSearchInfo: empty,
     JumpSearchinfo: empty,
     ExponentialSearchInfo: empty,
     TernarySearchInfo: empty,
@@ -70,9 +67,21 @@ export const searchStore = create<StoreState>((set) => ({
 
     getLinearSearch: async () => {
         try {
-
-        } catch (error) {
-
+            const res = await AxiosInstance.get("/search/linear-search");
+            set({ LinearSearchInfo: res.data });
+        } catch (error: any) {
+            console.log("Error in getting algo store: ", error.message);
         }
-    }
+    },
+
+    getInterpolationSearch: async () => {
+        try {
+            const res = await AxiosInstance.get("/search/interpolation-search");
+            set({ InterpolationSearchInfo: res.data });
+        } catch (error: any) {
+            console.log("Error in getting algo store: ", error.message);
+        }
+    },
+
+
 })) 

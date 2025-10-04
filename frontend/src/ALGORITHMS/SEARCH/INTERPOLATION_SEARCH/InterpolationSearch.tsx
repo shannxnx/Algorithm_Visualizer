@@ -8,11 +8,12 @@ import { generateBoxesInfo, generateSortedBoxesInfo } from "../../SORT/HELPER_FU
 import { create } from "zustand";
 import { div } from "framer-motion/client";
 import { changeColor } from "../../SORT/HELPER_FUNCTION/searchAnimation.helper";
-import LinearSearchKonva from "./LinearSearchKonva";
+import InterpolationSearchKonva from "./InterpolationKonva";
 
 
 
-type LinearSearchPayload = {
+
+type InterpoSearchPayload = {
 
     boxesInfo: Array<rectInfo>;
     isAnimating?: animation;
@@ -25,10 +26,10 @@ type LinearSearchPayload = {
 
 
 
-export default function LinearSearch() {
+export default function InterpolationSearch() {
 
-    const getLinearSearch = searchStore((state: any) => state.getLinearSearch);
-    const LinearSearchInfo = searchStore((state: any) => state.LinearSearchInfo);
+    const getInterpolationSearch = searchStore((state: any) => state.getInterpolationSearch);
+    const InterpolationSearchInfo = searchStore((state: any) => state.InterpolationSearchInfo);
     const editSortCode = searchStore((state: any) => state.editSortCode);
 
     const [array, setArray] = useState();
@@ -44,7 +45,7 @@ export default function LinearSearch() {
 
     useEffect(() => {
 
-        getLinearSearch();
+        getInterpolationSearch();
 
     }, []);
 
@@ -57,16 +58,16 @@ export default function LinearSearch() {
     }, [bounds.width]);
 
 
-    const LinearPayload: SortKit = {
-        algoInfo: LinearSearchInfo.algoInfo,
-        algoName: LinearSearchInfo.algoName,
-        codes: LinearSearchInfo.codes,
+    const InterpolationPayload: SortKit = {
+        algoInfo: InterpolationSearchInfo.algoInfo,
+        algoName: InterpolationSearchInfo.algoName,
+        codes: InterpolationSearchInfo.codes,
         editAlgoInfo: editSortCode
     };
 
 
 
-    const LinearKonvaPayload: LinearSearchPayload = {
+    const InterpoKonvaPayload: InterpoSearchPayload = {
         boxesInfo: rectsArray,
         isAnimating: isAnimating,
         setIsAnimating: setIsAnimating,
@@ -79,7 +80,7 @@ export default function LinearSearch() {
 
     const handleNewBoxes = () => {
         if (sizeValue <= 15) {
-            setRectsArray(generateBoxesInfo(sizeValue, bounds));
+            setRectsArray(generateSortedBoxesInfo(sizeValue, bounds));
             setIsAnimating("idle");
         }
         else {
@@ -121,7 +122,7 @@ export default function LinearSearch() {
              overflow-x-scroll border-black" style={{ scrollbarGutter: "stable" }}>
 
                 {
-                    rectsArray.length > 0 ? <LinearSearchKonva props={LinearKonvaPayload} />
+                    rectsArray.length > 0 ? <InterpolationSearchKonva props={InterpoKonvaPayload} />
                         : null
                 }
             </div>
@@ -132,7 +133,7 @@ export default function LinearSearch() {
 
         </div>
 
-        <AlgoInfo algoInfo={LinearPayload} />
+        <AlgoInfo algoInfo={InterpolationPayload} />
 
 
     </main>

@@ -14,6 +14,9 @@ import RollingButtons from './TEST_SITE/RollingButtons'
 import InsertionSort from './ALGORITHMS/SORT/INSERTION_SORT/InsertionSort'
 import SelectionSort from './ALGORITHMS/SORT/SELECTION_SORT/SelectionSort'
 import BinarySearch from './ALGORITHMS/SEARCH/BINARY_SEARCH/BinarySearch'
+import LinearSearch from './ALGORITHMS/SEARCH/LINEAR_SEARCH/LinearSearch'
+import InterpolationSearch from './ALGORITHMS/SEARCH/INTERPOLATION_SEARCH/InterpolationSearch'
+
 
 
 
@@ -46,8 +49,10 @@ function App() {
         <Route path='/sort/selection' element={<SelectionSort />} />
 
 
-        <Route path='/search/binary' element={<BinarySearch />} />
 
+        <Route path='/search/binary' element={<BinarySearch />} />
+        <Route path='/search/linear' element={<LinearSearch />} />
+        <Route path='/search/interpolation' element={<InterpolationSearch />} />
         <Route path='/secret/login' element={clickCount != 13 ? <Navigate to="/" replace /> : <AdminLogin />} />
 
 
