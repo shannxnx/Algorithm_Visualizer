@@ -21,6 +21,7 @@ interface StoreState {
 
     editSortCode: (data: any) => void;
     getBinarySearch: () => void;
+    getLinearSearch: () => void;
     //getMergeSort: () => void;
     //getQuickSort: () => void;
     //getInsertionSort: () => void;
@@ -63,6 +64,15 @@ export const searchStore = create<StoreState>((set) => ({
 
         } catch (error: any) {
             console.log("Error in getting algo store: ", error.message);
+        }
+    },
+
+
+    getLinearSearch: async () => {
+        try {
+
+        } catch (error) {
+
         }
     }
 })) 

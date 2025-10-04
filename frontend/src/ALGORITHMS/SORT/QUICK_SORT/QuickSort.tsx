@@ -25,8 +25,8 @@ type QuickPayload = {
 
 
 const desktopSize: desktopSize = {
-    d_small: 35,
-    d_medium: 40,
+    d_small: 40,
+    d_medium: 45,
 }
 
 
@@ -139,7 +139,7 @@ export default function QuickSort() {
 
             const konvaWidth: number = bounds.width;
 
-            const rectWidth = arrayLength > 6 ? 35 : 40;
+            const rectWidth = arrayLength > 6 ? 40 : 45;
 
             const spacing = 5;
             const totalWidth = arrayLength * rectWidth + (arrayLength - 1) * spacing
@@ -217,7 +217,7 @@ export default function QuickSort() {
                         const rmLength = removeArray.length;
                         const rmKonvaWidth = bounds.width;
                         const rmSpacing = 5;
-                        const rmRectWidth = rmLength > 6 ? 35 : 40;
+                        const rmRectWidth = rmLength > 6 ? 40 : 45;
 
                         const rmTotalWidth = rmLength * rmRectWidth + (rmLength - 1) * rmSpacing;
 
@@ -247,7 +247,7 @@ export default function QuickSort() {
                     const newLength = poppedArray.length;
                     const newKonvaWidth = bounds.width;
                     const newSpacing = 5;
-                    const newRectWidth = newLength > 6 ? 35 : 40;
+                    const newRectWidth = newLength > 6 ? 40 : 45;
 
                     const newTotalWidth = newLength * newRectWidth + (newLength - 1) * newSpacing;
                     const newStartX = (newKonvaWidth / 2) - (newTotalWidth / 2);

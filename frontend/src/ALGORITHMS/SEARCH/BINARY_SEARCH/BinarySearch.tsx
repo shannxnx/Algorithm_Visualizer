@@ -84,14 +84,13 @@ export default function BinarySearch() {
 
 
     const handleNewBoxes = () => {
-        setRectsArray(generateSortedBoxesInfo(sizeValue, bounds));
-        setIsAnimating("idle");
-    }
-
-
-    const changeColorFunc = async () => {
-        //await changeColor(rectsArray, sizeValue);
-        setIsAnimating("animating");
+        if (sizeValue <= 15) {
+            setRectsArray(generateSortedBoxesInfo(sizeValue, bounds));
+            setIsAnimating("idle");
+        }
+        else {
+            console.log("Maximum rects reached!");
+        }
     }
 
     const actionsProps = {
@@ -113,9 +112,7 @@ export default function BinarySearch() {
     }
 
 
-    console.log("Search Value: ", searchValue);
-    console.log("Array Size: ", sizeValue);
-    console.log("Array: ", rectsArray);
+
 
     return <main className="w-screen h-screen flex  gap-5 overflow-x-hidden p-2 bg-black ">
 

@@ -1,29 +1,6 @@
 import type { rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 
 
-
-//export const changeColor = async (arr: rectInfo[], target: number) => {
-//
-//    //let left = 0, right = arr.length - 1;
-//
-//    let mid = Math.floor(arr.length / 2);
-//
-//    arr[mid].color = "red";
-//
-//    if (arr[mid].number < target) {
-//        console.log("Hello!");
-//        for (let i = 0; i < mid; i++) {
-//            arr[i].color = "red";
-//        }
-//    }
-//
-//
-//
-//    return -1;
-//
-//}
-
-
 export const changeColor = async (
     arr: rectInfo[],
     target: number,
