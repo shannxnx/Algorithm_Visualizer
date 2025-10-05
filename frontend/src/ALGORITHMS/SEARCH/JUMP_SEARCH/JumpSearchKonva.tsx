@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import type { rectInfo, animation } from "../../../INTERFACES && TYPES/sortInterface"
 import { Layer, Stage } from "react-konva";
 import { RectangleIndex, RectangleRendererIS } from "../../../RENDERER/Renderer";
-import { InterpolationAnimation } from "../../SORT/HELPER_FUNCTION/searchAnimation.helper";
+import { InterpolationAnimation, JumpSearchAnimation } from "../../SORT/HELPER_FUNCTION/searchAnimation.helper";
 
 
-type InterpoSearchPayload = {
+type JumpSearchPayload = {
 
     boxesInfo: Array<rectInfo>;
     isAnimating?: animation;
@@ -16,8 +16,8 @@ type InterpoSearchPayload = {
     searchValue?: number
 }
 
-interface InterpolationSearchProps {
-    props: InterpoSearchPayload
+interface JumpSearchProps {
+    props: JumpSearchPayload
 }
 
 export interface indexInterface {
@@ -31,7 +31,7 @@ export interface indexInterface {
 }
 
 
-const InterpolationSearchKonva: React.FC<InterpolationSearchProps> = ({ props }) => {
+const JumpSearchKonva: React.FC<JumpSearchProps> = ({ props }) => {
 
     const middleY = props.konvaHeight! / 2;
     const [array, setArray] = useState([...props.boxesInfo]);
@@ -61,7 +61,7 @@ const InterpolationSearchKonva: React.FC<InterpolationSearchProps> = ({ props })
 
         if (props.isAnimating === "animating") {
             (async () => {
-                await InterpolationAnimation(props.boxesInfo, props.searchValue!, props.setBoxesInfo);
+                await JumpSearchAnimation(props.boxesInfo, props.searchValue!, props.setBoxesInfo);
             })()
         }
 
@@ -79,6 +79,7 @@ const InterpolationSearchKonva: React.FC<InterpolationSearchProps> = ({ props })
     </Stage>
 }
 
-export default InterpolationSearchKonva;
+export default JumpSearchKonva;
+
 
 

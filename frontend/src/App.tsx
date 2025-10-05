@@ -16,6 +16,7 @@ import SelectionSort from './ALGORITHMS/SORT/SELECTION_SORT/SelectionSort'
 import BinarySearch from './ALGORITHMS/SEARCH/BINARY_SEARCH/BinarySearch'
 import LinearSearch from './ALGORITHMS/SEARCH/LINEAR_SEARCH/LinearSearch'
 import InterpolationSearch from './ALGORITHMS/SEARCH/INTERPOLATION_SEARCH/InterpolationSearch'
+import JumpSearch from './ALGORITHMS/SEARCH/JUMP_SEARCH/JumpSearch'
 
 
 
@@ -49,10 +50,11 @@ function App() {
         <Route path='/sort/selection' element={<SelectionSort />} />
 
 
-
         <Route path='/search/binary' element={<BinarySearch />} />
         <Route path='/search/linear' element={<LinearSearch />} />
         <Route path='/search/interpolation' element={<InterpolationSearch />} />
+        <Route path='/search/jump' element={<JumpSearch />} />
+
         <Route path='/secret/login' element={clickCount != 13 ? <Navigate to="/" replace /> : <AdminLogin />} />
 
 

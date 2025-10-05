@@ -15,7 +15,7 @@ interface StoreState {
     BinarySearchInfo: AlgoStructure;
     LinearSearchInfo: AlgoStructure;
     InterpolationSearchInfo: AlgoStructure;
-    JumpSearchinfo: AlgoStructure;
+    JumpSearchInfo: AlgoStructure;
     ExponentialSearchInfo: AlgoStructure;
     TernarySearchInfo: AlgoStructure
 
@@ -23,6 +23,7 @@ interface StoreState {
     getBinarySearch: () => void;
     getLinearSearch: () => void;
     getInterpolationSearch: () => void;
+    getJumpSearch: () => void;
 
 };
 
@@ -36,7 +37,7 @@ export const searchStore = create<StoreState>((set) => ({
     BinarySearchInfo: empty,
     LinearSearchInfo: empty,
     InterpolationSearchInfo: empty,
-    JumpSearchinfo: empty,
+    JumpSearchInfo: empty,
     ExponentialSearchInfo: empty,
     TernarySearchInfo: empty,
 
@@ -82,6 +83,19 @@ export const searchStore = create<StoreState>((set) => ({
             console.log("Error in getting algo store: ", error.message);
         }
     },
+
+
+    getJumpSearch: async () => {
+        try {
+            const res = await AxiosInstance.get("/search/jump-search");
+            set({ JumpSearchInfo: res.data });
+        } catch (error: any) {
+            console.log("Error in getting algo store: ", error.message);
+        }
+    }
+
+
+
 
 
 })) 

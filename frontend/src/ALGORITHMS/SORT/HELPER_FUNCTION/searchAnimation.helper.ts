@@ -121,3 +121,55 @@ export const InterpolationAnimation = async (
         await new Promise((res) => setTimeout(res, 500));
     }
 };
+
+
+export const JumpSearchAnimation = async (
+    arr: rectInfo[],
+    target: number,
+    setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>
+) => {
+    const n = arr.length;
+    const step = Math.floor(Math.sqrt(n));
+    let prev = 0;
+    let next = step;
+
+    const copyArr = [...arr];
+
+
+    while (next <= n && arr[Math.min(next, n) - 1].number < target) {
+
+
+        copyArr[Math.min(next, n) - 1] = { ...copyArr[Math.min(next, n) - 1], color: "orange" };
+        setBoxesInfo([...copyArr]);
+        await new Promise((res) => setTimeout(res, 600));
+        copyArr[Math.min(next, n) - 1] = { ...copyArr[Math.min(next, n) - 1], color: "blue" };
+        setBoxesInfo([...copyArr]);
+
+        prev = next;
+        next += step;
+
+        if (prev >= n) return;
+    }
+
+
+    for (let i = prev; i < Math.min(next, n); i++) {
+        const innerCopy = [...copyArr];
+        innerCopy[i] = { ...innerCopy[i], color: "orange" };
+        setBoxesInfo([...innerCopy]);
+        await new Promise((res) => setTimeout(res, 500));
+
+        if (arr[i].number === target) {
+            innerCopy[i] = { ...innerCopy[i], color: "green" };
+            setBoxesInfo([...innerCopy]);
+            await new Promise((res) => setTimeout(res, 800));
+            return;
+        } else {
+            innerCopy[i] = { ...innerCopy[i], color: "gray" };
+            setBoxesInfo([...innerCopy]);
+        }
+    }
+};
+
+
+
+
