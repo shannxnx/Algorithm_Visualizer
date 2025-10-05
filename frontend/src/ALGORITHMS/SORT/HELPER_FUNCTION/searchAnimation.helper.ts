@@ -75,59 +75,6 @@ export const LinearSearchAnimation = async (
 
 };
 
-
-//export const InterpolationAnimation = async (
-//    arr: rectInfo[],
-//    target: number,
-//    setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>
-//) => {
-//    let low = 0, high = arr.length - 1;
-//
-//    while (low <= high && target >= arr[low].number && target <= arr[high].number) {
-//
-//        const copyArr = [...arr];
-//
-//        if (low === high) {
-//            if (arr[low].number === target) {
-//                copyArr[low] = { ...arr[low], color: "green" };
-//                setBoxesInfo([...copyArr]);
-//                await new Promise((res) => setTimeout(res, 1000));
-//                break;
-//            }
-//        }
-//        let pos = low + Math.floor(((target - arr[low].number) * (high - low)) / (arr[high].number - arr[low].number));
-//
-//        if (arr[pos].number === target) {
-//            copyArr[pos] = { ...copyArr[pos], color: "green" };
-//            setBoxesInfo([...copyArr]);
-//            await new Promise((res) => setTimeout(res, 1000));
-//        }
-//
-//        if (arr[pos].number < target) {
-//            low = pos + 1;
-//            for (let i = low; i <= 0; i--) {
-//                copyArr[i] = { ...copyArr[i], color: "gray" };
-//                setBoxesInfo([...copyArr]);
-//                await new Promise((res) => setTimeout(res, 1000));
-//            }
-//        } else {
-//            high = pos - 1;
-//            for (let i = 0; i <= high; i++) {
-//                copyArr[i] = { ...copyArr[i], color: "gray" };
-//                setBoxesInfo([...copyArr]);
-//                await new Promise((res) => setTimeout(res, 1000));
-//
-//            }
-//        }
-//
-//        await new Promise((res) => setTimeout(res, 1000));
-//    }
-//
-//
-//
-//}
-
-
 export const InterpolationAnimation = async (
     arr: rectInfo[],
     target: number,
