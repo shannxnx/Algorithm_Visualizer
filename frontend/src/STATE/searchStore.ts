@@ -25,6 +25,7 @@ interface StoreState {
     getInterpolationSearch: () => void;
     getJumpSearch: () => void;
     getExponentialSearch: () => void;
+    getTernarySearch: () => void;
 
 };
 
@@ -99,6 +100,16 @@ export const searchStore = create<StoreState>((set) => ({
         try {
             const res = await AxiosInstance.get("/search/exponential-search");
             set({ ExponentialSearchInfo: res.data });
+        } catch (error: any) {
+            console.log("Error in getting algo store: ", error.message);
+        }
+    },
+
+
+    getTernarySearch: async () => {
+        try {
+            const res = await AxiosInstance.get("/search/ternary-search");
+            set({ TernarySearchInfo: res.data });
         } catch (error: any) {
             console.log("Error in getting algo store: ", error.message);
         }

@@ -17,7 +17,7 @@ router.get("/linear-search", getLinearSearchInfo);
 router.get("/interpolation-search", getInterpolationSearchInfo);
 router.get("/jump-search", getJumpSearchInfo);
 router.get("/exponential-search", getExponentialSearchInfo);
-router.get("ternary-search", getTernarySearchInfo);
+router.get("/ternary-search", getTernarySearchInfo);
 
 
 //router.post("/search/edit", protectRoute, editSearchCode);

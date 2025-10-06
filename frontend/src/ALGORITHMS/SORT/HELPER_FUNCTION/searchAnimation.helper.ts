@@ -2,20 +2,20 @@ import type React from "react";
 import type { rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 
 
+//this is just a simple binary search
 export const changeColor = async (
     arr: rectInfo[],
     target: number,
     setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>
 ) => {
-    let left = 0,
-        right = arr.length - 1;
+
+    let left = 0, right = arr.length - 1;
 
     while (left <= right) {
-        console.log("Left: ", left);
-        console.log("Right: ", right);
+
 
         let mid = Math.floor((left + right) / 2);
-        console.log("Mid: ", mid);
+
 
         let newArr = [...arr];
         newArr[mid] = { ...newArr[mid], color: "red" };
@@ -138,7 +138,6 @@ export const JumpSearchAnimation = async (
 
     while (next <= n && arr[Math.min(next, n) - 1].number < target) {
 
-
         copyArr[Math.min(next, n) - 1] = { ...copyArr[Math.min(next, n) - 1], color: "orange" };
         setBoxesInfo([...copyArr]);
         await new Promise((res) => setTimeout(res, 600));
@@ -147,12 +146,13 @@ export const JumpSearchAnimation = async (
 
         prev = next;
         next += step;
-
         if (prev >= n) return;
-    }
+
+    };
 
 
     for (let i = prev; i < Math.min(next, n); i++) {
+
         const innerCopy = [...copyArr];
         innerCopy[i] = { ...innerCopy[i], color: "orange" };
         setBoxesInfo([...innerCopy]);
@@ -167,6 +167,86 @@ export const JumpSearchAnimation = async (
             innerCopy[i] = { ...innerCopy[i], color: "gray" };
             setBoxesInfo([...innerCopy]);
         }
+
+    };
+
+
+};
+
+
+
+export const ExponentialSearchAnimation = async (
+    arr: rectInfo[],
+    target: number,
+    setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>
+) => {
+    const n = arr.length;
+    const copyArr = [...arr];
+
+
+    if (arr[0].number === target) {
+        copyArr[0] = { ...arr[0], color: "green" };
+        setBoxesInfo([...copyArr]);
+        return;
+    }
+
+
+    let i = 1;
+
+    while (i < n && arr[i].number <= target) {
+        const temp = [...arr];
+        temp[i] = { ...temp[i], color: "orange" };
+        setBoxesInfo([...temp]);
+        await new Promise((res) => setTimeout(res, 500));
+        i *= 2;
+    }
+
+    const left = Math.floor(i / 2);
+    const right = Math.min(i, n - 1);
+
+
+    await binarySearchRangeAnimation(arr, target, left, right, setBoxesInfo);
+};
+
+export const binarySearchRangeAnimation = async (
+    arr: rectInfo[],
+    target: number,
+    left: number,
+    right: number,
+    setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>
+) => {
+    let low = left;
+    let high = right;
+
+    while (low <= high) {
+        const mid = Math.floor((low + high) / 2);
+        const copyArr = [...arr];
+
+        copyArr[mid] = { ...copyArr[mid], color: "orange" };
+        setBoxesInfo([...copyArr]);
+        await new Promise((res) => setTimeout(res, 500));
+
+        if (arr[mid].number === target) {
+            copyArr[mid] = { ...copyArr[mid], color: "green" };
+            setBoxesInfo([...copyArr]);
+            await new Promise((res) => setTimeout(res, 800));
+            return;
+        }
+
+        if (arr[mid].number < target) {
+            for (let i = low; i <= mid; i++) {
+                copyArr[i] = { ...copyArr[i], color: "gray" };
+            }
+            low = mid + 1;
+        } else {
+            for (let i = mid; i <= high; i++) {
+                copyArr[i] = { ...copyArr[i], color: "gray" };
+            }
+            high = mid - 1;
+        }
+
+        setBoxesInfo([...copyArr]);
+        await new Promise((res) => setTimeout(res, 500));
     }
 };
 

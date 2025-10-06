@@ -5,7 +5,7 @@ import { RectangleIndex, RectangleRendererIS } from "../../../RENDERER/Renderer"
 import { ExponentialSearchAnimation, InterpolationAnimation, JumpSearchAnimation } from "../../SORT/HELPER_FUNCTION/searchAnimation.helper";
 
 
-type ExponentialSearchPayload = {
+type TernarySearchPayload = {
 
     boxesInfo: Array<rectInfo>;
     isAnimating?: animation;
@@ -16,8 +16,8 @@ type ExponentialSearchPayload = {
     searchValue?: number
 }
 
-interface ExponentialSearchProps {
-    props: ExponentialSearchPayload
+interface TernarySearchProps {
+    props: TernarySearchPayload
 }
 
 export interface indexInterface {
@@ -31,7 +31,7 @@ export interface indexInterface {
 }
 
 
-const ExponentialSearchKonva: React.FC<ExponentialSearchProps> = ({ props }) => {
+const TernarySearchKonva: React.FC<TernarySearchProps> = ({ props }) => {
 
     const middleY = props.konvaHeight! / 2;
     const [array, setArray] = useState([...props.boxesInfo]);
@@ -61,8 +61,7 @@ const ExponentialSearchKonva: React.FC<ExponentialSearchProps> = ({ props }) => 
 
         if (props.isAnimating === "animating") {
             (async () => {
-                //await JumpSearchAnimation(props.boxesInfo, props.searchValue!, props.setBoxesInfo);
-                await ExponentialSearchAnimation(props.boxesInfo, props.searchValue!, props.setBoxesInfo);
+
             })()
         }
 
@@ -80,7 +79,7 @@ const ExponentialSearchKonva: React.FC<ExponentialSearchProps> = ({ props }) => 
     </Stage>
 }
 
-export default ExponentialSearchKonva;
+export default TernarySearchKonva;
 
 
 
