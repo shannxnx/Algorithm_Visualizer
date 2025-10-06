@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { rectInfo, animation } from "../../../INTERFACES && TYPES/sortInterface"
 import { Layer, Stage } from "react-konva";
 import { RectangleIndex, RectangleRendererIS } from "../../../RENDERER/Renderer";
-import { ExponentialSearchAnimation, InterpolationAnimation, JumpSearchAnimation } from "../../SORT/HELPER_FUNCTION/searchAnimation.helper";
+import { ExponentialSearchAnimation, InterpolationAnimation, JumpSearchAnimation, TernarySearchAnimation } from "../../SORT/HELPER_FUNCTION/searchAnimation.helper";
 
 
 type TernarySearchPayload = {
@@ -61,7 +61,7 @@ const TernarySearchKonva: React.FC<TernarySearchProps> = ({ props }) => {
 
         if (props.isAnimating === "animating") {
             (async () => {
-
+                await TernarySearchAnimation(props.boxesInfo, props.searchValue!, props.setBoxesInfo);
             })()
         }
 

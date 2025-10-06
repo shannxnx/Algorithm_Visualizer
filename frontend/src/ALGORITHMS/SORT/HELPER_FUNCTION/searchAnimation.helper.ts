@@ -251,5 +251,67 @@ export const binarySearchRangeAnimation = async (
 };
 
 
+export const TernarySearchAnimation = async (
+    arr: rectInfo[],
+    target: number,
+    setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>
+) => {
+    let left = 0;
+    let right = arr.length - 1;
+
+    while (left <= right) {
+        const mid1 = Math.floor(left + (right - left) / 3);
+        const mid2 = Math.floor(right - (right - left) / 3);
+
+        const copyArr = [...arr];
+
+
+        copyArr[mid1] = { ...copyArr[mid1], color: "orange" };
+        copyArr[mid2] = { ...copyArr[mid2], color: "orange" };
+        setBoxesInfo([...copyArr]);
+        await new Promise((res) => setTimeout(res, 700));
+
+        if (arr[mid1].number === target) {
+            copyArr[mid1] = { ...copyArr[mid1], color: "green" };
+            setBoxesInfo([...copyArr]);
+            await new Promise((res) => setTimeout(res, 800));
+            break;
+        }
+
+        if (arr[mid2].number === target) {
+            copyArr[mid2] = { ...copyArr[mid2], color: "green" };
+            setBoxesInfo([...copyArr]);
+            await new Promise((res) => setTimeout(res, 800));
+            break;
+        }
+
+        if (target < arr[mid1].number) {
+
+            for (let i = mid1; i <= right; i++) {
+                copyArr[i] = { ...copyArr[i], color: "gray" };
+            }
+            right = mid1 - 1;
+        } else if (target > arr[mid2].number) {
+
+            for (let i = left; i <= mid2; i++) {
+                copyArr[i] = { ...copyArr[i], color: "gray" };
+            }
+            left = mid2 + 1;
+        } else {
+
+            for (let i = left; i < mid1; i++) {
+                copyArr[i] = { ...copyArr[i], color: "gray" };
+            }
+            for (let i = mid2 + 1; i <= right; i++) {
+                copyArr[i] = { ...copyArr[i], color: "gray" };
+            }
+            left = mid1 + 1;
+            right = mid2 - 1;
+        }
+
+        setBoxesInfo([...copyArr]);
+        await new Promise((res) => setTimeout(res, 700));
+    }
+};
 
 
