@@ -19,6 +19,7 @@ import InterpolationSearch from './ALGORITHMS/SEARCH/INTERPOLATION_SEARCH/Interp
 import JumpSearch from './ALGORITHMS/SEARCH/JUMP_SEARCH/JumpSearch'
 import ExponentialSearch from './ALGORITHMS/SEARCH/EXPONENTIAL_SEARCH/ExponentialSearch'
 import TernarySearch from './ALGORITHMS/SEARCH/TERNARY_SEARCH/TernarySearch'
+import DepthFirstSearch from './ALGORITHMS/PATHFINDING/DFS/Dfs'
 
 
 
@@ -58,6 +59,9 @@ function App() {
         <Route path='/search/jump' element={<JumpSearch />} />
         <Route path='/search/exponential' element={<ExponentialSearch />} />
         <Route path='/search/ternary' element={<TernarySearch />} />
+
+
+        <Route path='/pathfinding/dfs' element={<DepthFirstSearch />} />
 
         <Route path='/secret/login' element={clickCount != 13 ? <Navigate to="/" replace /> : <AdminLogin />} />
 
