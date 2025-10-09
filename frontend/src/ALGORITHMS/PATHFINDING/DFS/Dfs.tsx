@@ -29,7 +29,7 @@ export default function DepthFirstSearch() {
 
 
 
-            <div className="w-[95%] h-[75%] border-1
+            <div className="w-[95%] h-[95%] border-1
              flex items-center justify-center rounded-[8px] duration-200 bg-white/70 backdrop-blur-sm shadow-xl m-4 
              overflow-x-scroll border-black" style={{ scrollbarGutter: "stable" }}>
 

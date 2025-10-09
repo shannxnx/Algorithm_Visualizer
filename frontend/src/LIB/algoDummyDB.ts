@@ -3,6 +3,7 @@ import MergeSortImg from "../../img/sorting/Merge_Sort.png";
 import QuickSortImg from "../../img/sorting/Quick_Sort.png";
 import InsertionSortImg from "../../img/sorting/Insertion_Sort.png";
 import SelectionSortImg from "../../img/sorting/Selection_Sort.jpg";
+import { m } from "framer-motion";
 
 export const sortingArray = [
     {
@@ -93,22 +94,30 @@ export const searchingArray = [
 export const graphAlgoArray = [
     {
         algoInfo: {
-            name: "DFS"
+            name: "DFS",
+            algoLink: "pathfinding/dfs",
+            img: ""
         }
     },
     {
         algoInfo: {
-            name: "BFS"
+            name: "BFS",
+            algoLink: "pathfinding/bfs",
+            img: ""
         }
     },
     {
         algoInfo: {
-            name: "Dijkstra's"
+            name: "Dijkstra's",
+            algoLink: "pathfinding/dijkstras",
+            img: ""
         }
     },
     {
         algoInfo: {
-            name: "A*"
+            name: "A*",
+            algoLink: "pathfinding/a-star",
+            img: ""
         }
     }
 ];
