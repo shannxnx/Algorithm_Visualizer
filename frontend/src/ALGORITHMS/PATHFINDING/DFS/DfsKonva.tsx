@@ -34,7 +34,6 @@ const generateGridRects = () => {
         }
     }
 
-
     return returnThis;
 }
 
@@ -42,17 +41,73 @@ const generateGridRects = () => {
 export default function DfsKonva() {
 
     const [rectInfo, setRectInfo] = useState<rectInfo[]>([]);
-    const [gridMap, setGridMap] = useState<Record<string, rectInfo>>({});
+    const [keyPressed, setKeyPressed] = useState<string | null>(null);
 
-    const handleClick = (id: string) => {
-        setRectInfo((prev) => prev.map((cell) => cell.stringId === id ? { ...cell, color: 'red' } : cell));
-    };
-
+    const [start, setStart] = useState<boolean>(false);
+    const [end, setEnd] = useState<boolean>(false);
 
     useEffect(() => {
         const grids: rectInfo[] = generateGridRects();
         setRectInfo(grids);
-    }, [])
+    }, []);
+
+    const handleReset = () => {
+        setRectInfo(generateGridRects());
+    }
+
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+
+            if (e.key === 'r' || e.key === "R") {
+                handleReset();
+                return;
+            }
+
+
+            setKeyPressed(e.key.toLowerCase())
+        };
+        const handleKeyUp = (e: KeyboardEvent) => {
+            setKeyPressed(null);
+        }
+
+        window.addEventListener("keydown", handleKeyDown);
+        window.addEventListener("keyup", handleKeyUp);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener("keyup", handleKeyUp);
+        };
+
+
+    }, []);
+
+
+
+    const handleClick = (id: string) => {
+        if (!keyPressed) return;
+        let color = '';
+
+
+        if (keyPressed === 's' && start === false) {
+            color = 'red';
+            setStart(true);
+        }
+        else if (keyPressed === 'e' && end === false) {
+            color = 'black'
+            setEnd(true);
+
+        }
+        else if (keyPressed === 'w') {
+            color = 'gray'
+        }
+        else return;
+
+        setRectInfo((prev) => prev.map((cell) => cell.stringId === id ? { ...cell, color: color } : cell));
+
+
+    };
+
 
 
     return <Stage width={575} height={540} className="border-1 border-black">
