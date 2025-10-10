@@ -2,7 +2,7 @@ import { Stage, Layer, Rect, Text, Group } from "react-konva"
 import type React from "react";
 import { useEffect, useRef, useState, type AriaAttributes, type Ref, type RefObject } from "react";
 import Konva from "konva";
-import type { rectInfo } from "../INTERFACES && TYPES/sortInterface";
+import type { gridRectInfo, rectInfo } from "../INTERFACES && TYPES/sortInterface";
 import type { indexInterface } from "../ALGORITHMS/SORT/INSERTION_SORT/InsertionSortKonva";
 
 
@@ -422,7 +422,7 @@ export function SortRectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRe
 
 //React.Dispatch<React.SetStateAction<rectInfo[]>>
 interface gridRendererProps {
-    array: rectInfo[],
+    array: gridRectInfo[],
     setArray: (id: string) => void,
     x?: number,
     y?: number
@@ -431,7 +431,8 @@ interface gridRendererProps {
 export function MazeGridRenderer({ array, setArray }: gridRendererProps) {
     return array.map((r, id) => (
         <Group x={r.x} y={r.y} key={r.stringId}
-            onClick={() => setArray(r.stringId!)}
+            // {/*onClick={() => setArray(r.stringId!)}*/}
+            onMouseDown={() => setArray(r.stringId as string)}
         >
             <Rect
                 width={r.width}

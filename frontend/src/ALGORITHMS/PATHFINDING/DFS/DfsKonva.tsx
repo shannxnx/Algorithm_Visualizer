@@ -1,75 +1,169 @@
 import { Layer, Stage } from "react-konva";
-import type { rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import type { gridRectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 import { MazeGridRenderer } from "../../../RENDERER/Renderer";
 
 
-
 const generateGridRects = () => {
-
-    const returnThis: rectInfo[] = [];
+    const returnThis: gridRectInfo[] = [];
     const cellSize = 30;
     const gap = 2;
 
     for (let i = 0; i < 17; i++) {
         for (let j = 0; j < 18; j++) {
-            const xPos: number = j * (cellSize + gap);
-            const yPos: number = i * (cellSize + gap);
+            const xPos = j * (cellSize + gap);
+            const yPos = i * (cellSize + gap);
             const id = `cell:${i}-${j}`;
 
-            const rect: rectInfo = {
+            returnThis.push({
                 stringId: id,
                 x: xPos,
                 y: yPos,
                 width: 30,
                 height: 30,
                 number: Math.floor(Math.random() * 100),
-                color: "blue"
+                color: "blue",
+                isEnd: false,
+                isStart: false,
+                isVisited: false,
+                isWall: false,
+            });
+        }
+    }
+    return returnThis;
+};
 
-            };
 
-            returnThis.push(rect);
+const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
 
+async function visualizeDFS(
+    getRects: () => gridRectInfo[],
+    setRects: React.Dispatch<React.SetStateAction<gridRectInfo[]>>
+) {
+    const gridWidth = 18;
+    const gridHeight = 17;
+
+    const rects = getRects();
+    const start = rects.find(r => r.isStart);
+    const end = rects.find(r => r.isEnd);
+
+    if (!start || !end) return;
+
+    const visited = new Set<string>();
+    const stack: gridRectInfo[] = [start];
+    const parent = new Map<string, string>();
+
+    const getNeighbors = (cell: gridRectInfo) => {
+        const [i, j] = cell.stringId!.split(":")[1].split("-").map(Number);
+        const dirs = [
+            [0, 1],  //right
+            [1, 0],  //down
+            [0, -1], //left
+            [-1, 0], //up
+        ];
+        const neighbors: gridRectInfo[] = [];
+
+        for (const [di, dj] of dirs) {
+            const ni = i + di;
+            const nj = j + dj;
+            if (ni >= 0 && nj >= 0 && ni < gridHeight && nj < gridWidth) {
+                const neighbor = getRects().find(r => r.stringId === `cell:${ni}-${nj}`);
+                if (neighbor && !neighbor.isWall) neighbors.push(neighbor);
+            }
+        }
+        return neighbors;
+    };
+
+
+    while (stack.length > 0) {
+        const current = stack.pop()!;
+        if (visited.has(current.stringId!)) continue;
+        visited.add(current.stringId!);
+
+        setRects(prev =>
+            prev.map(r =>
+                r.stringId === current.stringId && !r.isStart && !r.isEnd
+                    ? { ...r, color: "lightblue" }
+                    : r
+            )
+        );
+
+        await new Promise(requestAnimationFrame);
+        await delay(40);
+
+        if (current.stringId === end.stringId) break;
+
+        const neighbors = getNeighbors(current);
+        for (const n of neighbors) {
+            if (!visited.has(n.stringId!)) {
+                parent.set(n.stringId!, current.stringId!);
+                stack.push(n);
+            }
         }
     }
 
-    return returnThis;
+
+    let curr = end.stringId!;
+
+    console.log("Parent: ", parent);
+
+    while (parent.has(curr)) {
+        const prevId = parent.get(curr)!;
+        setRects(prev =>
+            prev.map(r =>
+                r.stringId === prevId && !r.isStart
+                    ? { ...r, color: "yellow" }
+                    : r
+            )
+        );
+        await new Promise(requestAnimationFrame);
+        await delay(25);
+        curr = prevId;
+    }
 }
 
-
 export default function DfsKonva() {
-
-    const [rectInfo, setRectInfo] = useState<rectInfo[]>([]);
+    const [rectInfo, setRectInfo] = useState<gridRectInfo[]>([]);
     const [keyPressed, setKeyPressed] = useState<string | null>(null);
-
     const [start, setStart] = useState<boolean>(false);
     const [end, setEnd] = useState<boolean>(false);
 
+
+    const rectRef = useRef<gridRectInfo[]>([]);
     useEffect(() => {
-        const grids: rectInfo[] = generateGridRects();
-        setRectInfo(grids);
+        rectRef.current = rectInfo;
+    }, [rectInfo]);
+
+
+    useEffect(() => {
+        setRectInfo(generateGridRects());
     }, []);
+
 
     const handleReset = () => {
         setRectInfo(generateGridRects());
-    }
+        setEnd(false);
+        setStart(false);
+    };
 
 
     useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-
-            if (e.key === 'r' || e.key === "R") {
+        const handleKeyDown = async (e: KeyboardEvent) => {
+            if (e.key === "r" || e.key === "R") {
                 handleReset();
                 return;
             }
 
+            if (e.key === "v" || e.key === "V") {
+                await visualizeDFS(() => rectRef.current, setRectInfo);
+                return;
+            }
 
-            setKeyPressed(e.key.toLowerCase())
+            setKeyPressed(e.key.toLowerCase());
         };
-        const handleKeyUp = (e: KeyboardEvent) => {
-            setKeyPressed(null);
-        }
+
+        const handleKeyUp = () => setKeyPressed(null);
 
         window.addEventListener("keydown", handleKeyDown);
         window.addEventListener("keyup", handleKeyUp);
@@ -78,45 +172,41 @@ export default function DfsKonva() {
             window.removeEventListener("keydown", handleKeyDown);
             window.removeEventListener("keyup", handleKeyUp);
         };
-
-
     }, []);
-
 
 
     const handleClick = (id: string) => {
         if (!keyPressed) return;
-        let color = '';
 
+        setRectInfo(prev =>
+            prev.map(cell => {
+                if (cell.stringId !== id) return cell;
 
-        if (keyPressed === 's' && start === false) {
-            color = 'red';
-            setStart(true);
-        }
-        else if (keyPressed === 'e' && end === false) {
-            color = 'black'
-            setEnd(true);
+                if (keyPressed === "s" && !start) {
+                    setStart(true);
+                    return { ...cell, color: "green", isStart: true };
+                }
 
-        }
-        else if (keyPressed === 'w') {
-            color = 'gray'
-        }
-        else return;
+                if (keyPressed === "e" && !end) {
+                    setEnd(true);
+                    return { ...cell, color: "red", isEnd: true };
+                }
 
-        setRectInfo((prev) => prev.map((cell) => cell.stringId === id ? { ...cell, color: color } : cell));
+                if (keyPressed === "w") {
+                    return { ...cell, color: "gray", isWall: true };
+                }
 
-
+                return cell;
+            })
+        );
     };
 
 
-
-    return <Stage width={575} height={540} className="border-1 border-black">
-
-        <Layer>
-            <MazeGridRenderer array={rectInfo} setArray={handleClick} />
-        </Layer>
-
-    </Stage>
-
-
+    return (
+        <Stage width={575} height={540} className="border-1 border-black">
+            <Layer>
+                <MazeGridRenderer array={rectInfo} setArray={handleClick} />
+            </Layer>
+        </Stage>
+    );
 }

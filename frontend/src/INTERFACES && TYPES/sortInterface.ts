@@ -26,4 +26,12 @@ export interface rectInfo {
     scaleY?: number
 };
 
+
+export interface gridRectInfo extends rectInfo {
+    isWall: boolean,
+    isStart: boolean,
+    isEnd: boolean,
+    isVisited: boolean
+}
+
 export type animation = "idle" | "animating" | "done";
