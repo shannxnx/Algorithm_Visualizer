@@ -2,32 +2,34 @@ import { useEffect } from "react";
 import { pathFindingStore } from "../../../STATE/pathfindingStore"
 import type { SortKit } from "../../../INTERFACES && TYPES/sortInterface";
 import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
-import DfsKonva from "./DfsKonva";
 
 
-export default function DepthFirstSearch() {
 
-    const getDFSInfo = pathFindingStore((state: any) => state.getDFSInfo);
-    const depthFirstSearch = pathFindingStore((state: any) => state.DepthFirstSearch);
+export default function Astar() {
+
+    const getAStarInfo = pathFindingStore((state: any) => state.getAStar);
+    const AStarInfo = pathFindingStore((state: any) => state.AStar);
     const editPathFindingCode = pathFindingStore((state: any) => state.editPathfindingCode);
 
 
     useEffect(() => {
-        getDFSInfo();
+        getAStarInfo();
     });
 
 
-    const dfsPayload: SortKit = {
-        algoInfo: depthFirstSearch.algoInfo,
-        algoName: depthFirstSearch.algoName,
-        codes: depthFirstSearch.codes,
+    const AStarPayload: SortKit = {
+        algoInfo: AStarInfo.algoInfo,
+        algoName: AStarInfo.algoName,
+        codes: AStarInfo.codes,
         editAlgoInfo: editPathFindingCode
-    }
+    };
+
+
+
 
     return <main className="w-screen h-screen flex  gap-5 overflow-x-hidden p-2 bg-black">
         <div className="w-[60%] h-full border-1 relative flex flex-col rounded bg-white
         items-center" >
-
 
 
             <div className="w-[95%] h-[95%] border-1
@@ -35,17 +37,14 @@ export default function DepthFirstSearch() {
              overflow-x-scroll border-black" style={{ scrollbarGutter: "stable" }}>
 
 
-                <DfsKonva />
 
             </div>
 
 
 
-
-
         </div>
 
-        <AlgoInfo algoInfo={dfsPayload} />
+        <AlgoInfo algoInfo={AStarPayload} />
 
     </main>
 }

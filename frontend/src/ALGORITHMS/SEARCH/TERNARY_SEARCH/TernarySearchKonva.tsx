@@ -68,7 +68,7 @@ const TernarySearchKonva: React.FC<TernarySearchProps> = ({ props }) => {
     }, [props.isAnimating]);
 
 
-
+    console.log("Hello");
 
 
     return <Stage width={props.konvaWidth} height={props.konvaHeight} className="w-full h-[95%]">

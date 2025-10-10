@@ -20,6 +20,9 @@ import JumpSearch from './ALGORITHMS/SEARCH/JUMP_SEARCH/JumpSearch'
 import ExponentialSearch from './ALGORITHMS/SEARCH/EXPONENTIAL_SEARCH/ExponentialSearch'
 import TernarySearch from './ALGORITHMS/SEARCH/TERNARY_SEARCH/TernarySearch'
 import DepthFirstSearch from './ALGORITHMS/PATHFINDING/DFS/Dfs'
+import BreadthFirstSearch from './ALGORITHMS/PATHFINDING/BFS/Bfs'
+import Dijkstras from './ALGORITHMS/PATHFINDING/DIJKSTRAS/Dijkstras\'s'
+import Astar from './ALGORITHMS/PATHFINDING/A-STAR/Astar'
 
 
 
@@ -62,6 +65,9 @@ function App() {
 
 
         <Route path='/pathfinding/dfs' element={<DepthFirstSearch />} />
+        <Route path='/pathfinding/bfs' element={<BreadthFirstSearch />} />
+        <Route path='/pathfinding/dijkstras' element={<Dijkstras />} />
+        <Route path='/pathfinding/a-star' element={<Astar />} />
 
         <Route path='/secret/login' element={clickCount != 13 ? <Navigate to="/" replace /> : <AdminLogin />} />
 

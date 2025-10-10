@@ -22,18 +22,22 @@ const empty: AlgoStructure = {
 
 interface pathfindingState {
     DepthFirstSearch: AlgoStructure;
-    BreadFirstSearch: AlgoStructure;
+    BreadthFirstSearch: AlgoStructure;
     Dijkstras: AlgoStructure;
     AStar: AlgoStructure;
 
     editPathfindingCode: (data: any) => void;
     getDFSInfo: () => void;
+    getBFSInfo: () => void;
+    getDijkstras: () => void;
+    getAStar: () => void;
+
 };
 
 
 export const pathFindingStore = create<pathfindingState>((set) => ({
     DepthFirstSearch: empty,
-    BreadFirstSearch: empty,
+    BreadthFirstSearch: empty,
     Dijkstras: empty,
     AStar: empty,
 
@@ -58,7 +62,37 @@ export const pathFindingStore = create<pathfindingState>((set) => ({
             console.log("Error in getting DFS: ", error.message);
 
         }
-    }
+    },
+
+    getBFSInfo: async () => {
+        try {
+            const res = await AxiosInstance.get("/pathfinding/bfs");
+            set({ BreadthFirstSearch: res.data });
+        } catch (error: any) {
+            console.log("Error in getting BFS: ", error.message);
+
+        }
+    },
+
+    getDijkstras: async () => {
+        try {
+            const res = await AxiosInstance.get("/pathfinding/dijkstras");
+            set({ Dijkstras: res.data });
+        } catch (error: any) {
+            console.log("Error in getting Dijkstras: ", error.message);
+
+        }
+    },
+
+    getAStar: async () => {
+        try {
+            const res = await AxiosInstance.get("/pathfinding/a-star");
+            set({ AStar: res.data });
+        } catch (error: any) {
+            console.log("Error in getting A-Star: ", error.message);
+
+        }
+    },
 
 
 

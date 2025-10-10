@@ -2,32 +2,34 @@ import { useEffect } from "react";
 import { pathFindingStore } from "../../../STATE/pathfindingStore"
 import type { SortKit } from "../../../INTERFACES && TYPES/sortInterface";
 import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
-import DfsKonva from "./DfsKonva";
 
 
-export default function DepthFirstSearch() {
 
-    const getDFSInfo = pathFindingStore((state: any) => state.getDFSInfo);
-    const depthFirstSearch = pathFindingStore((state: any) => state.DepthFirstSearch);
+export default function BreadthFirstSearch() {
+
+    const getBFSInfo = pathFindingStore((state: any) => state.getBFSInfo);
+    const breadthFirstSearch = pathFindingStore((state: any) => state.BreadthFirstSearch);
     const editPathFindingCode = pathFindingStore((state: any) => state.editPathfindingCode);
 
 
     useEffect(() => {
-        getDFSInfo();
+        getBFSInfo();
     });
 
 
-    const dfsPayload: SortKit = {
-        algoInfo: depthFirstSearch.algoInfo,
-        algoName: depthFirstSearch.algoName,
-        codes: depthFirstSearch.codes,
+    const bfsPayload: SortKit = {
+        algoInfo: breadthFirstSearch.algoInfo,
+        algoName: breadthFirstSearch.algoName,
+        codes: breadthFirstSearch.codes,
         editAlgoInfo: editPathFindingCode
-    }
+    };
+
+
+    console.log("BFS: ", breadthFirstSearch);
 
     return <main className="w-screen h-screen flex  gap-5 overflow-x-hidden p-2 bg-black">
         <div className="w-[60%] h-full border-1 relative flex flex-col rounded bg-white
         items-center" >
-
 
 
             <div className="w-[95%] h-[95%] border-1
@@ -35,17 +37,14 @@ export default function DepthFirstSearch() {
              overflow-x-scroll border-black" style={{ scrollbarGutter: "stable" }}>
 
 
-                <DfsKonva />
 
             </div>
 
 
 
-
-
         </div>
 
-        <AlgoInfo algoInfo={dfsPayload} />
+        <AlgoInfo algoInfo={bfsPayload} />
 
     </main>
 }

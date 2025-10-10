@@ -54,6 +54,9 @@ async function visualizeDFS(
     const stack: gridRectInfo[] = [start];
     const parent = new Map<string, string>();
 
+
+
+    //get the neighbors of each cell
     const getNeighbors = (cell: gridRectInfo) => {
         const [i, j] = cell.stringId!.split(":")[1].split("-").map(Number);
         const dirs = [
@@ -76,6 +79,7 @@ async function visualizeDFS(
     };
 
 
+    //get the path from start to end
     while (stack.length > 0) {
         const current = stack.pop()!;
         if (visited.has(current.stringId!)) continue;
@@ -106,8 +110,7 @@ async function visualizeDFS(
 
     let curr = end.stringId!;
 
-    console.log("Parent: ", parent);
-
+    //the backtrack the path from end to start
     while (parent.has(curr)) {
         const prevId = parent.get(curr)!;
         setRects(prev =>
@@ -200,6 +203,8 @@ export default function DfsKonva() {
             })
         );
     };
+
+
 
 
     return (
