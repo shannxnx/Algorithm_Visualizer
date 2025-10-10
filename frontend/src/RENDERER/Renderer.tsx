@@ -418,3 +418,27 @@ export function SortRectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRe
         }
     </Group>
 }
+
+
+//React.Dispatch<React.SetStateAction<rectInfo[]>>
+interface gridRendererProps {
+    array: rectInfo[],
+    setArray: (id: string) => void,
+    x?: number,
+    y?: number
+}
+
+export function MazeGridRenderer({ array, setArray }: gridRendererProps) {
+    return array.map((r, id) => (
+        <Group x={r.x} y={r.y} key={r.stringId}
+            onClick={() => setArray(r.stringId!)}
+        >
+            <Rect
+                width={r.width}
+                height={r.height}
+                fill={r.color}
+
+            />
+        </Group>
+    ))
+};
