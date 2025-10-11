@@ -8,7 +8,7 @@ import { generateGridRects } from "../pathHelper";
 
 
 
-async function visualizeBFS(
+async function visualizeDijkstras(
     getRects: () => gridRectInfo[],
     setRects: React.Dispatch<React.SetStateAction<gridRectInfo[]>>
 ) {
@@ -21,26 +21,27 @@ async function visualizeBFS(
 
     if (!start || !end) return;
 
-    const visited = new Set<string>();
-    const stack: gridRectInfo[] = [start];
+    // distance and parent tracking
+    const dist = new Map<string, number>();
     const parent = new Map<string, string>();
+    const visited = new Set<string>();
 
+    for (const r of rects) {
+        dist.set(r.stringId!, Infinity);
+    }
+    dist.set(start.stringId!, 0);
 
+    // priority queue (using array for simplicity)
+    const queue: gridRectInfo[] = [start];
 
-    //get the neighbors of each cell
     const getNeighbors = (cell: gridRectInfo) => {
         const [i, j] = cell.stringId!.split(":")[1].split("-").map(Number);
         const dirs = [
-            [0, 1],  //right
-            [1, 0],  //down
-            [0, -1], //left
-            [-1, 0], //up
+            [0, 1], [1, 0], [0, -1], [-1, 0]
         ];
         const neighbors: gridRectInfo[] = [];
-
         for (const [di, dj] of dirs) {
-            const ni = i + di;
-            const nj = j + dj;
+            const ni = i + di, nj = j + dj;
             if (ni >= 0 && nj >= 0 && ni < gridHeight && nj < gridWidth) {
                 const neighbor = getRects().find(r => r.stringId === `cell:${ni}-${nj}`);
                 if (neighbor && !neighbor.isWall) neighbors.push(neighbor);
@@ -49,10 +50,10 @@ async function visualizeBFS(
         return neighbors;
     };
 
-
-    //get the path from start to end
-    while (stack.length > 0) {
-        const current = stack.shift()!;
+    while (queue.length > 0) {
+        // get cell with smallest distance
+        queue.sort((a, b) => dist.get(a.stringId!)! - dist.get(b.stringId!)!);
+        const current = queue.shift()!;
         if (visited.has(current.stringId!)) continue;
         visited.add(current.stringId!);
 
@@ -71,19 +72,18 @@ async function visualizeBFS(
 
         const neighbors = getNeighbors(current);
         for (const n of neighbors) {
-            if (!visited.has(n.stringId!)) {
-
+            const cost = 1;
+            const newDist = dist.get(current.stringId!)! + cost;
+            if (newDist < dist.get(n.stringId!)!) {
+                dist.set(n.stringId!, newDist);
                 parent.set(n.stringId!, current.stringId!);
-                stack.push(n);
-
+                queue.push(n);
             }
         }
     }
 
-
+    // backtrack
     let curr = end.stringId!;
-
-    //the backtrack the path from end to start
     while (parent.has(curr)) {
         const prevId = parent.get(curr)!;
         setRects(prev =>
@@ -97,9 +97,9 @@ async function visualizeBFS(
         await delay(25);
         curr = prevId;
     }
-}
+};
 
-export default function BfsKonva() {
+export default function DijkstrasKonva() {
     const [rectInfo, setRectInfo] = useState<gridRectInfo[]>([]);
     const [keyPressed, setKeyPressed] = useState<string | null>(null);
     const [start, setStart] = useState<boolean>(false);
@@ -133,7 +133,7 @@ export default function BfsKonva() {
             }
 
             if (e.key === "v" || e.key === "V") {
-                await visualizeBFS(() => rectRef.current, setRectInfo);
+                await visualizeDijkstras(() => rectRef.current, setRectInfo);
                 return;
             }
 
@@ -189,3 +189,4 @@ export default function BfsKonva() {
         </Stage>
     );
 }
+

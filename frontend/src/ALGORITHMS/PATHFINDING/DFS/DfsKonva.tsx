@@ -2,39 +2,11 @@ import { Layer, Stage } from "react-konva";
 import { useEffect, useState, useRef } from "react";
 import type { gridRectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 import { MazeGridRenderer } from "../../../RENDERER/Renderer";
+import { delay } from "../../SORT/HELPER_FUNCTION/animation.helper";
+import { generateGridRects } from "../pathHelper";
 
 
-const generateGridRects = () => {
-    const returnThis: gridRectInfo[] = [];
-    const cellSize = 30;
-    const gap = 2;
 
-    for (let i = 0; i < 17; i++) {
-        for (let j = 0; j < 18; j++) {
-            const xPos = j * (cellSize + gap);
-            const yPos = i * (cellSize + gap);
-            const id = `cell:${i}-${j}`;
-
-            returnThis.push({
-                stringId: id,
-                x: xPos,
-                y: yPos,
-                width: 30,
-                height: 30,
-                number: Math.floor(Math.random() * 100),
-                color: "blue",
-                isEnd: false,
-                isStart: false,
-                isVisited: false,
-                isWall: false,
-            });
-        }
-    }
-    return returnThis;
-};
-
-
-const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
 
 async function visualizeDFS(
@@ -141,6 +113,7 @@ export default function DfsKonva() {
 
     useEffect(() => {
         setRectInfo(generateGridRects());
+
     }, []);
 
 
