@@ -14,7 +14,7 @@ export default function Dijkstras() {
 
     useEffect(() => {
         getDijkstrasInfo();
-    });
+    }, []);
 
 
     const dijkstrasPayload: SortKit = {

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { pathFindingStore } from "../../../STATE/pathfindingStore"
 import type { SortKit } from "../../../INTERFACES && TYPES/sortInterface";
 import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
+import BfsKonva from "./BfsKonva";
 
 
 
@@ -14,7 +15,7 @@ export default function BreadthFirstSearch() {
 
     useEffect(() => {
         getBFSInfo();
-    });
+    }, []);
 
 
     const bfsPayload: SortKit = {
@@ -36,7 +37,7 @@ export default function BreadthFirstSearch() {
              flex items-center justify-center rounded-[8px] duration-200 bg-white/70 backdrop-blur-sm shadow-xl m-4 
              overflow-x-scroll border-black" style={{ scrollbarGutter: "stable" }}>
 
-
+                <BfsKonva />
 
             </div>
 

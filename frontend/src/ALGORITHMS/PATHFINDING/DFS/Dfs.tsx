@@ -14,7 +14,7 @@ export default function DepthFirstSearch() {
 
     useEffect(() => {
         getDFSInfo();
-    });
+    }, []);
 
 
     const dfsPayload: SortKit = {

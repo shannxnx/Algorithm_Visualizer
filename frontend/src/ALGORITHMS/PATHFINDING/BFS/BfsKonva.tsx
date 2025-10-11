@@ -37,7 +37,7 @@ const generateGridRects = () => {
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
 
-async function visualizeDFS(
+async function visualizeBFS(
     getRects: () => gridRectInfo[],
     setRects: React.Dispatch<React.SetStateAction<gridRectInfo[]>>
 ) {
@@ -81,7 +81,7 @@ async function visualizeDFS(
 
     //get the path from start to end
     while (stack.length > 0) {
-        const current = stack.pop()!;
+        const current = stack.shift()!;
         if (visited.has(current.stringId!)) continue;
         visited.add(current.stringId!);
 
@@ -101,8 +101,10 @@ async function visualizeDFS(
         const neighbors = getNeighbors(current);
         for (const n of neighbors) {
             if (!visited.has(n.stringId!)) {
+
                 parent.set(n.stringId!, current.stringId!);
                 stack.push(n);
+
             }
         }
     }
@@ -126,7 +128,7 @@ async function visualizeDFS(
     }
 }
 
-export default function DfsKonva() {
+export default function BfsKonva() {
     const [rectInfo, setRectInfo] = useState<gridRectInfo[]>([]);
     const [keyPressed, setKeyPressed] = useState<string | null>(null);
     const [start, setStart] = useState<boolean>(false);
@@ -159,7 +161,7 @@ export default function DfsKonva() {
             }
 
             if (e.key === "v" || e.key === "V") {
-                await visualizeDFS(() => rectRef.current, setRectInfo);
+                await visualizeBFS(() => rectRef.current, setRectInfo);
                 return;
             }
 

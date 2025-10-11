@@ -14,7 +14,7 @@ export default function Astar() {
 
     useEffect(() => {
         getAStarInfo();
-    });
+    }, []);
 
 
     const AStarPayload: SortKit = {
