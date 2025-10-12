@@ -4,7 +4,7 @@ import type { gridRectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 import { MazeGridRenderer } from "../../../RENDERER/Renderer";
 import { delay } from "../../SORT/HELPER_FUNCTION/animation.helper";
 import { generateGridRects } from "../pathHelper";
-
+import { type props } from '../pathHelper';
 
 
 
@@ -111,15 +111,24 @@ export default function DijkstrasKonva() {
         rectRef.current = rectInfo;
     }, [rectInfo]);
 
+    const generateGrProps: props = {
+        props: {
+            row: 14,
+            column: 18,
+            rectSize: 30,
+            gap: 2
+        }
+    }
+
 
     useEffect(() => {
-        setRectInfo(generateGridRects());
+        setRectInfo(generateGridRects(generateGrProps));
 
     }, []);
 
 
     const handleReset = () => {
-        setRectInfo(generateGridRects());
+        setRectInfo(generateGridRects(generateGrProps));
         setEnd(false);
         setStart(false);
     };
@@ -182,7 +191,7 @@ export default function DijkstrasKonva() {
 
 
     return (
-        <Stage width={575} height={540} className="border-1 border-black">
+        <Stage width={575} height={440} className="border-1 border-black bg-black">
             <Layer>
                 <MazeGridRenderer array={rectInfo} setArray={handleClick} />
             </Layer>

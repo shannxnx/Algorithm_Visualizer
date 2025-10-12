@@ -1,12 +1,24 @@
 import type { gridRectInfo } from "../../INTERFACES && TYPES/sortInterface";
 
-export const generateGridRects = (rectSize: number = 30, rectGap: number = 2) => {
-    const returnThis: gridRectInfo[] = [];
-    const cellSize = rectSize;
-    const gap = rectGap
 
-    for (let i = 0; i < 17; i++) {
-        for (let j = 0; j < 18; j++) {
+interface gridRectsProps {
+    rectSize: number,
+    gap: number,
+    row: number,
+    column: number
+};
+
+export type props = {
+    props: gridRectsProps
+}
+
+export const generateGridRects = ({ props }: props) => {
+    const returnThis: gridRectInfo[] = [];
+    const cellSize = props.rectSize;
+    const gap = props.gap
+
+    for (let i = 0; i < props.row; i++) {
+        for (let j = 0; j < props.column; j++) {
             const xPos = j * (cellSize + gap);
             const yPos = i * (cellSize + gap);
             const id = `cell:${i}-${j}`;

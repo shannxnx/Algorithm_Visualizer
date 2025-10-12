@@ -4,6 +4,7 @@ import type { gridRectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 import { MazeGridRenderer } from "../../../RENDERER/Renderer";
 import { delay } from "../../SORT/HELPER_FUNCTION/animation.helper";
 import { generateGridRects } from "../pathHelper";
+import { type props } from '../pathHelper';
 
 
 
@@ -35,7 +36,15 @@ async function visualizeAStar(
     function heuristic(a: gridRectInfo, b: gridRectInfo) {
         const [ai, aj] = a.stringId!.split(":")[1].split("-").map(Number);
         const [bi, bj] = b.stringId!.split(":")[1].split("-").map(Number);
-        return Math.abs(ai - bi) + Math.abs(aj - bj);
+
+
+        const dx = Math.abs(ai - bi);
+        const dy = Math.abs(aj - bj);
+        const D = 1;          // cost for straight move
+        const D2 = Math.SQRT2; // cost for diagonal move
+        return D * (dx + dy) + (D2 - 2 * D) * Math.min(dx, dy);
+
+        //return Math.abs(ai - bi) + Math.abs(aj - bj);
     }
 
     gScore.set(start.stringId!, 0);
@@ -49,11 +58,19 @@ async function visualizeAStar(
     const getNeighbors = (cell: gridRectInfo) => {
         const [i, j] = cell.stringId!.split(":")[1].split("-").map(Number);
         const dirs = [
-            [0, 1], [1, 0], [0, -1], [-1, 0]
+            [0, 1],   // right
+            [1, 0],   // down
+            [0, -1],  // left
+            [-1, 0],  // up
+            [-1, -1, Math.SQRT2], //up left
+            [-1, 1, Math.SQRT2],  //up right
+            [1, 1, Math.SQRT2],   //down right
+            [1, -1, Math.SQRT2]   //down left
         ];
         const neighbors: gridRectInfo[] = [];
         for (const [di, dj] of dirs) {
-            const ni = i + di, nj = j + dj;
+            const ni = i + di;
+            const nj = j + dj;
             if (ni >= 0 && nj >= 0 && ni < gridHeight && nj < gridWidth) {
                 const neighbor = getRects().find(r => r.stringId === `cell:${ni}-${nj}`);
                 if (neighbor && !neighbor.isWall) neighbors.push(neighbor);
@@ -65,7 +82,9 @@ async function visualizeAStar(
     while (openSet.length > 0) {
         // sort by f(n)
         openSet.sort((a, b) => fScore.get(a.stringId!)! - fScore.get(b.stringId!)!);
+
         const current = openSet.shift()!;
+        console.log("current: ", current);
         if (visited.has(current.stringId!)) continue;
         visited.add(current.stringId!);
 
@@ -84,7 +103,14 @@ async function visualizeAStar(
 
         const neighbors = getNeighbors(current);
         for (const n of neighbors) {
-            const tentativeG = gScore.get(current.stringId!)! + 1;
+            const [ni, nj] = n.stringId!.split(":")[1].split("-").map(Number);
+            const [ci, cj] = current.stringId!.split(":")[1].split("-").map(Number);
+
+
+
+            const cost = (ci !== ni && cj !== nj) ? Math.SQRT2 : 1;
+            const tentativeG = gScore.get(current.stringId!)! + cost;
+
             if (tentativeG < gScore.get(n.stringId!)!) {
                 parent.set(n.stringId!, current.stringId!);
                 gScore.set(n.stringId!, tentativeG);
@@ -128,15 +154,23 @@ export default function AStarKonva() {
         rectRef.current = rectInfo;
     }, [rectInfo]);
 
+    const generateGrProps: props = {
+        props: {
+            row: 14,
+            column: 18,
+            rectSize: 30,
+            gap: 2
+        }
+    }
 
     useEffect(() => {
-        setRectInfo(generateGridRects());
+        setRectInfo(generateGridRects(generateGrProps));
 
     }, []);
 
 
     const handleReset = () => {
-        setRectInfo(generateGridRects());
+        setRectInfo(generateGridRects(generateGrProps));
         setEnd(false);
         setStart(false);
     };
@@ -199,7 +233,7 @@ export default function AStarKonva() {
 
 
     return (
-        <Stage width={575} height={540} className="bg-black border-black border">
+        <Stage width={575} height={440} className="bg-black border-black border">
             <Layer>
                 <MazeGridRenderer array={rectInfo} setArray={handleClick} />
             </Layer>
