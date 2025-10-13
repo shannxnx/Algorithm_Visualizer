@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { rectInfo, animation } from "../../../INTERFACES && TYPES/sortInterface"
 import { Layer, Stage } from "react-konva";
 import { RectangleIndex, RectangleRendererIS } from "../../../RENDERER/Renderer";
-import { InterpolationAnimation, JumpSearchAnimation } from "../../SORT/HELPER_FUNCTION/searchAnimation.helper";
+import { InterpolationAnimation, JumpSearchAnimation } from "../searchAnimation.helper";
 
 
 type JumpSearchPayload = {

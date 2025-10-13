@@ -8,7 +8,7 @@ import BinarySearchKonva from "./BinarySearchKonva";
 import { generateBoxesInfo, generateSortedBoxesInfo } from "../../SORT/HELPER_FUNCTION/helpter";
 import { create } from "zustand";
 import { div } from "framer-motion/client";
-import { changeColor } from "../../SORT/HELPER_FUNCTION/searchAnimation.helper";
+import { changeColor } from "../searchAnimation.helper";
 
 
 

@@ -8,7 +8,6 @@ import { type props } from '../pathHelper';
 
 
 
-
 async function visualizeAStar(
     getRects: () => gridRectInfo[],
     setRects: React.Dispatch<React.SetStateAction<gridRectInfo[]>>
@@ -139,8 +138,10 @@ async function visualizeAStar(
         await new Promise(requestAnimationFrame);
         await delay(25);
         curr = prevId;
-    }
+    };
 };
+
+
 
 export default function AStarKonva() {
     const [rectInfo, setRectInfo] = useState<gridRectInfo[]>([]);

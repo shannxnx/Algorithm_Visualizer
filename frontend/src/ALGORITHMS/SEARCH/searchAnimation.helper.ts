@@ -1,5 +1,5 @@
 import type React from "react";
-import type { rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
+import type { rectInfo } from "../../INTERFACES && TYPES/sortInterface";
 
 
 //this is just a simple binary search

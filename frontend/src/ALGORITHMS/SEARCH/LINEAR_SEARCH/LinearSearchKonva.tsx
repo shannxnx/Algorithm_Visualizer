@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { rectInfo, animation } from "../../../INTERFACES && TYPES/sortInterface"
 import { Layer, Stage } from "react-konva";
 import { RectangleIndex, RectangleRendererIS } from "../../../RENDERER/Renderer";
-import { changeColor, LinearSearchAnimation } from "../../SORT/HELPER_FUNCTION/searchAnimation.helper";
+import { changeColor, LinearSearchAnimation } from "../searchAnimation.helper";
 
 
 type LinearSearchPayload = {
