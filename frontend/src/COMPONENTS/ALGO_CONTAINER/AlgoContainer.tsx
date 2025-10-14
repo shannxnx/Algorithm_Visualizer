@@ -10,7 +10,8 @@ import { motion } from "framer-motion";
 
 type Props = { myRef: React.RefObject<HTMLDivElement | null> };
 
-
+//#2DFF65 type of green
+//#f6f6f6 type of white
 
 export default function AlgoContainer({ myRef }: Props) {
 
@@ -40,7 +41,7 @@ export default function AlgoContainer({ myRef }: Props) {
 
 
     return <div className={`w-screen overflow-x-hidden flex flex-col justify-center items-center 
-    ${Admin ? "bg-red-600" : "bg-[#2DFF65]"}`} style={{ scrollbarWidth: "none" }}
+    ${Admin ? "bg-red-600" : "bg-[#f6f6f]"}`} style={{ scrollbarWidth: "none" }}
 
         ref={myRef}>
 
@@ -55,14 +56,15 @@ export default function AlgoContainer({ myRef }: Props) {
                 if (value === "sorting") handleCategory("sorting", sortingArray);
                 if (value === "searching") handleCategory("searching", searchingArray);
                 if (value === "path_finding") handleCategory("path_finding", graphAlgoArray);
-                if (value === "back_tracking") handleCategory("back_tracking", backtrackingArray);
+                //if (value === "back_tracking") handleCategory("back_tracking", backtrackingArray);
             }}
         >
             <option disabled>Algorithm Category</option>
             <option value="sorting" className="dark:text-black rounded">Sorting</option>
             <option value="searching" className="dark:text-black">Searching</option>
             <option value="path_finding" className="dark:text-black">Pathfinding</option>
-            <option value="back_tracking" className="dark:text-black">Backtracking</option>
+            {/*<option value="back_tracking" className="dark:text-black">Backtracking</option>*/}
+
         </select>
 
 

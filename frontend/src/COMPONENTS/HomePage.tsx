@@ -5,7 +5,7 @@ import AlgoContainer from "./ALGO_CONTAINER/AlgoContainer";
 import { authStore } from "../STATE/authStore";
 
 
-
+//#2DFF65
 
 export default function FrontPage() {
 
@@ -25,7 +25,7 @@ export default function FrontPage() {
 
 
     return <main className={`flex  flex-col  h-full w-full overflow-y-scroll overflow-x-hidden ${Admin ?
-        "bg-red-600" : "bg-[#2DFF65]"} `}
+        "bg-red-600" : "bg-[#f6f6f6]"} `}
         style={{ scrollbarWidth: "none" }}>
 
         <Navbar onScrollNext={handleScrollVisualize} />
