@@ -5,6 +5,7 @@ import { sortingArray, searchingArray, graphAlgoArray, backtrackingArray } from 
 import { authStore } from "../../STATE/authStore";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import AlgoCard2 from "../CARDS/AlgoCard2";
 
 
 
@@ -89,17 +90,20 @@ export default function AlgoContainer({ myRef }: Props) {
 
             {
                 currentArray && Array.isArray(currentArray) && currentArray?.map((a: any, id: any) =>
-                    <AlgoCard
+                    <AlgoCard2
                         key={id}
                         algoName={a.algoInfo.name}
                         algoLink={a.algoInfo.algoLink}
                         index={id}
                         algoImg={a.algoInfo.img}
                         isLoading={isLoading}
+                        difficulty={a.algoInfo.difficulty}
+                        type={a.algoInfo.type}
 
                     />)
 
             }
+
 
 
 

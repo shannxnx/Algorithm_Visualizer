@@ -8,37 +8,47 @@ import { m } from "framer-motion";
 export const sortingArray = [
     {
         algoInfo: {
-            name: "Bubble",
+            name: "Bubble Sort",
             algoLink: "sort/bubble",
-            img: BubbleSortImg
+            img: BubbleSortImg,
+            difficulty: "Easy",
+            type: "Sorting"
         }
     },
     {
         algoInfo: {
-            name: "Merge",
+            name: "Merge Sort",
             algoLink: "sort/merge",
-            img: MergeSortImg
+            img: MergeSortImg,
+            difficulty: "Easy",
+            type: "Sorting"
         }
     },
     {
         algoInfo: {
-            name: "Quick",
+            name: "Quick Sort",
             algoLink: "sort/quick",
-            img: QuickSortImg
+            img: QuickSortImg,
+            difficulty: "Easy",
+            type: "Sorting"
         }
     },
     {
         algoInfo: {
-            name: "Insertion",
+            name: "Insertion Sort",
             algoLink: "sort/insertion",
-            img: InsertionSortImg
+            img: InsertionSortImg,
+            difficulty: "Easy",
+            type: "Sorting"
         }
     },
     {
         algoInfo: {
-            name: "Selection",
+            name: "Selection Sort",
             algoLink: "sort/selection",
-            img: SelectionSortImg
+            img: SelectionSortImg,
+            difficulty: "Easy",
+            type: "Sorting"
         }
     },
 
@@ -51,42 +61,55 @@ export const searchingArray = [
         algoInfo: {
             name: "Binary Search",
             algoLink: "search/binary",
-            img: ""
+            img: "",
+            difficulty: "Medium",
+            type: "Searching"
         }
     },
     {
         algoInfo: {
             name: "Linear Search",
             algoLink: "search/linear",
-            img: ""
+            img: "",
+            difficulty: "Easy",
+            type: "Searching"
         }
     },
     {
         algoInfo: {
             name: "Interpolation Search",
             algoLink: "search/interpolation",
-            img: ""
+            img: "",
+            difficulty: "Medium",
+            type: "Searching"
+
         }
     },
     {
         algoInfo: {
             name: "Jump Search",
             algoLink: "search/jump",
-            img: ""
+            img: "",
+            difficulty: "Medium",
+            type: "Searching"
         }
     },
     {
         algoInfo: {
             name: "Exponential Search",
             algoLink: "search/exponential",
-            img: ""
+            img: "",
+            difficulty: "Medium",
+            type: "Searching"
         }
     },
     {
         algoInfo: {
             name: "Ternary Search",
             algoLink: "search/ternary",
-            img: ""
+            img: "",
+            difficulty: "Medium",
+            type: "Searching"
         }
     },
 ]
@@ -96,28 +119,36 @@ export const graphAlgoArray = [
         algoInfo: {
             name: "DFS",
             algoLink: "pathfinding/dfs",
-            img: ""
+            img: "",
+            difficulty: "Hard",
+            type: "Graph/Cells"
         }
     },
     {
         algoInfo: {
             name: "BFS",
             algoLink: "pathfinding/bfs",
-            img: ""
+            img: "",
+            difficulty: "Hard",
+            type: "Graph/Cells"
         }
     },
     {
         algoInfo: {
             name: "Dijkstra's",
             algoLink: "pathfinding/dijkstras",
-            img: ""
+            img: "",
+            difficulty: "Hard",
+            type: "Graph/Cells"
         }
     },
     {
         algoInfo: {
             name: "A*",
             algoLink: "pathfinding/a-star",
-            img: ""
+            img: "",
+            difficulty: "Extreme",
+            type: "Graph/Cells"
         }
     }
 ];
