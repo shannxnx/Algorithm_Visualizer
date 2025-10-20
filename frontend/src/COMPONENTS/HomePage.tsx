@@ -25,7 +25,7 @@ export default function FrontPage() {
 
 
     return <main className={`flex  flex-col  h-full w-full overflow-y-scroll overflow-x-hidden ${Admin ?
-        "bg-red-600" : "bg-[#f6f6f6]"} `}
+        "bg-red-600" : "bg-white"} `}
         style={{ scrollbarWidth: "none" }}>
 
         <Navbar onScrollNext={handleScrollVisualize} />
