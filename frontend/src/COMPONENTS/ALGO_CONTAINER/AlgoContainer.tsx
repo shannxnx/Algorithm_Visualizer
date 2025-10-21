@@ -52,7 +52,7 @@ export default function AlgoContainer({ myRef }: Props) {
         ref={myRef}>
 
         {
-            isLoading ? <div className="skeleton lg:h-[40px] lg:w-[300px] mt-3"></div>
+            isLoading ? <div className="skeleton lg:h-[40px] lg:w-[300px] mt-3 bg-gray-200"></div>
                 :
                 <select
                     defaultValue="Algorithm Category"
@@ -77,7 +77,7 @@ export default function AlgoContainer({ myRef }: Props) {
         }
 
         {
-            isLoading ? <div className="skeleton lg:h-[40px] lg:w-[200px] mt-10 mb-10"></div>
+            isLoading ? <div className="skeleton lg:h-[40px] lg:w-[200px] mt-10 mb-10 bg-gray-200"></div>
                 : <h1 className="text-3xl mt-10 mb-10 text-black">ALGORITHMS</h1>
         }
 
@@ -99,6 +99,7 @@ export default function AlgoContainer({ myRef }: Props) {
                         isLoading={isLoading}
                         difficulty={a.algoInfo.difficulty}
                         type={a.algoInfo.type}
+                        description={a.algoInfo.description}
 
                     />)
 

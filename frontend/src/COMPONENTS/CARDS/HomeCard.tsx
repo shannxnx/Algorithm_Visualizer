@@ -30,7 +30,7 @@ export default function HomeCard() {
 
 
             {
-                isLoading ? (<div className="skeleton h-[50px]"></div>)
+                isLoading ? (<div className="skeleton h-[50px] bg-gray-200"></div>)
                     : <motion.h1 className="lg:text-5xl text-black text-2xl"
                         initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
 
@@ -40,7 +40,7 @@ export default function HomeCard() {
             }
 
             {
-                isLoading ? (<div className="skeleton lg:h-[60%]"></div>)
+                isLoading ? (<div className="skeleton lg:h-[60%] bg-gray-200"></div>)
                     : <div className="lg:h-[60%] border-b border-green-600 w-full flex  dark:border-black ">
                         <motion.h1 className="lg:text-[20px] text-black
                     text-[12px]" initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>

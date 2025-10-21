@@ -3,7 +3,9 @@ import MergeSortImg from "../../img/sorting/Merge_Sort.png";
 import QuickSortImg from "../../img/sorting/Quick_Sort.png";
 import InsertionSortImg from "../../img/sorting/Insertion_Sort.png";
 import SelectionSortImg from "../../img/sorting/Selection_Sort.jpg";
-import { m } from "framer-motion";
+
+
+
 
 export const sortingArray = [
     {
@@ -12,7 +14,9 @@ export const sortingArray = [
             algoLink: "sort/bubble",
             img: BubbleSortImg,
             difficulty: "Easy",
-            type: "Sorting"
+            type: "Sorting",
+            description: `Compares each pair of adjacent elements and swaps them if they’re in the wrong order.
+                            It “bubbles” the largest values to the end with each pass.`
         }
     },
     {
@@ -21,7 +25,9 @@ export const sortingArray = [
             algoLink: "sort/merge",
             img: MergeSortImg,
             difficulty: "Easy",
-            type: "Sorting"
+            type: "Sorting",
+            description: `Divides the array into halves, sorts each half, then merges them back together in order.
+Efficient and stable, works well for large datasets.`
         }
     },
     {
@@ -30,7 +36,8 @@ export const sortingArray = [
             algoLink: "sort/quick",
             img: QuickSortImg,
             difficulty: "Easy",
-            type: "Sorting"
+            type: "Sorting",
+            description: `Picks a pivot element, partitions the array so smaller elements go left and larger ones go right, then sorts each part recursively.`
         }
     },
     {
@@ -39,7 +46,9 @@ export const sortingArray = [
             algoLink: "sort/insertion",
             img: InsertionSortImg,
             difficulty: "Easy",
-            type: "Sorting"
+            type: "Sorting",
+            description: `Builds the sorted array one element at a time by inserting each new element into its correct position.
+Efficient for small or nearly sorted data.`
         }
     },
     {
@@ -48,7 +57,10 @@ export const sortingArray = [
             algoLink: "sort/selection",
             img: SelectionSortImg,
             difficulty: "Easy",
-            type: "Sorting"
+            type: "Sorting",
+            description: `
+            Repeatedly finds the smallest element from the unsorted part and swaps it into its correct position.
+Simple but inefficient for large arrays.`
         }
     },
 
@@ -63,7 +75,9 @@ export const searchingArray = [
             algoLink: "search/binary",
             img: "",
             difficulty: "Medium",
-            type: "Searching"
+            type: "Searching",
+            description: `Repeatedly divides a sorted array in half to find the target.
+Fast and efficient, but only works on sorted data.`
         }
     },
     {
@@ -72,7 +86,9 @@ export const searchingArray = [
             algoLink: "search/linear",
             img: "",
             difficulty: "Easy",
-            type: "Searching"
+            type: "Searching",
+            description: `Checks each element one by one until it finds the target.
+Simple but slow — works on any list.`
         }
     },
     {
@@ -81,7 +97,9 @@ export const searchingArray = [
             algoLink: "search/interpolation",
             img: "",
             difficulty: "Medium",
-            type: "Searching"
+            type: "Searching",
+            description: `An improvement of binary search that estimates the target’s position based on its value.
+Best for uniformly distributed sorted data.`
 
         }
     },
@@ -91,7 +109,9 @@ export const searchingArray = [
             algoLink: "search/jump",
             img: "",
             difficulty: "Medium",
-            type: "Searching"
+            type: "Searching",
+            description: `Jumps ahead by fixed steps, then performs a linear search backward when it overshoots.
+Balance of speed and simplicity for sorted arrays.`
         }
     },
     {
@@ -100,7 +120,9 @@ export const searchingArray = [
             algoLink: "search/exponential",
             img: "",
             difficulty: "Medium",
-            type: "Searching"
+            type: "Searching",
+            description: `Quickly expands the search range exponentially, then applies binary search within that range.
+Great for unbounded or infinite-sized sorted data.`
         }
     },
     {
@@ -109,7 +131,9 @@ export const searchingArray = [
             algoLink: "search/ternary",
             img: "",
             difficulty: "Medium",
-            type: "Searching"
+            type: "Searching",
+            description: `ike binary search but splits the array into three parts instead of two.
+Used for finding extrema (min/max) in unimodal functions.`
         }
     },
 ]
@@ -121,7 +145,9 @@ export const graphAlgoArray = [
             algoLink: "pathfinding/dfs",
             img: "",
             difficulty: "Hard",
-            type: "Graph/Cells"
+            type: "Graph/Cells",
+            description: `Explores as deep as possible before backtracking.
+Useful for traversal, cycle detection, and maze solving.`
         }
     },
     {
@@ -130,7 +156,9 @@ export const graphAlgoArray = [
             algoLink: "pathfinding/bfs",
             img: "",
             difficulty: "Hard",
-            type: "Graph/Cells"
+            type: "Graph/Cells",
+            description: `Explores level by level, visiting all nearest nodes first.
+Finds the shortest path in an unweighted graph.`
         }
     },
     {
@@ -139,7 +167,9 @@ export const graphAlgoArray = [
             algoLink: "pathfinding/dijkstras",
             img: "",
             difficulty: "Hard",
-            type: "Graph/Cells"
+            type: "Graph/Cells",
+            description: `Finds the shortest path from a start node to all others in a weighted graph.
+Uses a priority queue to always explore the least costly path first.`
         }
     },
     {
@@ -148,7 +178,9 @@ export const graphAlgoArray = [
             algoLink: "pathfinding/a-star",
             img: "",
             difficulty: "Extreme",
-            type: "Graph/Cells"
+            type: "Graph/Cells",
+            description: `An optimized version of Dijkstra’s using a heuristic to guide the search.
+Balances speed and accuracy — the go-to for games and maps.`
         }
     }
 ];

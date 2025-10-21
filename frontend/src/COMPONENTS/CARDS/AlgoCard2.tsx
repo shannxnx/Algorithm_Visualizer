@@ -10,7 +10,8 @@ type props = {
     readonly algoLink: string,
     readonly algoImg?: string,
     readonly difficulty?: diffLevel,
-    readonly type?: string
+    readonly type?: string,
+    readonly description?: string,
     index: number,
     isLoading?: boolean
 };
@@ -29,7 +30,7 @@ const difficultyColor = {
 
 
 
-export default function AlgoCard2({ algoName, algoLink, algoImg, isLoading, difficulty, type }: props,) {
+export default function AlgoCard2({ algoName, algoLink, algoImg, isLoading, difficulty, type, description }: props,) {
 
     console.log("Difficulty Color: ", difficultyColor[difficulty!]);
 
@@ -45,11 +46,11 @@ export default function AlgoCard2({ algoName, algoLink, algoImg, isLoading, diff
 
 
             {
-                isLoading ? (<div className="skeleton h-[45px] w-[90%] mt-4 "></div>)
+                isLoading ? (<div className="skeleton h-[45px] w-[90%] mt-4 bg-gray-200"></div>)
                     : (
                         <div className="w-[90%] mt-4 rounded-[4px] flex justify-between items-center">
-                            <h3 className="lg:text-[20px] ">{algoName}</h3>
-                            <p className={`lg:text-[14px] rounded-[14px] p-2 
+                            <h3 className="lg:text-[20px] text-black">{algoName}</h3>
+                            <p className={`lg:text-[14px] rounded-[14px] p-2 text-black
                                 ${difficultyColor[difficulty!] ? difficultyColor[difficulty!] : 'bg-green-400'}`}
                             >
 
@@ -63,12 +64,13 @@ export default function AlgoCard2({ algoName, algoLink, algoImg, isLoading, diff
 
             {
 
-                isLoading ? (<div className="skeleton lg:h-[35%] w-[90%] rounded-4px"></div>)
+                isLoading ? (<div className="skeleton lg:h-[30%] w-[90%] rounded-4px bg-gray-200"></div>)
                     : (
-                        <div className="lg:h-[35%] w-[90%]  overflow-hidden ">
-                            <p className="text-[16px] ">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugiat laboriosam eum sequi veritatis,
-                                modi dolorum rerum qui libero hic illo asperiores quibusdam! Dolore ratione dicta doloremque at neque nobis rerum.
+                        <div className="lg:h-[35%] w-[90%]  overflow-scroll  ">
+                            <p className="text-[16px] text-black">
+                                {
+                                    description
+                                }
                             </p>
                         </div>
                     )
@@ -76,10 +78,10 @@ export default function AlgoCard2({ algoName, algoLink, algoImg, isLoading, diff
             }
 
             {
-                isLoading ? (<div className="skeleton h-[35px] w-[90%] "></div>)
+                isLoading ? (<div className="skeleton h-[15%] w-[90%] bg-gray-200"></div>)
                     : (
                         <div className="w-[90%] h-[15%]  rounded-[4px] flex justify-between items-center">
-                            <p className=" rounded-[14px] p-1 bg-blue-100">
+                            <p className=" rounded-[14px] p-1 bg-blue-100 text-black">
                                 {type}
                             </p>
 
