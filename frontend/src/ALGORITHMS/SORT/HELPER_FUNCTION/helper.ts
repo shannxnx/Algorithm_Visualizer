@@ -40,7 +40,7 @@ const sortedRandomNum = (count: number) => {
 export const generateBoxesInfo = (count: number, bounds: RectReadOnly,
     {
         desktop: { d_small = 40, d_medium = 45 } = {},
-        mobile: { m_small = 25, m_medium = 30 } = {},
+        mobile: { m_small = 40, m_medium = 45 } = {},
     }: sizeOptions = {}
 
 )
@@ -54,6 +54,9 @@ export const generateBoxesInfo = (count: number, bounds: RectReadOnly,
     const totalWidth = count * rectWidth + (count - 1) * spacing
     const startX = (konvaWidth / 2) - (totalWidth / 2);
 
+    console.log("Rect Width: ", rectWidth);
+    console.log("Konva Width: ", konvaWidth);
+
 
 
 
@@ -61,7 +64,7 @@ export const generateBoxesInfo = (count: number, bounds: RectReadOnly,
 
         const rect: rectInfo = {
             x: startX + i * (rectWidth + spacing),
-            y: -45,
+            y: 0,
             width: rectWidth,
             height: rectWidth,
             id: i,

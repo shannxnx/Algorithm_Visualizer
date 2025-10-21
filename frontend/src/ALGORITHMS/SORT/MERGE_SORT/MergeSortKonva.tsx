@@ -184,21 +184,6 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
         generateArray();
     }, [boxesInfo]);
 
-    //console.log("leftH1:", leftH1);
-    //console.log("leftH2:", leftH2);
-    //console.log("rightH1:", rightH1);
-    //console.log("rightH2:", rightH2);
-
-    //console.log("sortedLeftH1:", sortedLeftH1);
-    //console.log("sortedLeftH2:", sortedLeftH2);
-    //console.log("sortedRightH1:", sortedRightH1);
-    //console.log("sortedRightH2:", sortedRightH2);
-
-    //console.log("toBeSortedLeftH1:", toBeSortedLeftH1);
-    //console.log("toBeSortedLeftH2:", toBeSortedLeftH2);
-    //console.log("toBeSortedRightH1:", toBeSortedRightH1);
-    //console.log("toBeSortedRightH2:", toBeSortedRightH2);
-
     //left
     const sortedLeftRef = useRef<Konva.Group>(null);
     const leftGroupRef = useRef<Konva.Group>(null);
@@ -566,6 +551,9 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
 
                     if (!animationControllerRef.current.shouldStop) {
                         setIsAnimating("done");
+
+
+
                     }
                 })();
 
@@ -575,7 +563,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
 
 
 
-        }
+        };
 
 
 
@@ -646,7 +634,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
             } else {
                 const duration = 1350;
                 (async () => {
-                    // 🔹 Mobile (<650px, max 6 rects, tighter spacing)
+
                     rightH1Ref.current!.x(20);
                     rightH2Ref.current!.x(20);
                     toBeSortRH1Ref.current!.x(30);
@@ -695,6 +683,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
 
 
         }
+
 
 
     }, [isAnimating]);

@@ -7,7 +7,7 @@ import type { rectInfo, animation } from "../../../INTERFACES && TYPES/sortInter
 import useMeasure from "react-use-measure";
 import React from "react";
 import toast from "react-hot-toast";
-import { generateBoxesInfo, generateBoxesInfoSelection } from "../HELPER_FUNCTION/helpter";
+import { generateBoxesInfo, generateBoxesInfoSelection } from "../HELPER_FUNCTION/helper";
 import SelectionSortKonva from "./SelectionSortKonva";
 
 
@@ -21,6 +21,17 @@ type SelectionPayload = {
     konvaHeight?: number;
     setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>;
 }
+
+const desktopSize = {
+    d_small: 40,
+    d_medium: 45
+};
+
+const mobileSize = {
+    m_small: 40,
+    m_medium: 45
+}
+
 
 export default function SelectionSort() {
 
@@ -43,6 +54,12 @@ export default function SelectionSort() {
     const [rectsArray, setRectsArray] = useState<rectInfo[]>([]);
 
     const handleAdd = useCallback(() => {
+        if (bounds.width >= 650 && rectsArray.length >= 9) {
+            return toast("Max array reached!");
+        }
+        else if (bounds.width < 450 && rectsArray.length > 6) {
+            return toast("Max array reached!");
+        }
         if (rectsArray.length < 10) {
             setTask('add');
 
@@ -112,7 +129,7 @@ export default function SelectionSort() {
 
     useEffect(() => {
         if (bounds.width && bounds.height > 0) {
-            setRectsArray(generateBoxesInfo(5, bounds));
+            setRectsArray(generateBoxesInfo(5, bounds, { desktop: desktopSize, mobile: mobileSize }));
         }
 
     }, [bounds.width]);

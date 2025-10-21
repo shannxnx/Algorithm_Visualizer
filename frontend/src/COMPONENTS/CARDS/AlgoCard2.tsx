@@ -32,7 +32,7 @@ const difficultyColor = {
 
 export default function AlgoCard2({ algoName, algoLink, algoImg, isLoading, difficulty, type, description }: props,) {
 
-    console.log("Difficulty Color: ", difficultyColor[difficulty!]);
+
 
 
     return <motion.a href={`${algoLink}`} className="border border-gray-300 lg:w-[80%] lg:h-[180px] rounded-[8px] cursor-pointer 
@@ -49,7 +49,15 @@ export default function AlgoCard2({ algoName, algoLink, algoImg, isLoading, diff
                 isLoading ? (<div className="skeleton h-[45px] w-[90%] mt-4 bg-gray-200"></div>)
                     : (
                         <div className="w-[90%] mt-4 rounded-[4px] flex justify-between items-center">
-                            <h3 className="lg:text-[20px] text-black">{algoName}</h3>
+
+                            <h3 className="lg:text-[20px] text-2xl text-black">
+
+                                {
+                                    algoName
+                                }
+
+                            </h3>
+
                             <p className={`lg:text-[14px] rounded-[14px] p-2 text-black
                                 ${difficultyColor[difficulty!] ? difficultyColor[difficulty!] : 'bg-green-400'}`}
                             >
@@ -66,7 +74,7 @@ export default function AlgoCard2({ algoName, algoLink, algoImg, isLoading, diff
 
                 isLoading ? (<div className="skeleton lg:h-[30%] w-[90%] rounded-4px bg-gray-200"></div>)
                     : (
-                        <div className="lg:h-[35%] w-[90%]  overflow-scroll  ">
+                        <div className="lg:h-[35%] w-[90%] h-[20%]  overflow-scroll  ">
                             <p className="text-[16px] text-black">
                                 {
                                     description
@@ -80,8 +88,9 @@ export default function AlgoCard2({ algoName, algoLink, algoImg, isLoading, diff
             {
                 isLoading ? (<div className="skeleton h-[15%] w-[90%] bg-gray-200"></div>)
                     : (
-                        <div className="w-[90%] h-[15%]  rounded-[4px] flex justify-between items-center">
-                            <p className=" rounded-[14px] p-1 bg-blue-100 text-black">
+                        <div className="lg:w-[90%] lg:h-[15%] w-[90%]  rounded-[4px] flex justify-between items-center
+                        ">
+                            <p className=" rounded-[14px] p-1 bg-blue-100 text-black mb-2 lg:mb-0">
                                 {type}
                             </p>
 

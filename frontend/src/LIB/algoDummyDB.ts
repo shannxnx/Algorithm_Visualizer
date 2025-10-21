@@ -16,7 +16,8 @@ export const sortingArray = [
             difficulty: "Easy",
             type: "Sorting",
             description: `Compares each pair of adjacent elements and swaps them if they’re in the wrong order.
-                            It “bubbles” the largest values to the end with each pass.`
+                            It “bubbles” the largest values to the end with each pass.`,
+            time: ``
         }
     },
     {
@@ -27,7 +28,8 @@ export const sortingArray = [
             difficulty: "Easy",
             type: "Sorting",
             description: `Divides the array into halves, sorts each half, then merges them back together in order.
-Efficient and stable, works well for large datasets.`
+Efficient and stable, works well for large datasets.`,
+            time: ``
         }
     },
     {
@@ -37,7 +39,8 @@ Efficient and stable, works well for large datasets.`
             img: QuickSortImg,
             difficulty: "Easy",
             type: "Sorting",
-            description: `Picks a pivot element, partitions the array so smaller elements go left and larger ones go right, then sorts each part recursively.`
+            description: `Picks a pivot element, partitions the array so smaller elements go left and larger ones go right, then sorts each part recursively.`,
+            time: ``
         }
     },
     {
@@ -48,7 +51,8 @@ Efficient and stable, works well for large datasets.`
             difficulty: "Easy",
             type: "Sorting",
             description: `Builds the sorted array one element at a time by inserting each new element into its correct position.
-Efficient for small or nearly sorted data.`
+Efficient for small or nearly sorted data.`,
+            time: ``
         }
     },
     {
@@ -60,7 +64,8 @@ Efficient for small or nearly sorted data.`
             type: "Sorting",
             description: `
             Repeatedly finds the smallest element from the unsorted part and swaps it into its correct position.
-Simple but inefficient for large arrays.`
+Simple but inefficient for large arrays.`,
+            time: ``
         }
     },
 

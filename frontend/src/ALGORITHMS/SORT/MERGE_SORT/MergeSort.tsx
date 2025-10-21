@@ -8,7 +8,7 @@ import { MergeSortKonva } from "./MergeSortKonva";
 import { mergeStore } from "./STORE/merge.store";
 import useMeasure from "react-use-measure";
 import ButtonV1 from "../../../COMPONENTS/BUTTONS/ButtonV1";
-import { generateBoxesInfo } from "../HELPER_FUNCTION/helpter";
+import { generateBoxesInfo } from "../HELPER_FUNCTION/helper";
 import { type rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 
 const div_x = 400;

@@ -8,7 +8,7 @@ import useMeasure from "react-use-measure";
 import React from "react";
 import { QuickSortKonva } from "./QuickSortKonva";
 import toast from "react-hot-toast";
-import { generateBoxesInfo, type desktopSize } from "../HELPER_FUNCTION/helpter";
+import { generateBoxesInfo, type desktopSize } from "../HELPER_FUNCTION/helper";
 import type { Dispatch, SetStateAction } from "react";
 
 
@@ -160,7 +160,7 @@ export default function QuickSort() {
                         width: rectWidth,
                         height: rectWidth,
                         x: 0,
-                        y: -45,
+                        y: 0,
                         number: Math.floor(Math.random() * 100),
                         id: rectArrayLen,
                         color: "blue"                         //colors[rectArrayLen % colors.length]
@@ -173,7 +173,7 @@ export default function QuickSort() {
                         width: rectWidth,
                         height: rectWidth,
                         x: startX + i * (rectWidth + spacing),
-                        y: -45,
+                        y: 0,
                         id: i
                     }));
 
@@ -200,7 +200,7 @@ export default function QuickSort() {
                         ...r,
                         width: rectWidth,
                         height: rectWidth,
-                        y: -45,
+                        y: 0,
                         x: startX + index * (rectWidth + spacing),
                         id: index,
                         ccolor: "blue"                         //colors[rectArrayLen % colors.length]
@@ -257,7 +257,7 @@ export default function QuickSort() {
                         width: newRectWidth,
                         height: newRectWidth,
                         x: newStartX + index * (newRectWidth + newSpacing),
-                        y: -45,
+                        y: 0,
                         id: index,
                     }));
 

@@ -4,7 +4,7 @@ import type { animation, rectInfo, SortKit } from "../../../INTERFACES && TYPES/
 import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import BinaryButton from "../../../COMPONENTS/BUTTONS/SearchButton";
 import useMeasure from "react-use-measure";
-import { generateBoxesInfo, generateSortedBoxesInfo } from "../../SORT/HELPER_FUNCTION/helpter";
+import { generateBoxesInfo, generateSortedBoxesInfo } from "../../SORT/HELPER_FUNCTION/helper";
 import ExponentialSearchKonva from "./ExponentialKonva";
 
 

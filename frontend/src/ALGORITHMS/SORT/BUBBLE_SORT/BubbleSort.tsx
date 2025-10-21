@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { sortStore } from "../../../STATE/sortingStore";
 import type { SortKit } from "../../../INTERFACES && TYPES/sortInterface";
 import ButtonV1 from "../../../COMPONENTS/BUTTONS/ButtonV1";
+import useMeasure from "react-use-measure";
 
 const div_x = 400;
 const div_y = 50;
@@ -42,6 +43,8 @@ export default function BubbleSort() {
     const [removeIndex, setRemoveIndex] = useState<number>(0);
 
     const [showButton, setShowButton] = useState<boolean>(true);
+
+    const [ref, bounds] = useMeasure();
 
     const totalWidth = (width + gap) * rects;
 
@@ -307,6 +310,12 @@ export default function BubbleSort() {
     }, [task, rectsArray, insertVal, insertIndex, removeIndex]);
 
     const handleAdd = () => {
+        if (bounds.width >= 650 && rectsArray.length >= 9) {
+            return toast("Max array reached!");
+        }
+        else if (bounds.width < 450 && rectsArray.length > 4) {
+            return toast("Max array reached!");
+        }
         if (rects <= 10) {
             setRects(rects + 1);
             setTask('add');
@@ -321,6 +330,12 @@ export default function BubbleSort() {
     };
 
     const handleInsert = () => {
+        if (bounds.width >= 650 && rectsArray.length >= 9) {
+            return toast("Max array reached!");
+        }
+        else if (bounds.width < 450 && rectsArray.length > 4) {
+            return toast("Max array reached!");
+        }
         if (insertIndex <= rects && rects <= 10) {
             setRects(rects + 1);
             setTask('insert');
@@ -393,15 +408,15 @@ export default function BubbleSort() {
     };
 
     console.log("Is animating: ", isAnimating);
-
+    console.log("Bounds: ", bounds.width);
 
 
 
     return <main className="w-screen h-screen flex gap-5 overflow-x-hidden p-2 bg-black">
 
 
-        <div className="w-[60%] h-full border-1 relative flex flex-col rounded bg-white
-        items-center">
+        <div className="w-full lg:w-full h-full border-1 relative flex flex-col rounded bg-white
+        items-center" ref={ref}>
 
 
 

@@ -5,7 +5,7 @@ import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import BinaryButton from "../../../COMPONENTS/BUTTONS/SearchButton";
 import useMeasure from "react-use-measure";
 import BinarySearchKonva from "./BinarySearchKonva";
-import { generateBoxesInfo, generateSortedBoxesInfo } from "../../SORT/HELPER_FUNCTION/helpter";
+import { generateBoxesInfo, generateSortedBoxesInfo } from "../../SORT/HELPER_FUNCTION/helper";
 import { create } from "zustand";
 import { div } from "framer-motion/client";
 import { changeColor } from "../searchAnimation.helper";

@@ -396,7 +396,7 @@ export function SortRectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRe
                     <Rect
                         width={r.width}
                         height={r.height}
-                        fill={"blue"}
+                        fill={r.color}
                         cornerRadius={5}
                     />
 

@@ -8,7 +8,7 @@ import useMeasure from "react-use-measure";
 import React from "react";
 import toast from "react-hot-toast";
 import InsertionSortKonva from "./InsertionSortKonva";
-import { generateBoxesInfo } from "../HELPER_FUNCTION/helpter";
+import { generateBoxesInfo } from "../HELPER_FUNCTION/helper";
 
 
 
@@ -22,6 +22,19 @@ type InsertionSortPayload = {
     konvaHeight?: number;
     setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>;
 }
+
+
+const desktopSize = {
+    d_small: 40,
+    d_medium: 45
+};
+
+const mobileSize = {
+    m_small: 40,
+    m_medium: 40
+}
+
+
 export default function InsertionSort() {
 
 
@@ -41,7 +54,12 @@ export default function InsertionSort() {
     const [rectsArray, setRectsArray] = useState<rectInfo[]>([]);
 
     const handleAdd = () => {
-
+        if (bounds.width >= 650 && rectsArray.length >= 9) {
+            return toast("Max array reached!");
+        }
+        else if (bounds.width < 450 && rectsArray.length > 6) {
+            return toast("Max array reached!");
+        }
         if (rectsArray.length < 10) {
             setTask('add');
 
@@ -76,7 +94,7 @@ export default function InsertionSort() {
     }
 
     const handleNewBoxes = () => {
-        setRectsArray(generateBoxesInfo(rectsArray.length, bounds));
+        setRectsArray(generateBoxesInfo(rectsArray.length, bounds, { desktop: desktopSize, mobile: mobileSize }));
         setIsAnimating("idle");
         toast("clicked new boxes");
 
@@ -118,7 +136,7 @@ export default function InsertionSort() {
     }, [bounds.width]);
 
 
-
+    console.log("Bounds Width: ", bounds.width);
 
     useEffect(() => {
         if (rectsArray.length > 0 && task) {
