@@ -17,7 +17,7 @@ export const sortingArray = [
             type: "Sorting",
             description: `Compares each pair of adjacent elements and swaps them if they’re in the wrong order.
                             It “bubbles” the largest values to the end with each pass.`,
-            time: ``
+            time: `O(n²)`
         }
     },
     {
@@ -29,7 +29,7 @@ export const sortingArray = [
             type: "Sorting",
             description: `Divides the array into halves, sorts each half, then merges them back together in order.
 Efficient and stable, works well for large datasets.`,
-            time: ``
+            time: `O(n log n)`
         }
     },
     {
@@ -40,7 +40,7 @@ Efficient and stable, works well for large datasets.`,
             difficulty: "Easy",
             type: "Sorting",
             description: `Picks a pivot element, partitions the array so smaller elements go left and larger ones go right, then sorts each part recursively.`,
-            time: ``
+            time: `O(n log n) / O(n²)`
         }
     },
     {
@@ -52,7 +52,7 @@ Efficient and stable, works well for large datasets.`,
             type: "Sorting",
             description: `Builds the sorted array one element at a time by inserting each new element into its correct position.
 Efficient for small or nearly sorted data.`,
-            time: ``
+            time: `O(n²)`
         }
     },
     {
@@ -65,7 +65,7 @@ Efficient for small or nearly sorted data.`,
             description: `
             Repeatedly finds the smallest element from the unsorted part and swaps it into its correct position.
 Simple but inefficient for large arrays.`,
-            time: ``
+            time: `O(n²)`
         }
     },
 
@@ -82,7 +82,8 @@ export const searchingArray = [
             difficulty: "Medium",
             type: "Searching",
             description: `Repeatedly divides a sorted array in half to find the target.
-Fast and efficient, but only works on sorted data.`
+Fast and efficient, but only works on sorted data.`,
+            time: `O(log n)`
         }
     },
     {
@@ -93,7 +94,8 @@ Fast and efficient, but only works on sorted data.`
             difficulty: "Easy",
             type: "Searching",
             description: `Checks each element one by one until it finds the target.
-Simple but slow — works on any list.`
+Simple but slow — works on any list.`,
+            time: `O(n)`
         }
     },
     {
@@ -104,7 +106,8 @@ Simple but slow — works on any list.`
             difficulty: "Medium",
             type: "Searching",
             description: `An improvement of binary search that estimates the target’s position based on its value.
-Best for uniformly distributed sorted data.`
+Best for uniformly distributed sorted data.`,
+            time: `O(log log n) / O(n)`
 
         }
     },
@@ -116,7 +119,8 @@ Best for uniformly distributed sorted data.`
             difficulty: "Medium",
             type: "Searching",
             description: `Jumps ahead by fixed steps, then performs a linear search backward when it overshoots.
-Balance of speed and simplicity for sorted arrays.`
+Balance of speed and simplicity for sorted arrays.`,
+            time: `O(√n)`
         }
     },
     {
@@ -127,7 +131,8 @@ Balance of speed and simplicity for sorted arrays.`
             difficulty: "Medium",
             type: "Searching",
             description: `Quickly expands the search range exponentially, then applies binary search within that range.
-Great for unbounded or infinite-sized sorted data.`
+Great for unbounded or infinite-sized sorted data.`,
+            time: `O(log n)`
         }
     },
     {
@@ -138,7 +143,8 @@ Great for unbounded or infinite-sized sorted data.`
             difficulty: "Medium",
             type: "Searching",
             description: `ike binary search but splits the array into three parts instead of two.
-Used for finding extrema (min/max) in unimodal functions.`
+Used for finding extrema (min/max) in unimodal functions.`,
+            time: `O(log₃ n)`
         }
     },
 ]
@@ -152,7 +158,8 @@ export const graphAlgoArray = [
             difficulty: "Hard",
             type: "Graph/Cells",
             description: `Explores as deep as possible before backtracking.
-Useful for traversal, cycle detection, and maze solving.`
+Useful for traversal, cycle detection, and maze solving.`,
+            time: `O(V + E)`
         }
     },
     {
@@ -163,7 +170,8 @@ Useful for traversal, cycle detection, and maze solving.`
             difficulty: "Hard",
             type: "Graph/Cells",
             description: `Explores level by level, visiting all nearest nodes first.
-Finds the shortest path in an unweighted graph.`
+Finds the shortest path in an unweighted graph.`,
+            time: `O(V + E)`
         }
     },
     {
@@ -174,7 +182,8 @@ Finds the shortest path in an unweighted graph.`
             difficulty: "Hard",
             type: "Graph/Cells",
             description: `Finds the shortest path from a start node to all others in a weighted graph.
-Uses a priority queue to always explore the least costly path first.`
+Uses a priority queue to always explore the least costly path first.`,
+            time: `O(V²)`
         }
     },
     {
@@ -185,7 +194,8 @@ Uses a priority queue to always explore the least costly path first.`
             difficulty: "Extreme",
             type: "Graph/Cells",
             description: `An optimized version of Dijkstra’s using a heuristic to guide the search.
-Balances speed and accuracy — the go-to for games and maps.`
+Balances speed and accuracy — the go-to for games and maps.`,
+            time: `O(E)`
         }
     }
 ];

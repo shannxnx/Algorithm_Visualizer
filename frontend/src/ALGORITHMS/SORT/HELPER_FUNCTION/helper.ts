@@ -103,7 +103,7 @@ export const generateSortedBoxesInfo = (count: number, bounds: RectReadOnly,
 
         const rect: rectInfo = {
             x: startX + i * (rectWidth + spacing),
-            y: -45,
+            y: 0,
             width: rectWidth,
             height: rectWidth,
             id: i,

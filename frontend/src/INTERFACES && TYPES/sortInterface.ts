@@ -35,3 +35,14 @@ export interface gridRectInfo extends rectInfo {
 }
 
 export type animation = "idle" | "animating" | "done";
+
+
+export const desktopSize = {
+    d_small: 40,
+    d_medium: 45
+};
+
+export const mobileSize = {
+    m_small: 40,
+    m_medium: 40
+}

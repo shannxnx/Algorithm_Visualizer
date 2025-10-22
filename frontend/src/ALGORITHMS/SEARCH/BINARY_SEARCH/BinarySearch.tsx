@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { searchStore } from "../../../STATE/searchStore"
-import type { animation, rectInfo, SortKit } from "../../../INTERFACES && TYPES/sortInterface";
+import { desktopSize, mobileSize, type animation, type rectInfo, type SortKit } from "../../../INTERFACES && TYPES/sortInterface";
 import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import BinaryButton from "../../../COMPONENTS/BUTTONS/SearchButton";
 import useMeasure from "react-use-measure";
@@ -22,6 +22,7 @@ type BinarySearchPayload = {
     setBoxesInfo: React.Dispatch<React.SetStateAction<rectInfo[]>>;
     searchValue?: number
 }
+
 
 
 
@@ -57,7 +58,7 @@ export default function BinarySearch() {
 
     useEffect(() => {
         if (bounds.width && bounds.height > 0) {
-            setRectsArray(generateBoxesInfo(sizeValue, bounds));
+            setRectsArray(generateBoxesInfo(sizeValue, bounds, { desktop: desktopSize, mobile: mobileSize }));
         }
 
     }, [bounds.width]);
@@ -84,12 +85,16 @@ export default function BinarySearch() {
 
 
     const handleNewBoxes = () => {
-        if (sizeValue <= 15) {
-            setRectsArray(generateSortedBoxesInfo(sizeValue, bounds));
+        if (sizeValue <= 15 && bounds.width >= 650) {
+            setRectsArray(generateSortedBoxesInfo(sizeValue, bounds, { desktop: desktopSize, mobile: mobileSize }));
+            setIsAnimating("idle");
+        }
+        else if (bounds.width <= 450 && sizeValue < 7) {
+            setRectsArray(generateSortedBoxesInfo(sizeValue, bounds, { desktop: desktopSize, mobile: mobileSize }));
             setIsAnimating("idle");
         }
         else {
-            console.log("Maximum rects reached!");
+            console.log("Invalid size of rectangles!");
         }
     }
 
@@ -117,7 +122,7 @@ export default function BinarySearch() {
     return <main className="w-screen h-screen flex  gap-5 overflow-x-hidden p-2 bg-black ">
 
 
-        <div className="w-[60%] h-full border-1 relative flex flex-col rounded bg-white
+        <div className="lg:w-[60%] w-full h-full border-1 relative flex flex-col rounded bg-white
         items-center" ref={ref}>
 
 

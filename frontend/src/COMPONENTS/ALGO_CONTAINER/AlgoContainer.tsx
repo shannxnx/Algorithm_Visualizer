@@ -100,6 +100,7 @@ export default function AlgoContainer({ myRef }: Props) {
                         difficulty={a.algoInfo.difficulty}
                         type={a.algoInfo.type}
                         description={a.algoInfo.description}
+                        time={a.algoInfo.time}
 
                     />)
 

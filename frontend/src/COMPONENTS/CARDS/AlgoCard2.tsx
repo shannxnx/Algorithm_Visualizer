@@ -12,6 +12,7 @@ type props = {
     readonly difficulty?: diffLevel,
     readonly type?: string,
     readonly description?: string,
+    readonly time?: string
     index: number,
     isLoading?: boolean
 };
@@ -30,7 +31,7 @@ const difficultyColor = {
 
 
 
-export default function AlgoCard2({ algoName, algoLink, algoImg, isLoading, difficulty, type, description }: props,) {
+export default function AlgoCard2({ algoName, algoLink, algoImg, isLoading, difficulty, type, description, time }: props,) {
 
 
 
@@ -92,6 +93,10 @@ export default function AlgoCard2({ algoName, algoLink, algoImg, isLoading, diff
                         ">
                             <p className=" rounded-[14px] p-1 bg-blue-100 text-black mb-2 lg:mb-0">
                                 {type}
+                            </p>
+
+                            <p className="rounded-[14px] p-1 bg-blue-100 text-black mb-2 lg:mb-0">
+                                {time}
                             </p>
 
                             {

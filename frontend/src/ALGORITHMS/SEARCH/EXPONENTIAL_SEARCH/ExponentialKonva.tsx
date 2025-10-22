@@ -31,6 +31,7 @@ export interface indexInterface {
 }
 
 
+
 const ExponentialSearchKonva: React.FC<ExponentialSearchProps> = ({ props }) => {
 
     const middleY = props.konvaHeight! / 2;

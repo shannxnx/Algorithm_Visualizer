@@ -36,7 +36,7 @@ export default function FrontPage() {
         <AlgoContainer myRef={visualizeRef} />
 
         <footer className="w-full lg:h-[70px] bg-gray-100 flex items-center justify-between lg:mt-20">
-            <h1 className="lg:ml-5 flex items-center">
+            <h1 className="lg:ml-5 flex items-center text-black">
                 <Copyright className="" />2025 Shann Lacanaria
             </h1>
         </footer>
