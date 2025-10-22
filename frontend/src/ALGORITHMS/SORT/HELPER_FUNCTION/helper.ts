@@ -21,17 +21,12 @@ export interface sizeOptions {
 
 
 
-const sortedRandomNum = (count: number) => {
+const sortedRandomNum = (count: number): number[] => {
 
     const randomNum = [];
     for (let i = 0; i < count; i++) {
         randomNum.push(Math.floor(Math.random() * 100));
     };
-
-
-
-
-
 
 
     return randomNum.sort((a, b) => a - b);

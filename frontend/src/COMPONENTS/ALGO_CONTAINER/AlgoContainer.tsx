@@ -83,7 +83,8 @@ export default function AlgoContainer({ myRef }: Props) {
 
 
         <motion.div className="w-screen grid lg:grid-cols-3 lg:grid-rows-2 p-4 
-        place-items-center  gap-y-10  grid-cols-1 grid-rows-4 overflow-x-hidden "
+        md:grid-cols-2 md:grid-rows-2
+        place-items-center  lg:gap-y-10 md:gap-y-10 md:gap-x-5 gap-y-10  grid-cols-1 grid-rows-4 overflow-x-hidden "
 
         >
 

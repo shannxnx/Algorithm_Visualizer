@@ -45,7 +45,8 @@ export const Signup = async (req: Request, res: Response) => {
     } catch (error: unknown) {
         if (error instanceof Error) {
             console.log("Error in signup: ", error.message);
-            res.status(500).json({ message: "Internal Server Error!" });
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
         }
     }
 }
@@ -73,9 +74,9 @@ export const AdminLogin = async (req: Request, res: Response) => {
 
     } catch (error: unknown) {
         if (error instanceof Error) {
-
             console.log("Error in admin login: ", error.message);
-            res.status(500).json({ message: "Internal Server Error!" });
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
         }
     }
 };
@@ -98,9 +99,9 @@ export const Logout = async (req: Request, res: Response) => {
 
     } catch (error: unknown) {
         if (error instanceof Error) {
-
             console.log("Error in logout: ", error.message);
-            res.status(500).json({ message: "Internal Server Error!" });
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
         }
     }
 };
@@ -125,7 +126,8 @@ export const checkAuth = async (req: Request, res: Response) => {
     } catch (error: unknown) {
         if (error instanceof Error) {
             console.log("Error in checkAuth: ", error.message);
-            res.status(500).json({ message: "Internal Server Error!" });
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
         }
 
     }

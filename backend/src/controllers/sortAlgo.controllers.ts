@@ -11,9 +11,12 @@ export const getBubbleSortInfo = async (req: Request, res: Response) => {
 
         res.status(200).json(data);
 
-    } catch (error: any) {
-        console.log("Internal Server Error!", error?.message);
-        res.status(500).json({ message: "Internal Error Server!" });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Internal Server Error: ", error.message);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
+        }
     }
 };
 
@@ -41,9 +44,12 @@ export const postBubbleSort = async (req: Request, res: Response) => {
 
 
 
-    } catch (error: any) {
-        console.log("Internal Server Error!", error.message);
-        res.status(500).json({ message: "Internal Server Error!" })
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Internal Server Error: ", error.message);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
+        }
     }
 };
 
@@ -68,9 +74,12 @@ export const postMergeSort = async (req: Request, res: Response) => {
         res.status(201).json(mergeSort);
 
 
-    } catch (error: any) {
-        console.log("Internal Server Error!", error.message);
-        res.status(500).json({ message: "Internal Server Error!" })
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Internal Server Error: ", error.message);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
+        }
     }
 }
 
@@ -85,10 +94,12 @@ export const getMergeSortInfo = async (req: Request, res: Response) => {
 
 
 
-    } catch (error: any) {
-        console.log("Internal Server Error!", error.message);
-        res.status(500).json({ message: "Internal Server Error!" })
-
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Internal Server Error: ", error.message);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
+        }
     }
 };
 
@@ -103,10 +114,12 @@ export const getQuickSortInfo = async (req: Request, res: Response) => {
 
 
 
-    } catch (error: any) {
-        console.log("Internal Server Error!", error.message);
-        res.status(500).json({ message: "Internal Server Error!" })
-
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Internal Server Error: ", error.message);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
+        }
     }
 };
 
@@ -122,10 +135,12 @@ export const getInsertionSortInfo = async (req: Request, res: Response) => {
 
 
 
-    } catch (error: any) {
-        console.log("Internal Server Error!", error.message);
-        res.status(500).json({ message: "Internal Server Error!" })
-
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Internal Server Error: ", error.message);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
+        }
     }
 };
 
@@ -141,10 +156,12 @@ export const getSelectionSortInfo = async (req: Request, res: Response) => {
 
 
 
-    } catch (error: any) {
-        console.log("Internal Server Error!", error.message);
-        res.status(500).json({ message: "Internal Server Error!" })
-
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Internal Server Error: ", error.message);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
+        }
     }
 };
 
@@ -173,10 +190,12 @@ export const postQuickSort = async (req: Request, res: Response) => {
 
 
 
-    } catch (error: any) {
-        console.log("Internal Server Error!", error.message);
-        res.status(500).json({ message: "Internal Server Error!" });
-
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Internal Server Error: ", error.message);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
+        }
     }
 };
 
@@ -204,9 +223,12 @@ export const postSortAlgorithm = async (req: Request, res: Response) => {
         res.status(201).json(newAlgo);
 
 
-    } catch (error: any) {
-        console.log("Internal Server Error: ", error.message);
-        res.status(500).json({ message: "Internal Server Error" });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Internal Server Error: ", error.message);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
+        }
     }
 }
 
@@ -226,9 +248,12 @@ export const editSortCode = async (req: Request, res: Response) => {
         res.status(200).json(updated);
 
 
-    } catch (error: any) {
-        console.log("Internal Sever Error!", error.message);
-        res.status(500).json({ message: "Internal Server Error!" });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Internal Server Error: ", error.message);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
+        }
     }
 };
 
@@ -253,8 +278,11 @@ export const postAlgorithm = async (req: Request, res: Response) => {
         res.status(201).json(newAlgo);
 
 
-    } catch (error: any) {
-        console.log("Internal Server Error: ", error.message);
-        res.status(500).json({ message: "Internal Server Error" });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.log("Internal Server Error: ", error.message);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            res.status(500).json({ message: `Internal Server Error:${errorMessage} ` });
+        }
     }
 }
