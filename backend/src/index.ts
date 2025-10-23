@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv"
 import { ConnectDB } from "./lib/db";
-import SortAlgoRoutes from "../src/routes/sortAlgo.routes";
+import SortAlgoRoutes from "./routes/searchAlgo.routes"
 import SearchAlgoRoutes from "../src/routes/searchAlgo.routes";
 import AdminRoutes from "../src/routes/adminAuth.routes";
 import PathfindingRoutes from "./routes/pathFinding.routes";
