@@ -5,5 +5,5 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: process.env.VITE_BASE_PATH || `/Algorithm_Visualizer` //for deployment
+  base: process.env.VITE_BASE_PATH || `/https://algorithm-visualizer-emzo-7ibojy0gd-shannxnxs-projects.vercel.app` //for deployment
 })
