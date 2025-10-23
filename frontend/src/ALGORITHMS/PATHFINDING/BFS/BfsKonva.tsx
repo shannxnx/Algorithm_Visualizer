@@ -132,7 +132,7 @@ export default function BfsKonva({ bounds }: BfsKonvaProps) {
     useEffect(() => {
         setRectInfo(generateGridRects(generateGrProps));
 
-    }, [bounds.width]);
+    }, [bounds.width, bounds.height]);
 
 
     const handleReset = () => {

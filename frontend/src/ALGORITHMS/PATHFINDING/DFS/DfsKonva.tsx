@@ -136,7 +136,7 @@ export default function DfsKonva({ bounds }: DfsKonvaProps) {
     useEffect(() => {
         setRectInfo(generateGridRects(generateGrProps));
 
-    }, [bounds.width]);
+    }, [bounds.width, bounds.height]);
 
 
     const handleReset = () => {
