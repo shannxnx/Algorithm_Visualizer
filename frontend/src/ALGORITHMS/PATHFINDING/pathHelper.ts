@@ -17,6 +17,7 @@ export const generateGridRects = ({ props }: props) => {
     const cellSize = props.rectSize;
     const gap = props.gap
 
+    console.log("Props GGR: ", props);
     for (let i = 0; i < props.row; i++) {
         for (let j = 0; j < props.column; j++) {
             const xPos = j * (cellSize + gap);
@@ -27,8 +28,8 @@ export const generateGridRects = ({ props }: props) => {
                 stringId: id,
                 x: xPos,
                 y: yPos,
-                width: 30,
-                height: 30,
+                width: props.rectSize,
+                height: props.rectSize,
                 number: Math.floor(Math.random() * 100),
                 color: "blue",
                 isEnd: false,

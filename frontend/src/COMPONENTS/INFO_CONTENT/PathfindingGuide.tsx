@@ -2,9 +2,10 @@ import { Square } from "lucide-react";
 
 
 export default function PathfindingGuide() {
-    return <div className="lg:h-[10%] border-b  lg:w-[95%] rounded
+    return <div className="lg:h-[10%] h-[15%] w-[95%] lg:border-b border lg:w-[95%] rounded
             flex justify-center items-center">
-        <ul className="h-full w-full flex justify-around items-center ">
+        <ul className="h-full w-full lg:flex lg:justify-around lg:items-center 
+        md:flex md:justify-around md:items-center hidden">
             <li className="flex gap-1">
                 Click+W = Wall <span><Square color="black" className="bg-black rounded" /></span>
             </li>

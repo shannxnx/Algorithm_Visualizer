@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type AriaAttributes, type Ref, type RefObj
 import Konva from "konva";
 import type { gridRectInfo, rectInfo } from "../INTERFACES && TYPES/sortInterface";
 import type { indexInterface } from "../ALGORITHMS/SORT/INSERTION_SORT/InsertionSortKonva";
+import type { RectReadOnly } from "react-use-measure";
 
 
 type rectArrayRenderProps = {
@@ -425,7 +426,7 @@ interface gridRendererProps {
     array: gridRectInfo[],
     setArray: (id: string) => void,
     x?: number,
-    y?: number
+    y?: number,
 }
 
 export function MazeGridRenderer({ array, setArray }: gridRendererProps) {

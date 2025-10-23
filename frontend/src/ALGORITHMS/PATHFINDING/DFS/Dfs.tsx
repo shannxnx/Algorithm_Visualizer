@@ -5,6 +5,7 @@ import AlgoInfo from "../../../COMPONENTS/INFO_CONTENT/AlgoInfo";
 import DfsKonva from "./DfsKonva";
 import { RectangleCircle, Square } from "lucide-react";
 import PathfindingGuide from "../../../COMPONENTS/INFO_CONTENT/PathfindingGuide";
+import useMeasure from "react-use-measure";
 
 
 export default function DepthFirstSearch() {
@@ -12,6 +13,8 @@ export default function DepthFirstSearch() {
     const getDFSInfo = pathFindingStore((state: any) => state.getDFSInfo);
     const depthFirstSearch = pathFindingStore((state: any) => state.DepthFirstSearch);
     const editPathFindingCode = pathFindingStore((state: any) => state.editPathfindingCode);
+
+    const [ref, bounds] = useMeasure();
 
 
     useEffect(() => {
@@ -27,17 +30,17 @@ export default function DepthFirstSearch() {
     }
 
     return <main className="w-screen h-screen flex  gap-5 overflow-x-hidden p-2 bg-black">
-        <div className="w-[60%] h-full border-1 relative flex flex-col rounded bg-white
-        items-center" >
+        <div className="lg:w-[60%] w-full h-full border-1 relative flex flex-col rounded bg-white
+        items-center" ref={ref}>
 
 
 
-            <div className="lg:w-[95%] lg:h-[80%] border-1
+            <div className="lg:w-[95%] lg:h-[80%] h-[80%] w-[95%] border-1
              flex items-center justify-center rounded-[8px] duration-200 bg-white/70 backdrop-blur-sm shadow-xl m-4 
              overflow-x-scroll border-black" style={{ scrollbarGutter: "stable" }}>
 
 
-                <DfsKonva />
+                <DfsKonva bounds={bounds} />
 
             </div>
 

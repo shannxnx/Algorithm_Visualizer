@@ -5,6 +5,7 @@ import { MazeGridRenderer } from "../../../RENDERER/Renderer";
 import { delay } from "../../SORT/HELPER_FUNCTION/animation.helper";
 import { generateGridRects } from "../pathHelper";
 import { type props } from '../pathHelper';
+import type { RectReadOnly } from "react-use-measure";
 
 
 
@@ -99,7 +100,13 @@ async function visualizeBFS(
     }
 }
 
-export default function BfsKonva() {
+interface BfsKonvaProps {
+    bounds: RectReadOnly
+}
+
+
+
+export default function BfsKonva({ bounds }: BfsKonvaProps) {
     const [rectInfo, setRectInfo] = useState<gridRectInfo[]>([]);
     const [keyPressed, setKeyPressed] = useState<string | null>(null);
     const [start, setStart] = useState<boolean>(false);
@@ -114,9 +121,9 @@ export default function BfsKonva() {
 
     const generateGrProps: props = {
         props: {
-            row: 14,
-            column: 18,
-            rectSize: 30,
+            row: bounds.width >= 650 ? 14 : 18,
+            column: bounds.width >= 650 ? 18 : 18,
+            rectSize: bounds.width >= 650 ? 30 : 15,
             gap: 2
         }
     }
@@ -125,7 +132,7 @@ export default function BfsKonva() {
     useEffect(() => {
         setRectInfo(generateGridRects(generateGrProps));
 
-    }, []);
+    }, [bounds.width]);
 
 
     const handleReset = () => {
@@ -192,7 +199,8 @@ export default function BfsKonva() {
 
 
     return (
-        <Stage width={575} height={440} className="border-1 border-black bg-black">
+        <Stage width={bounds.width >= 650 ? 575 : 305} height={bounds.width >= 650 ? 445 : 305}
+            className="border-1 border-black bg-black">
             <Layer>
                 <MazeGridRenderer array={rectInfo} setArray={handleClick} />
             </Layer>
