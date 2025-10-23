@@ -2,8 +2,8 @@ import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv"
 import { ConnectDB } from "./lib/db";
 import SortAlgoRoutes from "./routes/searchAlgo.routes"
-import SearchAlgoRoutes from "../src/routes/searchAlgo.routes";
-import AdminRoutes from "../src/routes/adminAuth.routes";
+import SearchAlgoRoutes from "./routes/searchAlgo.routes";
+import AdminRoutes from "./routes/adminAuth.routes";
 import PathfindingRoutes from "./routes/pathFinding.routes";
 import cors from "cors";
 import cookieParser from "cookie-parser";
