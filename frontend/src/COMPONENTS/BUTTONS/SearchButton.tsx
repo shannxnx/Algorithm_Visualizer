@@ -48,25 +48,25 @@ function BinaryButton({ actions, states }: BinaryButtonProps) {
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: 500, opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="flex h-full lg:w-[50%] w-[90%] justify-start border rounded p-1 flex-col"
+                    className="flex h-full lg:w-[50%] w-[90%] justify-start border rounded p-1 flex-col dark:border-black"
                 >
                     <div className="w-full h-1/2 flex gap-2 items-center  ">
                         <button className="btn btn-lg sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl
-                    border-black h-[80%]" onClick={actions?.create}>
+                    border-black h-[80%] dark:border-black text-black bg-white dark:bg-white" onClick={actions?.create}>
                             Create
                         </button>
-                        <label htmlFor="create" className="lg:text-[20px]">Size</label>
-                        <input type="number" className="w-[20%] p-1 border-b" min={1} max={15}
+                        <label htmlFor="create" className="lg:text-[20px] text-black ">Size</label>
+                        <input type="number" className="w-[20%] p-1 border-b dark:border-b-black dark:text-black" min={1} max={15}
                             name="create" value={states?.sizeValue} onChange={(e) => actions?.size(Number(e.target.value))} />
                     </div>
 
                     <div className="w-full lg:h-1/2 flex gap-2 items-center ">
                         <button className="btn btn-lg sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl
-                    border-black lg:h-[80%] " onClick={actions?.start}>
-                            Start
+                    border-black lg:h-[80%] text-black bg-white dark:bg-white" onClick={actions?.start}>
+                            Starts
                         </button>
-                        <label htmlFor="find">Search number</label>
-                        <input type="number" className="w-[20%] p-1 border-b"
+                        <label htmlFor="find" className="lg:text-[20px] text-black dark:text-black">Search number</label>
+                        <input type="number" className="w-[20%] p-1 border-b dark:border-b-black dark:text-black"
                             name="create" value={states?.searchValue} onChange={(e) => actions?.testSearch!(Number(e.target.value))} />
 
                     </div>
