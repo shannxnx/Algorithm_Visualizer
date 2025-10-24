@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cors({
     origin: [
         "http://localhost:5173",
-        'https://algorithm-visualizer-emzo-4fh1t8x9b-shannxnxs-projects.vercel.app'
+        'https://algorithm-visualizer-emzo-kdakhwjvu-shannxnxs-projects.vercel.app'
     ],
     credentials: true
 }));
