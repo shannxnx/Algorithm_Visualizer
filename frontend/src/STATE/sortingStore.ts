@@ -61,6 +61,7 @@ export const sortStore = create<StoreState>((set, get) => ({
 
         } catch (error: any) {
             console.log("Error in getting algo store: ", error.message);
+            console.log(error?.response?.data?.message);
         }
 
     },
