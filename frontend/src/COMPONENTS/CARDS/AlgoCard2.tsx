@@ -51,13 +51,13 @@ export default function AlgoCard2({ algoName, algoLink, algoImg, isLoading, diff
                     : (
                         <div className="w-[90%] mt-4 rounded-[4px] flex justify-between items-center">
 
-                            <h3 className="lg:text-[20px] text-2xl text-black">
+                            <h1 className="lg:text-[20px] text-2xl text-black">
 
                                 {
                                     algoName
                                 }
 
-                            </h3>
+                            </h1>
 
                             <p className={`lg:text-[14px] rounded-[14px] p-2 text-black
                                 ${difficultyColor[difficulty!] ? difficultyColor[difficulty!] : 'bg-green-400'}`}

@@ -42,11 +42,11 @@ export default function HomeCard() {
             {
                 isLoading ? (<div className="skeleton lg:h-[60%] bg-gray-200"></div>)
                     : <div className="lg:h-[60%] border-b border-green-600 w-full flex  dark:border-black ">
-                        <motion.h1 className="lg:text-[20px] text-black
+                        <motion.p className="lg:text-[20px] text-black
                     text-[12px] mt-5 lg:mt-0" initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
                             Dive into interactive visualizations of pathfinding, search, and sorting algorithms.
                             Learn how they work — not by reading code, but by watching logic unfold.
-                        </motion.h1>
+                        </motion.p>
                     </div>
             }
 

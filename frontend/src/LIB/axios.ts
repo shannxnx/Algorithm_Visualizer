@@ -1,10 +1,10 @@
 import axios from "axios";
 
 
-const baseURL = process.env.VITE_API_BASE_URL
+const baseURL = 'https://algorithm-visualizer-emzo.vercel.app';
 export const AxiosInstance = axios.create({
-    //baseURL: "http://localhost:5000/algorithm/db/",
-    baseURL: `${baseURL}/algorithm/db/`,
+    baseURL: baseURL ? baseURL : "http://localhost:5000/algorithm/db/",
+    //baseURL: `${baseURL}/algorithm/db/`,
     withCredentials: true
 
 });
@@ -13,8 +13,8 @@ export const AxiosInstance = axios.create({
 
 
 export const AxiosInstanceAdmin = axios.create({
-    //baseURL: "http://localhost:5000/secret/admin",
-    baseURL: `${baseURL}/secret/admin`,
+    baseURL: baseURL ? baseURL : "http://localhost:5000/secret/admin",
+    //baseURL: `${baseURL}/secret/admin`,
     withCredentials: true
 })
 
