@@ -7,7 +7,10 @@ export const getBubbleSortInfo = async (req: Request, res: Response) => {
     try {
 
         const data = await AlgorithmInfo.findOne({ algoName: "Bubble Sort" });
-        if (!data) return res.status(404).json({ message: "No such thing Exist!" });
+        if (!data) {
+            console.log("Hello");
+            return res.status(405).json({ message: "No such thing Exist!" })
+        };
 
         res.status(200).json(data);
 

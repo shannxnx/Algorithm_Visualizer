@@ -17,7 +17,10 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: [
+        "http://localhost:5173",
+        'https://algorithm-visualizer-emzo-4fh1t8x9b-shannxnxs-projects.vercel.app'
+    ],
     credentials: true
 }));
 
