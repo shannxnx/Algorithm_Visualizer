@@ -375,11 +375,6 @@ export default function MergeSort() {
                 }
             </div>
 
-            {
-                //<div className="w-[95%] h-[120px] flex items-center justify-around rounded mb-3 border-black border hidden ">
-                //</div>
-            }
-
             <ButtonV1 showButton={showButtonProps} actions={actionsProps} states={stateProps} />
 
 
