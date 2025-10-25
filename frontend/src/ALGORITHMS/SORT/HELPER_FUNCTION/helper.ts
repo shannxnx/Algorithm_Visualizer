@@ -32,6 +32,48 @@ const sortedRandomNum = (count: number): number[] => {
     return randomNum.sort((a, b) => a - b);
 };
 
+export const generateBoxesInfoMS = (count: number, bounds: RectReadOnly,
+    {
+        desktop: { d_small = 40, d_medium = 45 } = {},
+        mobile: { m_small = 40, m_medium = 45 } = {},
+    }: sizeOptions = {}
+
+)
+    : Array<rectInfo> => {
+    const boxesInfo: Array<rectInfo> = [];
+    const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4'];
+    const konvaWidth: number = bounds.width;
+
+    const rectWidth = konvaWidth >= 700 ? count > 6 ? d_small : d_medium : count > 6 ? m_small : m_medium;
+    const spacing = 5;
+    const totalWidth = count * rectWidth + (count - 1) * spacing
+    const startX = (konvaWidth / 2) - (totalWidth / 2);
+
+    console.log("Rect Width: ", rectWidth);
+    console.log("Konva Width: ", konvaWidth);
+
+
+
+
+    for (let i = 0; i < count; i++) {
+
+        const rect: rectInfo = {
+            x: startX + i * (rectWidth + spacing),
+            y: -45,
+            width: rectWidth,
+            height: rectWidth,
+            id: i,
+            number: Math.floor(Math.random() * 100),
+            color: "blue",                             //colors[i % colors.length],
+
+        }
+        boxesInfo.push(rect);
+
+    }
+
+    return boxesInfo;
+};
+
 export const generateBoxesInfo = (count: number, bounds: RectReadOnly,
     {
         desktop: { d_small = 40, d_medium = 45 } = {},

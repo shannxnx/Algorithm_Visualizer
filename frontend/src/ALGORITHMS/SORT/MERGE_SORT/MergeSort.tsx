@@ -8,7 +8,7 @@ import { MergeSortKonva } from "./MergeSortKonva";
 import { mergeStore } from "./STORE/merge.store";
 import useMeasure from "react-use-measure";
 import ButtonV1 from "../../../COMPONENTS/BUTTONS/ButtonV1";
-import { generateBoxesInfo } from "../HELPER_FUNCTION/helper";
+import { generateBoxesInfo, generateBoxesInfoMS } from "../HELPER_FUNCTION/helper";
 import { type rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 
 const div_x = 400;
@@ -85,7 +85,7 @@ export default function MergeSort() {
 
     useEffect(() => {
         if (bounds.width && bounds.height > 0) {
-            setRectsArray(generateBoxesInfo(5, bounds));
+            setRectsArray(generateBoxesInfoMS(5, bounds));
             getMergeSort();
         }
 
@@ -302,7 +302,7 @@ export default function MergeSort() {
             animationControllerRef.current.shouldStop = true;
         }
 
-        const newBoxes: rectInfo[] = generateBoxesInfo(rectsArray.length, bounds);
+        const newBoxes: rectInfo[] = generateBoxesInfoMS(rectsArray.length, bounds);
         setRectsArray(newBoxes);
         setIsAnimating("idle");
 

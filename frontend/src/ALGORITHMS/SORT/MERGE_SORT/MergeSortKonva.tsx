@@ -690,12 +690,12 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
 
 
 
-
+    console.log("Boxes Info: ", boxesInfo);
 
 
 
     return (
-        <Stage width={konvaWidth} height={konvaHeight} className={`w-full h-[95%] `}>
+        <Stage width={konvaWidth} height={konvaHeight} className={`w-full h-[95%]`}>
             <Layer>
                 {/*Top Array*/}
                 <RectangleRenderer array={boxesInfo} offsetX={0} offsetY={50} />
