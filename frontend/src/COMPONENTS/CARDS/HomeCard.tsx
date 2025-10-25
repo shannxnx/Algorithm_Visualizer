@@ -34,7 +34,7 @@ export default function HomeCard() {
                     : <motion.h1 className="lg:text-5xl text-black text-4xl"
                         initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
 
-                        Understandss <span className="text-green-400">Algorithms</span> Visually
+                        Understand <span className="text-green-400">Algorithms</span> Visually
 
                     </motion.h1>
             }
