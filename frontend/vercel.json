@@ -1,6 +1,6 @@
 {
     "outputDirectory": "dist",
-    "buildCommand": "npx vite build",
+    "buildCommand": "npm run build",
     "rewrites": [
         {
             "source": "/(.*)",
