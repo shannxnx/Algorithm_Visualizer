@@ -1,6 +1,5 @@
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, BetweenVerticalStart, Delete, Play, Plus, Scissors, Shuffle } from "lucide-react";
 import React from "react";
 import type { rectInfo } from "../../INTERFACES && TYPES/sortInterface";
 
@@ -31,7 +30,7 @@ type BinaryButtonProps = {
 function BinaryButton({ actions, states }: BinaryButtonProps) {
 
 
-    const val = states?.searchValue;
+
 
 
 
@@ -63,7 +62,7 @@ function BinaryButton({ actions, states }: BinaryButtonProps) {
                     <div className="w-full lg:h-1/2 flex gap-2 items-center ">
                         <button className="btn btn-lg sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl
                     border-black lg:h-[80%] text-black bg-white dark:bg-white" onClick={actions?.start}>
-                            Starts
+                            Search
                         </button>
                         <label htmlFor="find" className="lg:text-[20px] text-black dark:text-black">Search number</label>
                         <input type="number" className="w-[20%] p-1 border-b dark:border-b-black dark:text-black"
