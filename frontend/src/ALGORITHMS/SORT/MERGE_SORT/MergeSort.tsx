@@ -8,7 +8,7 @@ import { MergeSortKonva } from "./MergeSortKonva";
 import { mergeStore } from "./STORE/merge.store";
 import useMeasure from "react-use-measure";
 import ButtonV1 from "../../../COMPONENTS/BUTTONS/ButtonV1";
-import { generateBoxesInfo, generateBoxesInfoMS } from "../HELPER_FUNCTION/helper";
+import { generateBoxesInfoMS } from "../HELPER_FUNCTION/helper";
 import { type rectInfo } from "../../../INTERFACES && TYPES/sortInterface";
 
 const div_x = 400;
@@ -160,7 +160,7 @@ export default function MergeSort() {
                         y: 0,
                         number: insertVal,
                         id: insertIndex,
-                        color: "blue"                         //colors[rectArrayLen % colors.length]
+                        color: "blue"
                     };
 
                     insertArray.splice(insertIndex, 0, insertRect);
@@ -172,7 +172,7 @@ export default function MergeSort() {
                         y: -45,
                         x: startX + index * (rectWidth + spacing),
                         id: index,
-                        color: "blue"                         //colors[rectArrayLen % colors.length]
+                        color: "blue"
                     }));
 
                     setRectsArray(updatedIArr);
@@ -202,7 +202,7 @@ export default function MergeSort() {
                             height: rmRectWidth,
                             x: rmStartX + index * (rmRectWidth + rmSpacing),
                             id: index,
-                            color: "blue"                         //colors[rectArrayLen % colors.length]
+                            color: "blue"
                         }));
                         setRectsArray(updatedRArr);
 

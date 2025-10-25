@@ -690,7 +690,7 @@ export const MergeSortKonva: React.FC<KonvaProps> = ({ boxesInfo, isAnimating, s
 
 
 
-    console.log("Boxes Info: ", boxesInfo);
+
 
 
 

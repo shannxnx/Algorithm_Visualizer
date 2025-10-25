@@ -121,7 +121,7 @@ export function RectangleRenderer({ array, offsetX = 0, offsetY = 0, groupRef, o
 { groupRef?: React.RefObject<Konva.Group | null> }) {
 
 
-    console.log("Rectangle Renderer: ", array);
+
 
 
     return (<Group ref={groupRef} x={groupRef ? 0 : offsetX} y={groupRef ? 0 : offsetY}>
