@@ -44,8 +44,7 @@ export const sortStore = create<StoreState>((set, get) => ({
     editSortCode: async (data: any) => {
         try {
             const res = await AxiosInstance.post("/sort/edit", data);
-            console.log("Result: ", res.data);
-
+            console.log("Hello");
 
         } catch (error: any) {
             console.log("Error in Editing Sort: ", error.message);

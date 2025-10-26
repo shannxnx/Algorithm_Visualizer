@@ -21,7 +21,7 @@ router.get("/sort/quick-sort", getQuickSortInfo);
 router.get("/sort/insertion-sort", getInsertionSortInfo);
 router.get("/sort/selection-sort", getSelectionSortInfo);
 
-//router.get("/sort/tim-sort", getTimSortInfo);
+
 
 
 router.post("/sort/edit", protectRoute, editSortCode);
