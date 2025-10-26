@@ -68,6 +68,8 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props, }) {
     const handleCodeChange = (newCode: string | undefined) => {
         if (newCode !== undefined) {
             setCode(newCode);
+
+
         }
     }
 
@@ -85,7 +87,8 @@ export default function AlgoInfo({ algoInfo }: { algoInfo: props, }) {
         };
         algoInfo.editAlgoInfo(data);
         setEditMode(false);
-        window.location.reload();
+        console.log("Hello");
+        //window.location.reload();
     }
 
 
