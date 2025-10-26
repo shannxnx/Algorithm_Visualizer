@@ -27,14 +27,6 @@ type BinaryButtonProps = {
 function BinaryButton({ actions, states }: BinaryButtonProps) {
 
 
-<<<<<<< HEAD
-=======
-
-
-
-
-
->>>>>>> testing-ground
     return <div className="lg:w-[95%] w-full lg:h-[120px] h-[15%] lg:mt-0 mt-5 
     flex items-center rounded mb-3 border-black  dark:border-black">
         <div className="h-full w-full flex items-center justify-center">
